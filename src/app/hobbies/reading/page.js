@@ -1,19 +1,32 @@
 "use client";
 
-import books from "@/data/books.json";
-import { motion } from "framer-motion";
-import Star from "@/components/Star";
-import { useMemo } from "react";
+import { useState, useMemo } from "react";
+import Image from "next/image";
+import { motion, useMotionValue, useSpring } from "framer-motion";
+import { Star, BookOpen, ArrowUpRight } from "lucide-react";
+import Header from "@/components/Header";
+import books from "@/data/books.json"; 
 
-export default function Reading() {
-  const parseRating = (rating) => {
-    const num = parseInt(rating, 10);
-    return isNaN(num) ? 0 : num;
-  };
+export default function ReadingPage() {
+  // --- MOUSE TRACKING ---
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const mouseXSpring = useSpring(x, { stiffness: 1000, damping: 50 });
+  const mouseYSpring = useSpring(y, { stiffness: 1000, damping: 50 });
 
+  function handleMouseMove({ clientX, clientY }) {
+    x.set(clientX);
+    y.set(clientY);
+  }
+
+  const [cursorVariant, setCursorVariant] = useState("default");
+  const textEnter = () => setCursorVariant("text");
+  const textLeave = () => setCursorVariant("default");
+
+  // --- DATA PROCESSING ---
   const { recommendedBooks, otherBooks } = useMemo(() => {
     const processed = books
-      .map((b, i) => ({ ...b, id: i, ratingNum: parseRating(b.rating) }))
+      .map((b, i) => ({ ...b, id: i, ratingNum: parseInt(b.rating) || 0 }))
       .sort((a, b) => b.ratingNum - a.ratingNum);
 
     return {
@@ -22,109 +35,141 @@ export default function Reading() {
     };
   }, []);
 
-  const Card = ({ book, index, ratio = "auto", variant = "default" }) => (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.03, duration: 0.4 }}
-      className="break-inside-avoid"
-    >
-      <article className="relative overflow-hidden border border-white/10 shadow-sm backdrop-blur transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 rounded-2xl bg-gradient-to-b from-gray-900/70 to-gray-900/40 flex flex-col">
-        {/* Cover */}
-        {book.cover ? (
-          <motion.img
-            src={book.cover}
-            alt={book.title}
-            loading="lazy"
-            initial={{ scale: 1.02, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.4 }}
-            onError={(e) => {
-              if (!e.currentTarget.dataset.fallback) {
-                e.currentTarget.src = "/images/books/placeholder.jpg";
-                e.currentTarget.dataset.fallback = "true";
-              }
-            }}
-            className={`w-full object-cover rounded-t-2xl ${ratio === "3/4" ? "aspect-[3/4]" : "h-48"}`}
-          />
-        ) : (
-          <div
-            className={`w-full flex items-center justify-center text-gray-400 bg-gray-800/60 ${ratio === "3/4" ? "aspect-[3/4]" : "h-48"}`}
-          >
-            No Cover
-          </div>
-        )}
-
-        {/* Glow outline */}
-        <div className="pointer-events-none absolute inset-0 rounded-2xl ring-0 ring-orange-500/0 hover:ring-2 hover:ring-orange-400/70 transition-all" />
-
-        {/* Meta */}
-        <div className={`p-3 sm:p-4 flex-1 flex flex-col justify-between ${variant === "recommended" ? "min-h-[106px]" : ""}`}>
-          <div className="flex items-center justify-between gap-3">
-            <h3 className={`text-sm sm:text-base font-semibold leading-tight ${variant === "recommended" ? "line-clamp-1" : "line-clamp-2"}`}>
-              {book.title}
-            </h3>
-            <div className="flex items-center gap-1 shrink-0">
-              <Star rating={book.rating} />
-              <span className="text-[10px] text-gray-400 ml-1">{book.ratingNum}</span>
-            </div>
-          </div>
-          {book.author && (
-            <p className="text-xs text-gray-400 mt-1">by {book.author}</p>
-          )}
-        </div>
-      </article>
-    </motion.div>
-  );
-
   return (
-    <section className="max-w-7xl mx-auto px-6 py-12 pt-28 md:pt-32">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="mb-8 text-center"
-      >
-        <h1 className="text-4xl font-bold tracking-tight scroll-mt-28 md:scroll-mt-32">Reading 📚</h1>
-        <p className="text-gray-400 mt-2">
-          A curated shelf of books I rated highly. See more on{" "}
-          <a
-            href="https://www.goodreads.com/user/show/170422645-abbas-rsk"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-orange-400 hover:underline"
-          >
-            my Goodreads
-          </a>
-          .
-        </p>
-      </motion.div>
+    <main 
+      onMouseMove={handleMouseMove}
+      className="min-h-screen bg-[#050505] text-white selection:bg-emerald-500 selection:text-white relative overflow-x-hidden cursor-none pt-24 pb-20 md:pt-32"
+    >
+      
+      {/* BACKGROUND */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+         <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent"></div>
+      </div>
+      <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: `url("https://grainy-gradients.vercel.app/noise.svg")` }}></div>
 
-      {/* Section: Most Recommended */}
-      <section className="mb-12">
-        <div className="flex items-end justify-between mb-4">
-          <h2 className="text-2xl font-semibold">Most Recommended</h2>
-          <span className="text-xs text-gray-500">{recommendedBooks.length} items</span>
+      {/* CURSOR */}
+      <motion.div 
+        className="fixed top-0 left-0 w-6 h-6 bg-white rounded-full pointer-events-none z-[100] mix-blend-difference hidden md:block"
+        style={{ x: mouseXSpring, y: mouseYSpring, translateX: "-50%", translateY: "-50%" }}
+        variants={{ default: { scale: 1 }, text: { scale: 3.5 } }}
+        animate={cursorVariant}
+        transition={{ type: "spring", stiffness: 500, damping: 28 }}
+      />
+
+      <Header textEnter={textEnter} textLeave={textLeave} />
+
+      {/* HERO SECTION */}
+      <section className="relative px-6 md:px-20 max-w-7xl mx-auto mb-12 flex flex-col items-center text-center">
+        
+        {/* REMOVED: The Library Pill Badge */}
+
+        <motion.h1 
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
+            // CHANGE: Updated text and applied gradient coloring
+            className="text-5xl md:text-7xl font-bold tracking-tighter mb-2"
+        >
+            The <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-600">Library</span>
+        </motion.h1>
+
+        <motion.p 
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-neutral-400 text-lg max-w-xl leading-relaxed mb-2"
+        >
+            A curated collection of books that have shaped my thinking.
+        </motion.p>
+
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="mt-1">
+            <a 
+                href="https://www.goodreads.com/user/show/170422645-abbas-rsk"
+                target="_blank"
+                rel="noopener noreferrer"
+                onMouseEnter={textEnter}
+                onMouseLeave={textLeave}
+                className="group flex items-center gap-2 px-6 py-3 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-emerald-500/50 transition-all"
+            >
+                <span className="font-bold text-sm text-white group-hover:text-emerald-400 transition-colors">View Goodreads Profile</span>
+                <ArrowUpRight size={16} className="text-neutral-500 group-hover:text-emerald-400 transition-colors" />
+            </a>
+        </motion.div>
+      </section>
+
+      {/* RECOMMENDED SECTION */}
+      <section className="px-6 md:px-20 max-w-7xl mx-auto mb-10">
+        <div className="flex items-center gap-4 mb-5">
+            <h2 className="text-2xl md:text-3xl font-bold text-white shrink-0">Highly Recommended</h2>
+            <div className="h-px bg-gradient-to-r from-emerald-500/50 to-transparent w-full max-w-xs"></div>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 items-start">
-          {recommendedBooks.map((book, idx) => (
-            <Card key={`rec-${book.id}`} book={book} index={idx} ratio="3/4" variant="recommended" />
-          ))}
+
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 md:gap-8">
+            {recommendedBooks.map((book, i) => (
+                <BookCard key={i} book={book} textEnter={textEnter} textLeave={textLeave} featured />
+            ))}
         </div>
       </section>
 
-      {/* Section: Books Read */}
-      <section>
-        <div className="flex items-end justify-between mb-4">
-          <h2 className="text-2xl font-semibold">Books Read</h2>
-          <span className="text-xs text-gray-500">{otherBooks.length} items</span>
+      {/* ALL BOOKS SECTION */}
+      <section className="px-6 md:px-20 max-w-7xl mx-auto">
+        <div className="flex items-end gap-4 mb-8">
+            <h2 className="text-xl md:text-2xl font-bold text-neutral-300">Bookshelf</h2>
+            <div className="h-px bg-white/10 flex-1 mb-2"></div>
+            <span className="text-xs font-mono text-neutral-600">{otherBooks.length} items</span>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6 items-start">
-          {otherBooks.map((book, idx) => (
-            <Card key={`other-${book.id}`} book={book} index={idx} />
-          ))}
+
+        <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-6 gap-4 md:gap-6">
+            {otherBooks.map((book, i) => (
+                <BookCard key={i} book={book} textEnter={textEnter} textLeave={textLeave} />
+            ))}
         </div>
       </section>
-    </section>
+
+    </main>
   );
+}
+
+// --- COMPONENT: Book Card (Unchanged) ---
+function BookCard({ book, textEnter, textLeave, featured }) {
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            onMouseEnter={textEnter}
+            onMouseLeave={textLeave}
+            className="group relative flex flex-col gap-3"
+        >
+            {/* Cover Image Container */}
+            <div className={`relative w-full aspect-[2/3] rounded-xl overflow-hidden border border-white/10 bg-white/5 shadow-lg group-hover:shadow-emerald-500/20 group-hover:-translate-y-2 transition-all duration-500 ${featured ? 'shadow-2xl' : ''}`}>
+                {book.cover ? (
+                    <Image 
+                        src={book.cover} 
+                        alt={book.title} 
+                        fill 
+                        className="object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500"
+                    />
+                ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-neutral-900 text-neutral-700 font-mono text-xs p-2 text-center">
+                        No Cover
+                    </div>
+                )}
+                
+                {/* Glossy Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity"></div>
+                
+                {/* Rating Badge (Top Right) */}
+                <div className="absolute top-2 right-2 px-2 py-1 rounded-md bg-black/60 backdrop-blur-md border border-white/10 flex items-center gap-1">
+                    <Star size={10} className="text-yellow-400 fill-yellow-400" />
+                    <span className="text-[10px] font-bold">{book.ratingNum}</span>
+                </div>
+            </div>
+
+            {/* Meta Data */}
+            <div className="space-y-1">
+                <h3 className={`font-bold text-white leading-tight group-hover:text-emerald-400 transition-colors line-clamp-2 ${featured ? 'text-base' : 'text-sm'}`}>
+                    {book.title}
+                </h3>
+                <p className="text-xs text-neutral-500 line-clamp-1">{book.author}</p>
+            </div>
+        </motion.div>
+    )
 }

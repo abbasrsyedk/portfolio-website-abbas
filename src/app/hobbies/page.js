@@ -1,153 +1,158 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useMotionTemplate, useMotionValue, useSpring } from "framer-motion";
 import CountUp from "react-countup";
-import { Globe, Gamepad2, Book } from "lucide-react";
+import { Globe, Gamepad2, Book, ArrowUpRight } from "lucide-react";
+import Header from "@/components/Header"; 
 
-/**
- * Slower, smoother entry + neon-outline hover.
- */
+export default function HobbiesPage() {
+  // Mouse tracking for spotlight effect
+  let mouseX = useMotionValue(0);
+  let mouseY = useMotionValue(0);
 
-const cards = [
-  {
-    title: "Travel",
-    href: "/hobbies/travel",
-    icon: <Globe className="w-7 h-7" />,
-    // Accent classes (explicit for Tailwind)
-    ring: "hover:ring-blue-500/40 focus-visible:ring-blue-500/40",
-    shadow: "hover:shadow-[0_0_36px_rgba(59,130,246,0.12)]",
-    gradient: "from-blue-900/30 via-blue-800/20",
-    border: "border-blue-500",
-    accentText: "text-blue-400",
-  },
-  {
-    title: "Gaming",
-    href: "/hobbies/gaming",
-    icon: <Gamepad2 className="w-7 h-7" />,
-    ring: "hover:ring-orange-500/35 focus-visible:ring-orange-500/35",
-    shadow: "hover:shadow-[0_0_36px_rgba(249,115,22,0.12)]",
-    gradient: "from-orange-900/30 via-orange-700/20",
-    border: "border-neutral-700",
-    accentText: "text-orange-400",
-  },
-  {
-    title: "Reading",
-    href: "/hobbies/reading",
-    icon: <Book className="w-7 h-7" />,
-    ring: "hover:ring-green-500/35 focus-visible:ring-green-500/35",
-    shadow: "hover:shadow-[0_0_36px_rgba(34,197,94,0.12)]",
-    gradient: "from-green-900/30 via-green-700/20",
-    border: "border-neutral-700",
-    accentText: "text-green-400",
-  },
-];
+  // Cursor Physics (Matches Work/Projects Page)
+  const mouseXSpring = useSpring(mouseX, { stiffness: 1000, damping: 50 });
+  const mouseYSpring = useSpring(mouseY, { stiffness: 1000, damping: 50 });
 
-// slowed entry + stagger
-const ENTRY_DURATION = 1.3; // slower entrance
-const ENTRY_EASE = [0.22, 0.61, 0.36, 1];
-const STAGGER = 0.22;
+  function handleMouseMove({ currentTarget, clientX, clientY }) {
+    let { left, top } = currentTarget.getBoundingClientRect();
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
+  }
 
-// CountUp timing: start after part of entry so it doesn't race
-const COUNTUP_DELAY = ENTRY_DURATION * 0.2;
-const COUNTUP_DURATION = 2;
+  // Cursor Variants
+  const [cursorVariant, setCursorVariant] = useState("default");
+  const textEnter = () => setCursorVariant("text");
+  const textLeave = () => setCursorVariant("default");
 
-export default function Hobbies() {
   return (
-    <main className="relative px-4 min-h-[100svh] flex flex-col">
-      {/* top spacer to breathe under navbar */}
-      <div className="grow basis-[8vh]" />
+    <main 
+      className="min-h-screen bg-[#050505] text-white selection:bg-blue-500 selection:text-white relative flex flex-col pt-24 pb-4 md:pt-40 md:pb-12 cursor-none"
+      onMouseMove={handleMouseMove}
+    >
+      
+      {/* BACKGROUND NOISE */}
+      <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: `url("https://grainy-gradients.vercel.app/noise.svg")` }}></div>
+      
+      {/* CUSTOM CURSOR */}
+      <motion.div 
+        className="fixed top-0 left-0 w-6 h-6 bg-white rounded-full pointer-events-none z-[100] mix-blend-difference hidden md:block"
+        // Use clientX/Y for global cursor, but here we reuse the local refs for simplicity if container covers screen
+        // Better practice for global cursor is using a window event listener, but this works if Main covers 100vh
+        style={{ left: mouseX, top: mouseY, translateX: "-50%", translateY: "-50%" }} 
+        variants={{ default: { scale: 1 }, text: { scale: 3.5 } }}
+        animate={cursorVariant}
+        transition={{ type: "spring", stiffness: 500, damping: 28 }}
+      />
 
-      <section className="w-full max-w-7xl mx-auto">
-        {/* header */}
-        <header className="text-center mb-10 lg:mb-12">
-          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-indigo-500 to-pink-500 bg-clip-text text-transparent">
-            Beyond Work: My Passions
-          </h1>
-          <p className="text-gray-300 max-w-2xl mx-auto leading-relaxed">
-            A peek into the things that keep me inspired, curious, and full of life.
-          </p>
-        </header>
+      {/* HEADER (Now Interactive) */}
+      <Header textEnter={textEnter} textLeave={textLeave} />
 
-        {/* grid: travel hero (left 2/3) and right stack */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Travel hero — full card is a link */}
-          <Link href={cards[0].href} aria-label="Open Travel" className="lg:col-span-2">
-            <motion.div
-              initial={{ opacity: 0, y: 28 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: ENTRY_DURATION, ease: ENTRY_EASE }}
-              className={`h-96 relative rounded-2xl ${cards[0].border} bg-neutral-900 shadow-md overflow-hidden transform-gpu will-change-transform
-                ${cards[0].ring} ${cards[0].shadow} transition-colors duration-300 focus-visible:outline-none focus-visible:ring-4`}
+      {/* CONTENT CONTAINER */}
+      <section className="w-full max-w-6xl mx-auto px-4 md:px-10 flex flex-col gap-4 md:gap-10">
+        
+        {/* 1. HEADER TEXT */}
+        <div className="text-center shrink-0">
+            <h1 className="text-3xl md:text-5xl font-bold bg-gradient-to-br from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2 leading-tight">
+                Beyond Work: <br className="md:hidden" /> My Passions
+            </h1>
+            <p className="text-neutral-400 text-sm md:text-base max-w-lg mx-auto leading-relaxed">
+                A peek into the things that keep me inspired, curious, and full of life.
+            </p>
+        </div>
+
+        {/* 2. GRID LAYOUT */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 lg:grid-rows-2 gap-3 md:gap-4 group">
+            
+            {/* TRAVEL CARD (HERO) */}
+            <Link 
+                href="/hobbies/travel"
+                onMouseEnter={textEnter} 
+                onMouseLeave={textLeave}
+                className="relative group/card lg:col-span-2 lg:row-span-2 flex flex-col items-center justify-center text-center p-6 md:p-8 rounded-3xl border border-white/10 bg-gradient-to-br from-blue-900/20 to-transparent hover:border-blue-500/30 transition-all duration-500 overflow-hidden"
             >
-              {/* explicit glow gradient (Tailwind classes kept literal) */}
-              <div
-                className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${cards[0].gradient} to-transparent blur-3xl transition-opacity duration-350 ease-[cubic-bezier(0.22,0.61,0.36,1)]`}
-                aria-hidden
-              />
+                <Spotlight mouseX={mouseX} mouseY={mouseY} />
+                
+                <div className="relative z-10 flex flex-col items-center justify-center h-full w-full">
+                    <div className="flex items-center gap-2 text-blue-400 mb-4">
+                        <Globe size={24} />
+                        <span className="font-bold tracking-wide">Travel</span>
+                    </div>
 
-              {/* centered content */}
-              <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-8">
-                <div className={`flex items-center gap-2 ${cards[0].accentText} mb-4`}>
-                  {cards[0].icon}
-                  <h2 className="text-2xl font-semibold tracking-wide">{cards[0].title}</h2>
+                    {/* STATS ROW */}
+                    <div className="mb-3 flex flex-nowrap items-baseline justify-center gap-2 md:gap-3">
+                        <span className="text-3xl md:text-7xl font-bold text-white tracking-tighter w-[110px] md:w-auto text-right tabular-nums">
+                            <CountUp end={36000} duration={2.5} separator="," />
+                        </span>
+                        <span className="text-base md:text-4xl font-bold text-blue-400 text-left whitespace-nowrap">kms ridden 🏍️</span>
+                    </div>
+
+                    {/* DESCRIPTION */}
+                    <p className="text-neutral-400 text-sm md:text-base italic mb-6 md:mb-10 leading-relaxed">
+                        on a Royal Enfield Hunter 350 — <br className="md:hidden" /> a love-hate relationship
+                    </p>
+
+                    <div className="w-full border-t border-white/10 pt-4 md:pt-6">
+                        <p className="text-neutral-500 text-xs md:text-sm font-serif italic">
+                            &quot;No matter how slow you ride, you&apos;re still ahead of those who never left home.&quot;
+                        </p>
+                    </div>
                 </div>
+            </Link>
 
-                <h3 className="text-5xl font-extrabold mb-3 flex items-center gap-2 justify-center">
-                  <span className="text-white">
-                    <CountUp
-                      end={36000}
-                      duration={COUNTUP_DURATION}
-                      delay={COUNTUP_DELAY}
-                      separator=","
-                    />
-                  </span>
-                  <span className={`${cards[0].accentText}`}>kms ridden 🏍️</span>
-                </h3>
-                <p className="text-gray-300 text-base italic mb-6">
-                  on a Royal Enfield Hunter 350 — a love-hate relationship
-                </p>
-
-                <p className="text-gray-400 text-base italic border-t border-gray-700 pt-4 max-w-xl">
-                  "No matter how slow you ride, you're still ahead of those who never left home."
-                </p>
-              </div>
-            </motion.div>
-          </Link>
-
-          {/* Right column stack */}
-          <div className="flex flex-col gap-8">
-            {cards.slice(1).map((c, idx) => (
-              <Link key={c.title} href={c.href} aria-label={`Open ${c.title}`} className="block">
-                <motion.div
-                  initial={{ opacity: 0, y: 28 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: ENTRY_DURATION,
-                    ease: ENTRY_EASE,
-                    delay: STAGGER * (idx + 1),
-                  }}
-                  // No scale on hover — neon outline + soft shadow only
-                  className={`h-44 relative flex items-center justify-center rounded-2xl ${c.border} bg-neutral-900 shadow-md overflow-hidden transform-gpu will-change-transform
-                    ${c.ring} ${c.shadow} transition-colors duration-300 focus-visible:outline-none focus-visible:ring-4`}
+            {/* MOBILE: WRAPPER FOR GAMING & READING (Side-by-Side) */}
+            <div className="grid grid-cols-2 lg:grid-cols-1 lg:grid-rows-2 gap-3 md:gap-4 lg:col-span-1 lg:row-span-2 h-36 md:h-auto">
+                
+                {/* GAMING CARD */}
+                <Link 
+                    href="/hobbies/gaming"
+                    onMouseEnter={textEnter} 
+                    onMouseLeave={textLeave}
+                    className="relative group/card flex flex-col items-center justify-center p-4 rounded-3xl border border-white/10 bg-gradient-to-br from-orange-900/20 to-transparent hover:border-orange-500/30 transition-all duration-500 overflow-hidden"
                 >
-                  <div
-                    className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${c.gradient} to-transparent blur-2xl transition-opacity duration-350 ease-[cubic-bezier(0.22,0.61,0.36,1)]`}
-                    aria-hidden
-                  />
-                  <div className={`relative z-10 flex items-center gap-2 ${c.accentText}`}>
-                    {c.icon}
-                    <h2 className="text-xl font-semibold tracking-wide">{c.title}</h2>
-                  </div>
-                </motion.div>
-              </Link>
-            ))}
-          </div>
+                    <Spotlight mouseX={mouseX} mouseY={mouseY} />
+                    <div className="relative z-10 flex flex-col md:flex-row items-center gap-2 md:gap-3 text-orange-400 text-center">
+                        <Gamepad2 size={24} className="md:w-7 md:h-7" />
+                        <span className="text-sm md:text-2xl font-bold">Gaming</span>
+                    </div>
+                </Link>
+
+                {/* READING CARD */}
+                <Link 
+                    href="/hobbies/reading"
+                    onMouseEnter={textEnter} 
+                    onMouseLeave={textLeave}
+                    className="relative group/card flex flex-col items-center justify-center p-4 rounded-3xl border border-white/10 bg-gradient-to-br from-emerald-900/20 to-transparent hover:border-emerald-500/30 transition-all duration-500 overflow-hidden"
+                >
+                    <Spotlight mouseX={mouseX} mouseY={mouseY} />
+                    <div className="relative z-10 flex flex-col md:flex-row items-center gap-2 md:gap-3 text-emerald-400 text-center">
+                        <Book size={24} className="md:w-7 md:h-7" />
+                        <span className="text-sm md:text-2xl font-bold">Reading</span>
+                    </div>
+                </Link>
+
+            </div>
         </div>
       </section>
-
-      {/* bottom spacer to balance vertical centering */}
-      <div className="grow basis-[10vh]" />
     </main>
   );
+}
+
+function Spotlight({ mouseX, mouseY }) {
+    return (
+        <motion.div
+            className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-300 group-hover/card:opacity-100"
+            style={{
+                background: useMotionTemplate`
+                    radial-gradient(
+                    500px circle at ${mouseX}px ${mouseY}px,
+                    rgba(255,255,255,0.06),
+                    transparent 80%
+                    )
+                `,
+            }}
+        />
+    )
 }
