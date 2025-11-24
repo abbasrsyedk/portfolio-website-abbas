@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600&family=Fira+Code&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Smooth transitions */
+* {
+  transition-property: color, background-color, border-color;
+  transition-duration: 300ms;
+  transition-timing-function: ease-in-out;
+}
+
+/* Fonts */
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  /* background: #111;  /*REMOVE this line */
+  color: white;
+  overflow-x: hidden;
+}
+
+
+/* Road styling */
+.road {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background: #000000;
+  border-top: 6px solid #facc15; /* Yellow */
+  z-index: 20;
+}
+
+.road::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  border-top: 6px dashed #facc15; /* Dashed yellow center line */
+  transform: translateY(-50%);
+}
+
+/* Hero section fix */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: linear-gradient(to bottom, #f97316, #facc15, #fff);
+}
+
+.dark .hero {
+  background: linear-gradient(to bottom, #111, #222, #333);
+}
+
+/* Checkpoints */
+.checkpoint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.checkpoint-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: black;
+  border: 2px solid #3b82f6; /* Blue */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3b82f6;
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.5);
+  transition: all 0.3s ease-in-out;
+}
+
+.checkpoint-icon.active {
+  border-color: #22c55e; /* Green */
+  color: #22c55e;
+  box-shadow: 0 0 18px rgba(34, 197, 94, 0.8);
+}
+
+.checkpoint-label {
+  margin-top: 0.5rem;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* --- gaming page animations --- */
+
+@keyframes slide {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+
+@keyframes sheen {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Honor reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Mountain Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+            height: 1000vh; /* Much longer page for extended journey */
+        }
+
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .sky {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: background 0.3s ease;
+        }
+
+        .parallax-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 800%;
+            height: 100%;
+            will-change: transform;
+        }
+
+        .mountains-back {
+            z-index: 2;
+        }
+
+        .mountains-front {
+            z-index: 4;
+        }
+
+        .trees {
+            z-index: 5;
+        }
+
+        .road {
+            z-index: 6;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 800%;
+            height: 120px;
+            background: linear-gradient(to bottom, #4A4A4A 0%, #2C2C2C 100%);
+        }
+
+        .road::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: repeating-linear-gradient(
+                to right,
+                #FFD700 0px,
+                #FFD700 60px,
+                transparent 60px,
+                transparent 120px
+            );
+        }
+
+        .mountain-svg {
+            position: absolute;
+            bottom: 120px;
+        }
+
+        .tree-svg {
+            position: absolute;
+            bottom: 120px;
+        }
+
+        .sun {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #FFD700 0%, #FFA500 100%);
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            min-height: 1000vh;
+            background: transparent;
+        }
+
+        @media (max-width: 768px) {
+            .mountain-svg {
+                transform: scale(0.8);
+            }
+            .tree-svg {
+                transform: scale(0.8);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-container">
+        <!-- Sky with sun -->
+        <div class="sky">
+            <div class="sun"></div>
+        </div>
+        
+        <!-- Back Mountains (Anime Style) - Many individual ranges horizontally -->
+        <div class="parallax-layer mountains-back">
+            <!-- Mountain Range 1 -->
+            <svg class="mountain-svg" style="left: 0%; width: 300px; height: 400px;" viewBox="0 0 300 400">
+                <path d="M0,400 L50,200 L80,250 L120,150 L160,200 L200,100 L240,180 L280,120 L300,400 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <!-- Mountain Range 2 -->
+            <svg class="mountain-svg" style="left: 8%; width: 280px; height: 380px;" viewBox="0 0 280 380">
+                <path d="M0,380 L40,180 L70,220 L100,140 L140,190 L180,110 L220,170 L260,130 L280,380 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <!-- Mountain Range 3 -->
+            <svg class="mountain-svg" style="left: 16%; width: 320px; height: 420px;" viewBox="0 0 320 420">
+                <path d="M0,420 L60,220 L90,270 L130,180 L170,230 L210,140 L250,200 L290,160 L320,420 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <!-- Mountain Range 4 -->
+            <svg class="mountain-svg" style="left: 24%; width: 290px; height: 390px;" viewBox="0 0 290 390">
+                <path d="M0,390 L45,190 L75,240 L115,160 L155,210 L195,130 L235,190 L275,150 L290,390 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <!-- Mountain Range 5 -->
+            <svg class="mountain-svg" style="left: 32%; width: 310px; height: 410px;" viewBox="0 0 310 410">
+                <path d="M0,410 L55,210 L85,260 L125,170 L165,220 L205,140 L245,200 L285,160 L310,410 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <!-- Mountain Range 6 -->
+            <svg class="mountain-svg" style="left: 40%; width: 300px; height: 400px;" viewBox="0 0 300 400">
+                <path d="M0,400 L50,200 L80,250 L120,150 L160,200 L200,100 L240,180 L280,120 L300,400 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <!-- Mountain Range 7 -->
+            <svg class="mountain-svg" style="left: 48%; width: 280px; height: 380px;" viewBox="0 0 280 380">
+                <path d="M0,380 L40,180 L70,220 L100,140 L140,190 L180,110 L220,170 L260,130 L280,380 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <!-- Mountain Range 8 -->
+            <svg class="mountain-svg" style="left: 56%; width: 320px; height: 420px;" viewBox="0 0 320 420">
+                <path d="M0,420 L60,220 L90,270 L130,180 L170,230 L210,140 L250,200 L290,160 L320,420 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <!-- Mountain Range 9 -->
+            <svg class="mountain-svg" style="left: 64%; width: 290px; height: 390px;" viewBox="0 0 290 390">
+                <path d="M0,390 L45,190 L75,240 L115,160 L155,210 L195,130 L235,190 L275,150 L290,390 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <!-- Mountain Range 10 -->
+            <svg class="mountain-svg" style="left: 72%; width: 310px; height: 410px;" viewBox="0 0 310 410">
+                <path d="M0,410 L55,210 L85,260 L125,170 L165,220 L205,140 L245,200 L285,160 L310,410 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <!-- Mountain Range 11 -->
+            <svg class="mountain-svg" style="left: 80%; width: 300px; height: 400px;" viewBox="0 0 300 400">
+                <path d="M0,400 L50,200 L80,250 L120,150 L160,200 L200,100 L240,180 L280,120 L300,400 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <!-- Mountain Range 12 -->
+            <svg class="mountain-svg" style="left: 88%; width: 280px; height: 380px;" viewBox="0 0 280 380">
+                <path d="M0,380 L40,180 L70,220 L100,140 L140,190 L180,110 L220,170 L260,130 L280,380 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <!-- Mountain Range 13 -->
+            <svg class="mountain-svg" style="left: 96%; width: 320px; height: 420px;" viewBox="0 0 320 420">
+                <path d="M0,420 L60,220 L90,270 L130,180 L170,230 L210,140 L250,200 L290,160 L320,420 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <!-- Mountain Range 14 -->
+            <svg class="mountain-svg" style="left: 104%; width: 290px; height: 390px;" viewBox="0 0 290 390">
+                <path d="M0,390 L45,190 L75,240 L115,160 L155,210 L195,130 L235,190 L275,150 L290,390 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <!-- Mountain Range 15 -->
+            <svg class="mountain-svg" style="left: 112%; width: 310px; height: 410px;" viewBox="0 0 310 410">
+                <path d="M0,410 L55,210 L85,260 L125,170 L165,220 L205,140 L245,200 L285,160 L310,410 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <!-- Mountain Range 16 -->
+            <svg class="mountain-svg" style="left: 120%; width: 300px; height: 400px;" viewBox="0 0 300 400">
+                <path d="M0,400 L50,200 L80,250 L120,150 L160,200 L200,100 L240,180 L280,120 L300,400 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <!-- Mountain Range 17 -->
+            <svg class="mountain-svg" style="left: 128%; width: 280px; height: 380px;" viewBox="0 0 280 380">
+                <path d="M0,380 L40,180 L70,220 L100,140 L140,190 L180,110 L220,170 L260,130 L280,380 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <!-- Mountain Range 18 -->
+            <svg class="mountain-svg" style="left: 136%; width: 320px; height: 420px;" viewBox="0 0 320 420">
+                <path d="M0,420 L60,220 L90,270 L130,180 L170,230 L210,140 L250,200 L290,160 L320,420 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <!-- Mountain Range 19 -->
+            <svg class="mountain-svg" style="left: 144%; width: 290px; height: 390px;" viewBox="0 0 290 390">
+                <path d="M0,390 L45,190 L75,240 L115,160 L155,210 L195,130 L235,190 L275,150 L290,390 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <!-- Mountain Range 20 -->
+            <svg class="mountain-svg" style="left: 152%; width: 310px; height: 410px;" viewBox="0 0 310 410">
+                <path d="M0,410 L55,210 L85,260 L125,170 L165,220 L205,140 L245,200 L285,160 L310,410 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <!-- Mountain Range 21 -->
+            <svg class="mountain-svg" style="left: 160%; width: 300px; height: 400px;" viewBox="0 0 300 400">
+                <path d="M0,400 L50,200 L80,250 L120,150 L160,200 L200,100 L240,180 L280,120 L300,400 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <!-- Mountain Range 22 -->
+            <svg class="mountain-svg" style="left: 168%; width: 280px; height: 380px;" viewBox="0 0 280 380">
+                <path d="M0,380 L40,180 L70,220 L100,140 L140,190 L180,110 L220,170 L260,130 L280,380 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <!-- Mountain Range 23 -->
+            <svg class="mountain-svg" style="left: 176%; width: 320px; height: 420px;" viewBox="0 0 320 420">
+                <path d="M0,420 L60,220 L90,270 L130,180 L170,230 L210,140 L250,200 L290,160 L320,420 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <!-- Mountain Range 24 -->
+            <svg class="mountain-svg" style="left: 184%; width: 290px; height: 390px;" viewBox="0 0 290 390">
+                <path d="M0,390 L45,190 L75,240 L115,160 L155,210 L195,130 L235,190 L275,150 L290,390 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <!-- Mountain Range 25 -->
+            <svg class="mountain-svg" style="left: 192%; width: 310px; height: 410px;" viewBox="0 0 310 410">
+                <path d="M0,410 L55,210 L85,260 L125,170 L165,220 L205,140 L245,200 L285,160 L310,410 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <!-- Mountain Range 26 -->
+            <svg class="mountain-svg" style="left: 200%; width: 300px; height: 400px;" viewBox="0 0 300 400">
+                <path d="M0,400 L50,200 L80,250 L120,150 L160,200 L200,100 L240,180 L280,120 L300,400 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <!-- Mountain Range 27 -->
+            <svg class="mountain-svg" style="left: 208%; width: 280px; height: 380px;" viewBox="0 0 280 380">
+                <path d="M0,380 L40,180 L70,220 L100,140 L140,190 L180,110 L220,170 L260,130 L280,380 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <!-- Mountain Range 28 -->
+            <svg class="mountain-svg" style="left: 216%; width: 320px; height: 420px;" viewBox="0 0 320 420">
+                <path d="M0,420 L60,220 L90,270 L130,180 L170,230 L210,140 L250,200 L290,160 L320,420 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <!-- Mountain Range 29 -->
+            <svg class="mountain-svg" style="left: 224%; width: 290px; height: 390px;" viewBox="0 0 290 390">
+                <path d="M0,390 L45,190 L75,240 L115,160 L155,210 L195,130 L235,190 L275,150 L290,390 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <!-- Mountain Range 30 -->
+            <svg class="mountain-svg" style="left: 232%; width: 310px; height: 410px;" viewBox="0 0 310 410">
+                <path d="M0,410 L55,210 L85,260 L125,170 L165,220 L205,140 L245,200 L285,160 L310,410 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <!-- Mountain Range 31 -->
+            <svg class="mountain-svg" style="left: 240%; width: 300px; height: 400px;" viewBox="0 0 300 400">
+                <path d="M0,400 L50,200 L80,250 L120,150 L160,200 L200,100 L240,180 L280,120 L300,400 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <!-- Mountain Range 32 -->
+            <svg class="mountain-svg" style="left: 248%; width: 280px; height: 380px;" viewBox="0 0 280 380">
+                <path d="M0,380 L40,180 L70,220 L100,140 L140,190 L180,110 L220,170 L260,130 L280,380 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <!-- Mountain Range 33 -->
+            <svg class="mountain-svg" style="left: 256%; width: 320px; height: 420px;" viewBox="0 0 320 420">
+                <path d="M0,420 L60,220 L90,270 L130,180 L170,230 L210,140 L250,200 L290,160 L320,420 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <!-- Mountain Range 34 -->
+            <svg class="mountain-svg" style="left: 264%; width: 290px; height: 390px;" viewBox="0 0 290 390">
+                <path d="M0,390 L45,190 L75,240 L115,160 L155,210 L195,130 L235,190 L275,150 L290,390 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <!-- Mountain Range 35 -->
+            <svg class="mountain-svg" style="left: 272%; width: 310px; height: 410px;" viewBox="0 0 310 410">
+                <path d="M0,410 L55,210 L85,260 L125,170 L165,220 L205,140 L245,200 L285,160 L310,410 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <!-- Mountain Range 36 -->
+            <svg class="mountain-svg" style="left: 280%; width: 300px; height: 400px;" viewBox="0 0 300 400">
+                <path d="M0,400 L50,200 L80,250 L120,150 L160,200 L200,100 L240,180 L280,120 L300,400 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <!-- Mountain Range 37 -->
+            <svg class="mountain-svg" style="left: 288%; width: 280px; height: 380px;" viewBox="0 0 280 380">
+                <path d="M0,380 L40,180 L70,220 L100,140 L140,190 L180,110 L220,170 L260,130 L280,380 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <!-- Mountain Range 38 -->
+            <svg class="mountain-svg" style="left: 296%; width: 320px; height: 420px;" viewBox="0 0 320 420">
+                <path d="M0,420 L60,220 L90,270 L130,180 L170,230 L210,140 L250,200 L290,160 L320,420 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <!-- Mountain Range 39 -->
+            <svg class="mountain-svg" style="left: 304%; width: 290px; height: 390px;" viewBox="0 0 290 390">
+                <path d="M0,390 L45,190 L75,240 L115,160 L155,210 L195,130 L235,190 L275,150 L290,390 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <!-- Mountain Range 40 -->
+            <svg class="mountain-svg" style="left: 312%; width: 310px; height: 410px;" viewBox="0 0 310 410">
+                <path d="M0,410 L55,210 L85,260 L125,170 L165,220 L205,140 L245,200 L285,160 L310,410 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <!-- Mountain Range 41 -->
+            <svg class="mountain-svg" style="left: 320%; width: 300px; height: 400px;" viewBox="0 0 300 400">
+                <path d="M0,400 L50,200 L80,250 L120,150 L160,200 L200,100 L240,180 L280,120 L300,400 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <!-- Mountain Range 42 -->
+            <svg class="mountain-svg" style="left: 328%; width: 280px; height: 380px;" viewBox="0 0 280 380">
+                <path d="M0,380 L40,180 L70,220 L100,140 L140,190 L180,110 L220,170 L260,130 L280,380 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <!-- Mountain Range 43 -->
+            <svg class="mountain-svg" style="left: 336%; width: 320px; height: 420px;" viewBox="0 0 320 420">
+                <path d="M0,420 L60,220 L90,270 L130,180 L170,230 L210,140 L250,200 L290,160 L320,420 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <!-- Mountain Range 44 -->
+            <svg class="mountain-svg" style="left: 344%; width: 290px; height: 390px;" viewBox="0 0 290 390">
+                <path d="M0,390 L45,190 L75,240 L115,160 L155,210 L195,130 L235,190 L275,150 L290,390 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <!-- Mountain Range 45 -->
+            <svg class="mountain-svg" style="left: 352%; width: 310px; height: 410px;" viewBox="0 0 310 410">
+                <path d="M0,410 L55,210 L85,260 L125,170 L165,220 L205,140 L245,200 L285,160 L310,410 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <!-- Mountain Range 46 -->
+            <svg class="mountain-svg" style="left: 360%; width: 300px; height: 400px;" viewBox="0 0 300 400">
+                <path d="M0,400 L50,200 L80,250 L120,150 L160,200 L200,100 L240,180 L280,120 L300,400 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <!-- Mountain Range 47 -->
+            <svg class="mountain-svg" style="left: 368%; width: 280px; height: 380px;" viewBox="0 0 280 380">
+                <path d="M0,380 L40,180 L70,220 L100,140 L140,190 L180,110 L220,170 L260,130 L280,380 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <!-- Mountain Range 48 -->
+            <svg class="mountain-svg" style="left: 376%; width: 320px; height: 420px;" viewBox="0 0 320 420">
+                <path d="M0,420 L60,220 L90,270 L130,180 L170,230 L210,140 L250,200 L290,160 L320,420 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <!-- Mountain Range 49 -->
+            <svg class="mountain-svg" style="left: 384%; width: 290px; height: 390px;" viewBox="0 0 290 390">
+                <path d="M0,390 L45,190 L75,240 L115,160 L155,210 L195,130 L235,190 L275,150 L290,390 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <!-- Mountain Range 50 -->
+            <svg class="mountain-svg" style="left: 392%; width: 310px; height: 410px;" viewBox="0 0 310 410">
+                <path d="M0,410 L55,210 L85,260 L125,170 L165,220 L205,140 L245,200 L285,160 L310,410 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <!-- Mountain Range 51-100 (Additional 50 ranges) -->
+            <svg class="mountain-svg" style="left: 400%; width: 300px; height: 400px;" viewBox="0 0 300 400">
+                <path d="M0,400 L50,200 L80,250 L120,150 L160,200 L200,100 L240,180 L280,120 L300,400 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 408%; width: 280px; height: 380px;" viewBox="0 0 280 380">
+                <path d="M0,380 L40,180 L70,220 L100,140 L140,190 L180,110 L220,170 L260,130 L280,380 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 416%; width: 320px; height: 420px;" viewBox="0 0 320 420">
+                <path d="M0,420 L60,220 L90,270 L130,180 L170,230 L210,140 L250,200 L290,160 L320,420 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 424%; width: 290px; height: 390px;" viewBox="0 0 290 390">
+                <path d="M0,390 L45,190 L75,240 L115,160 L155,210 L195,130 L235,190 L275,150 L290,390 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 432%; width: 310px; height: 410px;" viewBox="0 0 310 410">
+                <path d="M0,410 L55,210 L85,260 L125,170 L165,220 L205,140 L245,200 L285,160 L310,410 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 440%; width: 300px; height: 400px;" viewBox="0 0 300 400">
+                <path d="M0,400 L50,200 L80,250 L120,150 L160,200 L200,100 L240,180 L280,120 L300,400 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 448%; width: 280px; height: 380px;" viewBox="0 0 280 380">
+                <path d="M0,380 L40,180 L70,220 L100,140 L140,190 L180,110 L220,170 L260,130 L280,380 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 456%; width: 320px; height: 420px;" viewBox="0 0 320 420">
+                <path d="M0,420 L60,220 L90,270 L130,180 L170,230 L210,140 L250,200 L290,160 L320,420 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 464%; width: 290px; height: 390px;" viewBox="0 0 290 390">
+                <path d="M0,390 L45,190 L75,240 L115,160 L155,210 L195,130 L235,190 L275,150 L290,390 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 472%; width: 310px; height: 410px;" viewBox="0 0 310 410">
+                <path d="M0,410 L55,210 L85,260 L125,170 L165,220 L205,140 L245,200 L285,160 L310,410 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 480%; width: 300px; height: 400px;" viewBox="0 0 300 400">
+                <path d="M0,400 L50,200 L80,250 L120,150 L160,200 L200,100 L240,180 L280,120 L300,400 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 488%; width: 280px; height: 380px;" viewBox="0 0 280 380">
+                <path d="M0,380 L40,180 L70,220 L100,140 L140,190 L180,110 L220,170 L260,130 L280,380 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 496%; width: 320px; height: 420px;" viewBox="0 0 320 420">
+                <path d="M0,420 L60,220 L90,270 L130,180 L170,230 L210,140 L250,200 L290,160 L320,420 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 504%; width: 290px; height: 390px;" viewBox="0 0 290 390">
+                <path d="M0,390 L45,190 L75,240 L115,160 L155,210 L195,130 L235,190 L275,150 L290,390 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 512%; width: 310px; height: 410px;" viewBox="0 0 310 410">
+                <path d="M0,410 L55,210 L85,260 L125,170 L165,220 L205,140 L245,200 L285,160 L310,410 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 520%; width: 300px; height: 400px;" viewBox="0 0 300 400">
+                <path d="M0,400 L50,200 L80,250 L120,150 L160,200 L200,100 L240,180 L280,120 L300,400 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 528%; width: 280px; height: 380px;" viewBox="0 0 280 380">
+                <path d="M0,380 L40,180 L70,220 L100,140 L140,190 L180,110 L220,170 L260,130 L280,380 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 536%; width: 320px; height: 420px;" viewBox="0 0 320 420">
+                <path d="M0,420 L60,220 L90,270 L130,180 L170,230 L210,140 L250,200 L290,160 L320,420 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 544%; width: 290px; height: 390px;" viewBox="0 0 290 390">
+                <path d="M0,390 L45,190 L75,240 L115,160 L155,210 L195,130 L235,190 L275,150 L290,390 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 552%; width: 310px; height: 410px;" viewBox="0 0 310 410">
+                <path d="M0,410 L55,210 L85,260 L125,170 L165,220 L205,140 L245,200 L285,160 L310,410 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 560%; width: 300px; height: 400px;" viewBox="0 0 300 400">
+                <path d="M0,400 L50,200 L80,250 L120,150 L160,200 L200,100 L240,180 L280,120 L300,400 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 568%; width: 280px; height: 380px;" viewBox="0 0 280 380">
+                <path d="M0,380 L40,180 L70,220 L100,140 L140,190 L180,110 L220,170 L260,130 L280,380 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 576%; width: 320px; height: 420px;" viewBox="0 0 320 420">
+                <path d="M0,420 L60,220 L90,270 L130,180 L170,230 L210,140 L250,200 L290,160 L320,420 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 584%; width: 290px; height: 390px;" viewBox="0 0 290 390">
+                <path d="M0,390 L45,190 L75,240 L115,160 L155,210 L195,130 L235,190 L275,150 L290,390 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 592%; width: 310px; height: 410px;" viewBox="0 0 310 410">
+                <path d="M0,410 L55,210 L85,260 L125,170 L165,220 L205,140 L245,200 L285,160 L310,410 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 600%; width: 300px; height: 400px;" viewBox="0 0 300 400">
+                <path d="M0,400 L50,200 L80,250 L120,150 L160,200 L200,100 L240,180 L280,120 L300,400 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 608%; width: 280px; height: 380px;" viewBox="0 0 280 380">
+                <path d="M0,380 L40,180 L70,220 L100,140 L140,190 L180,110 L220,170 L260,130 L280,380 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 616%; width: 320px; height: 420px;" viewBox="0 0 320 420">
+                <path d="M0,420 L60,220 L90,270 L130,180 L170,230 L210,140 L250,200 L290,160 L320,420 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 624%; width: 290px; height: 390px;" viewBox="0 0 290 390">
+                <path d="M0,390 L45,190 L75,240 L115,160 L155,210 L195,130 L235,190 L275,150 L290,390 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 632%; width: 310px; height: 410px;" viewBox="0 0 310 410">
+                <path d="M0,410 L55,210 L85,260 L125,170 L165,220 L205,140 L245,200 L285,160 L310,410 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 640%; width: 300px; height: 400px;" viewBox="0 0 300 400">
+                <path d="M0,400 L50,200 L80,250 L120,150 L160,200 L200,100 L240,180 L280,120 L300,400 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 648%; width: 280px; height: 380px;" viewBox="0 0 280 380">
+                <path d="M0,380 L40,180 L70,220 L100,140 L140,190 L180,110 L220,170 L260,130 L280,380 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 656%; width: 320px; height: 420px;" viewBox="0 0 320 420">
+                <path d="M0,420 L60,220 L90,270 L130,180 L170,230 L210,140 L250,200 L290,160 L320,420 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 664%; width: 290px; height: 390px;" viewBox="0 0 290 390">
+                <path d="M0,390 L45,190 L75,240 L115,160 L155,210 L195,130 L235,190 L275,150 L290,390 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 672%; width: 310px; height: 410px;" viewBox="0 0 310 410">
+                <path d="M0,410 L55,210 L85,260 L125,170 L165,220 L205,140 L245,200 L285,160 L310,410 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 680%; width: 300px; height: 400px;" viewBox="0 0 300 400">
+                <path d="M0,400 L50,200 L80,250 L120,150 L160,200 L200,100 L240,180 L280,120 L300,400 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 688%; width: 280px; height: 380px;" viewBox="0 0 280 380">
+                <path d="M0,380 L40,180 L70,220 L100,140 L140,190 L180,110 L220,170 L260,130 L280,380 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 696%; width: 320px; height: 420px;" viewBox="0 0 320 420">
+                <path d="M0,420 L60,220 L90,270 L130,180 L170,230 L210,140 L250,200 L290,160 L320,420 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 704%; width: 290px; height: 390px;" viewBox="0 0 290 390">
+                <path d="M0,390 L45,190 L75,240 L115,160 L155,210 L195,130 L235,190 L275,150 L290,390 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 712%; width: 310px; height: 410px;" viewBox="0 0 310 410">
+                <path d="M0,410 L55,210 L85,260 L125,170 L165,220 L205,140 L245,200 L285,160 L310,410 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 720%; width: 300px; height: 400px;" viewBox="0 0 300 400">
+                <path d="M0,400 L50,200 L80,250 L120,150 L160,200 L200,100 L240,180 L280,120 L300,400 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 728%; width: 280px; height: 380px;" viewBox="0 0 280 380">
+                <path d="M0,380 L40,180 L70,220 L100,140 L140,190 L180,110 L220,170 L260,130 L280,380 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 736%; width: 320px; height: 420px;" viewBox="0 0 320 420">
+                <path d="M0,420 L60,220 L90,270 L130,180 L170,230 L210,140 L250,200 L290,160 L320,420 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 744%; width: 290px; height: 390px;" viewBox="0 0 290 390">
+                <path d="M0,390 L45,190 L75,240 L115,160 L155,210 L195,130 L235,190 L275,150 L290,390 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 752%; width: 310px; height: 410px;" viewBox="0 0 310 410">
+                <path d="M0,410 L55,210 L85,260 L125,170 L165,220 L205,140 L245,200 L285,160 L310,410 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 760%; width: 300px; height: 400px;" viewBox="0 0 300 400">
+                <path d="M0,400 L50,200 L80,250 L120,150 L160,200 L200,100 L240,180 L280,120 L300,400 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 768%; width: 280px; height: 380px;" viewBox="0 0 280 380">
+                <path d="M0,380 L40,180 L70,220 L100,140 L140,190 L180,110 L220,170 L260,130 L280,380 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 776%; width: 320px; height: 420px;" viewBox="0 0 320 420">
+                <path d="M0,420 L60,220 L90,270 L130,180 L170,230 L210,140 L250,200 L290,160 L320,420 Z" fill="#C8B9E9" opacity="0.6"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 784%; width: 290px; height: 390px;" viewBox="0 0 290 390">
+                <path d="M0,390 L45,190 L75,240 L115,160 L155,210 L195,130 L235,190 L275,150 L290,390 Z" fill="#B8A9D9" opacity="0.4"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 792%; width: 310px; height: 410px;" viewBox="0 0 310 410">
+                <path d="M0,410 L55,210 L85,260 L125,170 L165,220 L205,140 L245,200 L285,160 L310,410 Z" fill="#A599D1" opacity="0.5"/>
+            </svg>
+        </div>
+        
+        <!-- Front Mountains (Anime Style) - Many individual ranges horizontally -->
+        <div class="parallax-layer mountains-front">
+            <!-- Front Mountain Range 1 -->
+            <svg class="mountain-svg" style="left: 5%; width: 250px; height: 500px;" viewBox="0 0 250 500">
+                <path d="M0,500 L60,150 L80,130 L100,150 L160,500 L200,500 L250,500 Z" fill="#5A4A6A" opacity="0.8"/>
+            </svg>
+            <!-- Front Mountain Range 2 -->
+            <svg class="mountain-svg" style="left: 15%; width: 270px; height: 520px;" viewBox="0 0 270 520">
+                <path d="M0,520 L70,180 L90,160 L110,180 L180,520 L220,520 L270,520 Z" fill="#6A5A7A"/>
+            </svg>
+            <!-- Front Mountain Range 3 -->
+            <svg class="mountain-svg" style="left: 25%; width: 260px; height: 510px;" viewBox="0 0 260 510">
+                <path d="M0,510 L65,170 L85,150 L105,170 L170,510 L210,510 L260,510 Z" fill="#7A6A8A" opacity="0.9"/>
+            </svg>
+            <!-- Front Mountain Range 4 -->
+            <svg class="mountain-svg" style="left: 35%; width: 280px; height: 530px;" viewBox="0 0 280 530">
+                <path d="M0,530 L75,190 L95,170 L115,190 L190,530 L230,530 L280,530 Z" fill="#5A4A6A" opacity="0.8"/>
+            </svg>
+            <!-- Front Mountain Range 5 -->
+            <svg class="mountain-svg" style="left: 45%; width: 250px; height: 500px;" viewBox="0 0 250 500">
+                <path d="M0,500 L60,150 L80,130 L100,150 L160,500 L200,500 L250,500 Z" fill="#6A5A7A"/>
+            </svg>
+            <!-- Front Mountain Range 6 -->
+            <svg class="mountain-svg" style="left: 55%; width: 270px; height: 520px;" viewBox="0 0 270 520">
+                <path d="M0,520 L70,180 L90,160 L110,180 L180,520 L220,520 L270,520 Z" fill="#7A6A8A" opacity="0.9"/>
+            </svg>
+            <!-- Front Mountain Range 7 -->
+            <svg class="mountain-svg" style="left: 65%; width: 260px; height: 510px;" viewBox="0 0 260 510">
+                <path d="M0,510 L65,170 L85,150 L105,170 L170,510 L210,510 L260,510 Z" fill="#5A4A6A" opacity="0.8"/>
+            </svg>
+            <!-- Front Mountain Range 8 -->
+            <svg class="mountain-svg" style="left: 75%; width: 280px; height: 530px;" viewBox="0 0 280 530">
+                <path d="M0,530 L75,190 L95,170 L115,190 L190,530 L230,530 L280,530 Z" fill="#6A5A7A"/>
+            </svg>
+            <!-- Front Mountain Range 9 -->
+            <svg class="mountain-svg" style="left: 85%; width: 250px; height: 500px;" viewBox="0 0 250 500">
+                <path d="M0,500 L60,150 L80,130 L100,150 L160,500 L200,500 L250,500 Z" fill="#7A6A8A" opacity="0.9"/>
+            </svg>
+            <!-- Front Mountain Range 10 -->
+            <svg class="mountain-svg" style="left: 95%; width: 270px; height: 520px;" viewBox="0 0 270 520">
+                <path d="M0,520 L70,180 L90,160 L110,180 L180,520 L220,520 L270,520 Z" fill="#5A4A6A" opacity="0.8"/>
+            </svg>
+            <!-- Front Mountain Range 11 -->
+            <svg class="mountain-svg" style="left: 105%; width: 260px; height: 510px;" viewBox="0 0 260 510">
+                <path d="M0,510 L65,170 L85,150 L105,170 L170,510 L210,510 L260,510 Z" fill="#6A5A7A"/>
+            </svg>
+            <!-- Front Mountain Range 12 -->
+            <svg class="mountain-svg" style="left: 115%; width: 280px; height: 530px;" viewBox="0 0 280 530">
+                <path d="M0,530 L75,190 L95,170 L115,190 L190,530 L230,530 L280,530 Z" fill="#7A6A8A" opacity="0.9"/>
+            </svg>
+            <!-- Front Mountain Range 13 -->
+            <svg class="mountain-svg" style="left: 125%; width: 250px; height: 500px;" viewBox="0 0 250 500">
+                <path d="M0,500 L60,150 L80,130 L100,150 L160,500 L200,500 L250,500 Z" fill="#5A4A6A" opacity="0.8"/>
+            </svg>
+            <!-- Front Mountain Range 14 -->
+            <svg class="mountain-svg" style="left: 135%; width: 270px; height: 520px;" viewBox="0 0 270 520">
+                <path d="M0,520 L70,180 L90,160 L110,180 L180,520 L220,520 L270,520 Z" fill="#6A5A7A"/>
+            </svg>
+            <!-- Front Mountain Range 15 -->
+            <svg class="mountain-svg" style="left: 145%; width: 260px; height: 510px;" viewBox="0 0 260 510">
+                <path d="M0,510 L65,170 L85,150 L105,170 L170,510 L210,510 L260,510 Z" fill="#7A6A8A" opacity="0.9"/>
+            </svg>
+            <!-- Front Mountain Range 16 -->
+            <svg class="mountain-svg" style="left: 155%; width: 280px; height: 530px;" viewBox="0 0 280 530">
+                <path d="M0,530 L75,190 L95,170 L115,190 L190,530 L230,530 L280,530 Z" fill="#5A4A6A" opacity="0.8"/>
+            </svg>
+            <!-- Front Mountain Range 17 -->
+            <svg class="mountain-svg" style="left: 165%; width: 250px; height: 500px;" viewBox="0 0 250 500">
+                <path d="M0,500 L60,150 L80,130 L100,150 L160,500 L200,500 L250,500 Z" fill="#6A5A7A"/>
+            </svg>
+            <!-- Front Mountain Range 18 -->
+            <svg class="mountain-svg" style="left: 175%; width: 270px; height: 520px;" viewBox="0 0 270 520">
+                <path d="M0,520 L70,180 L90,160 L110,180 L180,520 L220,520 L270,520 Z" fill="#7A6A8A" opacity="0.9"/>
+            </svg>
+            <!-- Front Mountain Range 19 -->
+            <svg class="mountain-svg" style="left: 185%; width: 260px; height: 510px;" viewBox="0 0 260 510">
+                <path d="M0,510 L65,170 L85,150 L105,170 L170,510 L210,510 L260,510 Z" fill="#5A4A6A" opacity="0.8"/>
+            </svg>
+            <!-- Front Mountain Range 20 -->
+            <svg class="mountain-svg" style="left: 195%; width: 280px; height: 530px;" viewBox="0 0 280 530">
+                <path d="M0,530 L75,190 L95,170 L115,190 L190,530 L230,530 L280,530 Z" fill="#6A5A7A"/>
+            </svg>
+            <!-- Front Mountain Range 21 -->
+            <svg class="mountain-svg" style="left: 205%; width: 250px; height: 500px;" viewBox="0 0 250 500">
+                <path d="M0,500 L60,150 L80,130 L100,150 L160,500 L200,500 L250,500 Z" fill="#7A6A8A" opacity="0.9"/>
+            </svg>
+            <!-- Front Mountain Range 22 -->
+            <svg class="mountain-svg" style="left: 215%; width: 270px; height: 520px;" viewBox="0 0 270 520">
+                <path d="M0,520 L70,180 L90,160 L110,180 L180,520 L220,520 L270,520 Z" fill="#5A4A6A" opacity="0.8"/>
+            </svg>
+            <!-- Front Mountain Range 23 -->
+            <svg class="mountain-svg" style="left: 225%; width: 260px; height: 510px;" viewBox="0 0 260 510">
+                <path d="M0,510 L65,170 L85,150 L105,170 L170,510 L210,510 L260,510 Z" fill="#6A5A7A"/>
+            </svg>
+            <!-- Front Mountain Range 24 -->
+            <svg class="mountain-svg" style="left: 235%; width: 280px; height: 530px;" viewBox="0 0 280 530">
+                <path d="M0,530 L75,190 L95,170 L115,190 L190,530 L230,530 L280,530 Z" fill="#7A6A8A" opacity="0.9"/>
+            </svg>
+            <!-- Front Mountain Range 25 -->
+            <svg class="mountain-svg" style="left: 245%; width: 250px; height: 500px;" viewBox="0 0 250 500">
+                <path d="M0,500 L60,150 L80,130 L100,150 L160,500 L200,500 L250,500 Z" fill="#5A4A6A" opacity="0.8"/>
+            </svg>
+            <!-- Front Mountain Range 26 -->
+            <svg class="mountain-svg" style="left: 255%; width: 270px; height: 520px;" viewBox="0 0 270 520">
+                <path d="M0,520 L70,180 L90,160 L110,180 L180,520 L220,520 L270,520 Z" fill="#6A5A7A"/>
+            </svg>
+            <!-- Front Mountain Range 27 -->
+            <svg class="mountain-svg" style="left: 265%; width: 260px; height: 510px;" viewBox="0 0 260 510">
+                <path d="M0,510 L65,170 L85,150 L105,170 L170,510 L210,510 L260,510 Z" fill="#7A6A8A" opacity="0.9"/>
+            </svg>
+            <!-- Front Mountain Range 28 -->
+            <svg class="mountain-svg" style="left: 275%; width: 280px; height: 530px;" viewBox="0 0 280 530">
+                <path d="M0,530 L75,190 L95,170 L115,190 L190,530 L230,530 L280,530 Z" fill="#5A4A6A" opacity="0.8"/>
+            </svg>
+            <!-- Front Mountain Range 29 -->
+            <svg class="mountain-svg" style="left: 285%; width: 250px; height: 500px;" viewBox="0 0 250 500">
+                <path d="M0,500 L60,150 L80,130 L100,150 L160,500 L200,500 L250,500 Z" fill="#6A5A7A"/>
+            </svg>
+            <!-- Front Mountain Range 30 -->
+            <svg class="mountain-svg" style="left: 295%; width: 270px; height: 520px;" viewBox="0 0 270 520">
+                <path d="M0,520 L70,180 L90,160 L110,180 L180,520 L220,520 L270,520 Z" fill="#7A6A8A" opacity="0.9"/>
+            </svg>
+            <!-- Front Mountain Range 31-60 (Additional 30 ranges) -->
+            <svg class="mountain-svg" style="left: 305%; width: 250px; height: 500px;" viewBox="0 0 250 500">
+                <path d="M0,500 L60,150 L80,130 L100,150 L160,500 L200,500 L250,500 Z" fill="#5A4A6A" opacity="0.8"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 315%; width: 270px; height: 520px;" viewBox="0 0 270 520">
+                <path d="M0,520 L70,180 L90,160 L110,180 L180,520 L220,520 L270,520 Z" fill="#6A5A7A"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 325%; width: 260px; height: 510px;" viewBox="0 0 260 510">
+                <path d="M0,510 L65,170 L85,150 L105,170 L170,510 L210,510 L260,510 Z" fill="#7A6A8A" opacity="0.9"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 335%; width: 280px; height: 530px;" viewBox="0 0 280 530">
+                <path d="M0,530 L75,190 L95,170 L115,190 L190,530 L230,530 L280,530 Z" fill="#5A4A6A" opacity="0.8"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 345%; width: 250px; height: 500px;" viewBox="0 0 250 500">
+                <path d="M0,500 L60,150 L80,130 L100,150 L160,500 L200,500 L250,500 Z" fill="#6A5A7A"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 355%; width: 270px; height: 520px;" viewBox="0 0 270 520">
+                <path d="M0,520 L70,180 L90,160 L110,180 L180,520 L220,520 L270,520 Z" fill="#7A6A8A" opacity="0.9"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 365%; width: 260px; height: 510px;" viewBox="0 0 260 510">
+                <path d="M0,510 L65,170 L85,150 L105,170 L170,510 L210,510 L260,510 Z" fill="#5A4A6A" opacity="0.8"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 375%; width: 280px; height: 530px;" viewBox="0 0 280 530">
+                <path d="M0,530 L75,190 L95,170 L115,190 L190,530 L230,530 L280,530 Z" fill="#6A5A7A"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 385%; width: 250px; height: 500px;" viewBox="0 0 250 500">
+                <path d="M0,500 L60,150 L80,130 L100,150 L160,500 L200,500 L250,500 Z" fill="#7A6A8A" opacity="0.9"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 395%; width: 270px; height: 520px;" viewBox="0 0 270 520">
+                <path d="M0,520 L70,180 L90,160 L110,180 L180,520 L220,520 L270,520 Z" fill="#5A4A6A" opacity="0.8"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 405%; width: 260px; height: 510px;" viewBox="0 0 260 510">
+                <path d="M0,510 L65,170 L85,150 L105,170 L170,510 L210,510 L260,510 Z" fill="#6A5A7A"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 415%; width: 280px; height: 530px;" viewBox="0 0 280 530">
+                <path d="M0,530 L75,190 L95,170 L115,190 L190,530 L230,530 L280,530 Z" fill="#7A6A8A" opacity="0.9"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 425%; width: 250px; height: 500px;" viewBox="0 0 250 500">
+                <path d="M0,500 L60,150 L80,130 L100,150 L160,500 L200,500 L250,500 Z" fill="#5A4A6A" opacity="0.8"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 435%; width: 270px; height: 520px;" viewBox="0 0 270 520">
+                <path d="M0,520 L70,180 L90,160 L110,180 L180,520 L220,520 L270,520 Z" fill="#6A5A7A"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 445%; width: 260px; height: 510px;" viewBox="0 0 260 510">
+                <path d="M0,510 L65,170 L85,150 L105,170 L170,510 L210,510 L260,510 Z" fill="#7A6A8A" opacity="0.9"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 455%; width: 280px; height: 530px;" viewBox="0 0 280 530">
+                <path d="M0,530 L75,190 L95,170 L115,190 L190,530 L230,530 L280,530 Z" fill="#5A4A6A" opacity="0.8"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 465%; width: 250px; height: 500px;" viewBox="0 0 250 500">
+                <path d="M0,500 L60,150 L80,130 L100,150 L160,500 L200,500 L250,500 Z" fill="#6A5A7A"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 475%; width: 270px; height: 520px;" viewBox="0 0 270 520">
+                <path d="M0,520 L70,180 L90,160 L110,180 L180,520 L220,520 L270,520 Z" fill="#7A6A8A" opacity="0.9"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 485%; width: 260px; height: 510px;" viewBox="0 0 260 510">
+                <path d="M0,510 L65,170 L85,150 L105,170 L170,510 L210,510 L260,510 Z" fill="#5A4A6A" opacity="0.8"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 495%; width: 280px; height: 530px;" viewBox="0 0 280 530">
+                <path d="M0,530 L75,190 L95,170 L115,190 L190,530 L230,530 L280,530 Z" fill="#6A5A7A"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 505%; width: 250px; height: 500px;" viewBox="0 0 250 500">
+                <path d="M0,500 L60,150 L80,130 L100,150 L160,500 L200,500 L250,500 Z" fill="#7A6A8A" opacity="0.9"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 515%; width: 270px; height: 520px;" viewBox="0 0 270 520">
+                <path d="M0,520 L70,180 L90,160 L110,180 L180,520 L220,520 L270,520 Z" fill="#5A4A6A" opacity="0.8"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 525%; width: 260px; height: 510px;" viewBox="0 0 260 510">
+                <path d="M0,510 L65,170 L85,150 L105,170 L170,510 L210,510 L260,510 Z" fill="#6A5A7A"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 535%; width: 280px; height: 530px;" viewBox="0 0 280 530">
+                <path d="M0,530 L75,190 L95,170 L115,190 L190,530 L230,530 L280,530 Z" fill="#7A6A8A" opacity="0.9"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 545%; width: 250px; height: 500px;" viewBox="0 0 250 500">
+                <path d="M0,500 L60,150 L80,130 L100,150 L160,500 L200,500 L250,500 Z" fill="#5A4A6A" opacity="0.8"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 555%; width: 270px; height: 520px;" viewBox="0 0 270 520">
+                <path d="M0,520 L70,180 L90,160 L110,180 L180,520 L220,520 L270,520 Z" fill="#6A5A7A"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 565%; width: 260px; height: 510px;" viewBox="0 0 260 510">
+                <path d="M0,510 L65,170 L85,150 L105,170 L170,510 L210,510 L260,510 Z" fill="#7A6A8A" opacity="0.9"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 575%; width: 280px; height: 530px;" viewBox="0 0 280 530">
+                <path d="M0,530 L75,190 L95,170 L115,190 L190,530 L230,530 L280,530 Z" fill="#5A4A6A" opacity="0.8"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 585%; width: 250px; height: 500px;" viewBox="0 0 250 500">
+                <path d="M0,500 L60,150 L80,130 L100,150 L160,500 L200,500 L250,500 Z" fill="#6A5A7A"/>
+            </svg>
+            <svg class="mountain-svg" style="left: 595%; width: 270px; height: 520px;" viewBox="0 0 270 520">
+                <path d="M0,520 L70,180 L90,160 L110,180 L180,520 L220,520 L270,520 Z" fill="#7A6A8A" opacity="0.9"/>
+            </svg>
+        </div>
+        
+
+
+        <!-- Cherry Blossom Trees (Anime Style) -->
+        <div class="parallax-layer trees">
+            <!-- Full cherry blossom trees with complete canopies -->
+            <svg class="tree-svg" style="left: 3%; width: 120px; height: 180px;" viewBox="0 0 120 180">
+                <!-- Tree trunk -->
+                <rect x="57" y="140" width="6" height="40" fill="#8B4513"/>
+                <rect x="55" y="135" width="10" height="8" fill="#A0522D"/>
+                <!-- Main canopy -->
+                <ellipse cx="60" cy="100" rx="35" ry="30" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="50" cy="85" rx="28" ry="25" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="70" cy="90" rx="25" ry="22" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="60" cy="70" rx="20" ry="18" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="45" cy="110" rx="22" ry="20" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="75" cy="105" rx="18" ry="16" fill="#FFCCCB" opacity="0.8"/>
+                <!-- Individual blossoms scattered throughout -->
+                <circle cx="30" cy="95" r="2" fill="#FF69B4"/>
+                <circle cx="90" cy="100" r="2" fill="#FF1493"/>
+                <circle cx="40" cy="75" r="2" fill="#FF69B4"/>
+                <circle cx="80" cy="80" r="2" fill="#FF1493"/>
+                <circle cx="55" cy="55" r="2" fill="#FFB6C1"/>
+                <circle cx="35" cy="115" r="1.5" fill="#FF69B4"/>
+                <circle cx="85" cy="120" r="1.5" fill="#FF1493"/>
+                <circle cx="65" cy="125" r="1.5" fill="#FFB6C1"/>
+            </svg>
+            <svg class="tree-svg" style="left: 12%; width: 115px; height: 175px;" viewBox="0 0 115 175">
+                <rect x="54" y="135" width="6" height="40" fill="#8B4513"/>
+                <rect x="52" y="130" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="57" cy="95" rx="32" ry="28" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="47" cy="80" rx="25" ry="23" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="67" cy="85" rx="22" ry="20" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="57" cy="65" rx="18" ry="16" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="42" cy="105" rx="20" ry="18" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="72" cy="100" rx="16" ry="14" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="28" cy="90" r="2" fill="#FF69B4"/>
+                <circle cx="86" cy="95" r="2" fill="#FF1493"/>
+                <circle cx="37" cy="70" r="2" fill="#FF69B4"/>
+                <circle cx="77" cy="75" r="2" fill="#FF1493"/>
+                <circle cx="52" cy="50" r="2" fill="#FFB6C1"/>
+                <circle cx="32" cy="110" r="1.5" fill="#FF69B4"/>
+                <circle cx="82" cy="115" r="1.5" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 22%; width: 110px; height: 170px;" viewBox="0 0 110 170">
+                <rect x="52" y="130" width="6" height="40" fill="#8B4513"/>
+                <rect x="50" y="125" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="55" cy="90" rx="30" ry="26" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="45" cy="75" rx="23" ry="21" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="65" cy="80" rx="20" ry="18" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="55" cy="60" rx="16" ry="14" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="40" cy="100" rx="18" ry="16" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="70" cy="95" rx="14" ry="12" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="26" cy="85" r="2" fill="#FF69B4"/>
+                <circle cx="84" cy="90" r="2" fill="#FF1493"/>
+                <circle cx="35" cy="65" r="2" fill="#FF69B4"/>
+                <circle cx="75" cy="70" r="2" fill="#FF1493"/>
+                <circle cx="50" cy="45" r="2" fill="#FFB6C1"/>
+            </svg>
+            <svg class="tree-svg" style="left: 32%; width: 125px; height: 185px;" viewBox="0 0 125 185">
+                <rect x="59" y="145" width="6" height="40" fill="#8B4513"/>
+                <rect x="57" y="140" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="62" cy="105" rx="38" ry="32" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="52" cy="90" rx="30" ry="27" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="72" cy="95" rx="27" ry="24" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="62" cy="75" rx="22" ry="20" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="47" cy="115" rx="24" ry="22" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="77" cy="110" rx="20" ry="18" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="32" cy="100" r="2" fill="#FF69B4"/>
+                <circle cx="92" cy="105" r="2" fill="#FF1493"/>
+                <circle cx="42" cy="80" r="2" fill="#FF69B4"/>
+                <circle cx="82" cy="85" r="2" fill="#FF1493"/>
+                <circle cx="57" cy="60" r="2" fill="#FFB6C1"/>
+                <circle cx="37" cy="120" r="1.5" fill="#FF69B4"/>
+                <circle cx="87" cy="125" r="1.5" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 44%; width: 118px; height: 178px;" viewBox="0 0 118 178">
+                <rect x="56" y="138" width="6" height="40" fill="#8B4513"/>
+                <rect x="54" y="133" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="59" cy="98" rx="34" ry="29" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="49" cy="83" rx="27" ry="24" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="69" cy="88" rx="24" ry="21" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="59" cy="68" rx="19" ry="17" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="44" cy="108" rx="21" ry="19" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="74" cy="103" rx="17" ry="15" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="29" cy="93" r="2" fill="#FF69B4"/>
+                <circle cx="89" cy="98" r="2" fill="#FF1493"/>
+                <circle cx="39" cy="73" r="2" fill="#FF69B4"/>
+                <circle cx="79" cy="78" r="2" fill="#FF1493"/>
+                <circle cx="54" cy="53" r="2" fill="#FFB6C1"/>
+            </svg>
+            <svg class="tree-svg" style="left: 56%; width: 112px; height: 172px;" viewBox="0 0 112 172">
+                <rect x="53" y="132" width="6" height="40" fill="#8B4513"/>
+                <rect x="51" y="127" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="56" cy="92" rx="31" ry="27" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="46" cy="77" rx="24" ry="22" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="66" cy="82" rx="21" ry="19" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="56" cy="62" rx="17" ry="15" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="41" cy="102" rx="19" ry="17" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="71" cy="97" rx="15" ry="13" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="26" cy="87" r="2" fill="#FF69B4"/>
+                <circle cx="86" cy="92" r="2" fill="#FF1493"/>
+                <circle cx="36" cy="67" r="2" fill="#FF69B4"/>
+                <circle cx="76" cy="72" r="2" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 68%; width: 120px; height: 180px;" viewBox="0 0 120 180">
+                <rect x="57" y="140" width="6" height="40" fill="#8B4513"/>
+                <rect x="55" y="135" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="60" cy="100" rx="35" ry="30" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="50" cy="85" rx="28" ry="25" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="70" cy="90" rx="25" ry="22" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="60" cy="70" rx="20" ry="18" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="45" cy="110" rx="22" ry="20" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="75" cy="105" rx="18" ry="16" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="30" cy="95" r="2" fill="#FF69B4"/>
+                <circle cx="90" cy="100" r="2" fill="#FF1493"/>
+                <circle cx="40" cy="75" r="2" fill="#FF69B4"/>
+                <circle cx="80" cy="80" r="2" fill="#FF1493"/>
+                <circle cx="55" cy="55" r="2" fill="#FFB6C1"/>
+            </svg>
+            <svg class="tree-svg" style="left: 80%; width: 115px; height: 175px;" viewBox="0 0 115 175">
+                <rect x="54" y="135" width="6" height="40" fill="#8B4513"/>
+                <rect x="52" y="130" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="57" cy="95" rx="32" ry="28" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="47" cy="80" rx="25" ry="23" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="67" cy="85" rx="22" ry="20" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="57" cy="65" rx="18" ry="16" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="42" cy="105" rx="20" ry="18" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="72" cy="100" rx="16" ry="14" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="28" cy="90" r="2" fill="#FF69B4"/>
+                <circle cx="86" cy="95" r="2" fill="#FF1493"/>
+                <circle cx="37" cy="70" r="2" fill="#FF69B4"/>
+                <circle cx="77" cy="75" r="2" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 92%; width: 110px; height: 170px;" viewBox="0 0 110 170">
+                <rect x="52" y="130" width="6" height="40" fill="#8B4513"/>
+                <rect x="50" y="125" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="55" cy="90" rx="30" ry="26" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="45" cy="75" rx="23" ry="21" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="65" cy="80" rx="20" ry="18" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="55" cy="60" rx="16" ry="14" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="40" cy="100" rx="18" ry="16" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="70" cy="95" rx="14" ry="12" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="26" cy="85" r="2" fill="#FF69B4"/>
+                <circle cx="84" cy="90" r="2" fill="#FF1493"/>
+                <circle cx="35" cy="65" r="2" fill="#FF69B4"/>
+                <circle cx="75" cy="70" r="2" fill="#FF1493"/>
+            </svg>
+            <!-- Additional trees for extended journey -->
+            <svg class="tree-svg" style="left: 104%; width: 125px; height: 185px;" viewBox="0 0 125 185">
+                <rect x="59" y="145" width="6" height="40" fill="#8B4513"/>
+                <rect x="57" y="140" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="62" cy="105" rx="38" ry="32" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="52" cy="90" rx="30" ry="27" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="72" cy="95" rx="27" ry="24" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="62" cy="75" rx="22" ry="20" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="47" cy="115" rx="24" ry="22" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="77" cy="110" rx="20" ry="18" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="32" cy="100" r="2" fill="#FF69B4"/>
+                <circle cx="92" cy="105" r="2" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 116%; width: 118px; height: 178px;" viewBox="0 0 118 178">
+                <rect x="56" y="138" width="6" height="40" fill="#8B4513"/>
+                <rect x="54" y="133" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="59" cy="98" rx="34" ry="29" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="49" cy="83" rx="27" ry="24" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="69" cy="88" rx="24" ry="21" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="59" cy="68" rx="19" ry="17" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="44" cy="108" rx="21" ry="19" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="74" cy="103" rx="17" ry="15" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="29" cy="93" r="2" fill="#FF69B4"/>
+                <circle cx="89" cy="98" r="2" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 128%; width: 112px; height: 172px;" viewBox="0 0 112 172">
+                <rect x="53" y="132" width="6" height="40" fill="#8B4513"/>
+                <rect x="51" y="127" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="56" cy="92" rx="31" ry="27" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="46" cy="77" rx="24" ry="22" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="66" cy="82" rx="21" ry="19" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="56" cy="62" rx="17" ry="15" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="41" cy="102" rx="19" ry="17" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="71" cy="97" rx="15" ry="13" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="26" cy="87" r="2" fill="#FF69B4"/>
+                <circle cx="86" cy="92" r="2" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 140%; width: 120px; height: 180px;" viewBox="0 0 120 180">
+                <rect x="57" y="140" width="6" height="40" fill="#8B4513"/>
+                <rect x="55" y="135" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="60" cy="100" rx="35" ry="30" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="50" cy="85" rx="28" ry="25" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="70" cy="90" rx="25" ry="22" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="60" cy="70" rx="20" ry="18" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="45" cy="110" rx="22" ry="20" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="75" cy="105" rx="18" ry="16" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="30" cy="95" r="2" fill="#FF69B4"/>
+                <circle cx="90" cy="100" r="2" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 152%; width: 115px; height: 175px;" viewBox="0 0 115 175">
+                <rect x="54" y="135" width="6" height="40" fill="#8B4513"/>
+                <rect x="52" y="130" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="57" cy="95" rx="32" ry="28" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="47" cy="80" rx="25" ry="23" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="67" cy="85" rx="22" ry="20" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="57" cy="65" rx="18" ry="16" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="42" cy="105" rx="20" ry="18" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="72" cy="100" rx="16" ry="14" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="28" cy="90" r="2" fill="#FF69B4"/>
+                <circle cx="86" cy="95" r="2" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 164%; width: 110px; height: 170px;" viewBox="0 0 110 170">
+                <rect x="52" y="130" width="6" height="40" fill="#8B4513"/>
+                <rect x="50" y="125" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="55" cy="90" rx="30" ry="26" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="45" cy="75" rx="23" ry="21" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="65" cy="80" rx="20" ry="18" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="55" cy="60" rx="16" ry="14" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="40" cy="100" rx="18" ry="16" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="70" cy="95" rx="14" ry="12" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="26" cy="85" r="2" fill="#FF69B4"/>
+                <circle cx="84" cy="90" r="2" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 176%; width: 125px; height: 185px;" viewBox="0 0 125 185">
+                <rect x="59" y="145" width="6" height="40" fill="#8B4513"/>
+                <rect x="57" y="140" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="62" cy="105" rx="38" ry="32" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="52" cy="90" rx="30" ry="27" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="72" cy="95" rx="27" ry="24" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="62" cy="75" rx="22" ry="20" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="47" cy="115" rx="24" ry="22" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="77" cy="110" rx="20" ry="18" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="32" cy="100" r="2" fill="#FF69B4"/>
+                <circle cx="92" cy="105" r="2" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 188%; width: 118px; height: 178px;" viewBox="0 0 118 178">
+                <rect x="56" y="138" width="6" height="40" fill="#8B4513"/>
+                <rect x="54" y="133" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="59" cy="98" rx="34" ry="29" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="49" cy="83" rx="27" ry="24" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="69" cy="88" rx="24" ry="21" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="59" cy="68" rx="19" ry="17" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="44" cy="108" rx="21" ry="19" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="74" cy="103" rx="17" ry="15" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="29" cy="93" r="2" fill="#FF69B4"/>
+                <circle cx="89" cy="98" r="2" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 200%; width: 112px; height: 172px;" viewBox="0 0 112 172">
+                <rect x="53" y="132" width="6" height="40" fill="#8B4513"/>
+                <rect x="51" y="127" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="56" cy="92" rx="31" ry="27" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="46" cy="77" rx="24" ry="22" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="66" cy="82" rx="21" ry="19" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="56" cy="62" rx="17" ry="15" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="41" cy="102" rx="19" ry="17" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="71" cy="97" rx="15" ry="13" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="26" cy="87" r="2" fill="#FF69B4"/>
+                <circle cx="86" cy="92" r="2" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 212%; width: 120px; height: 180px;" viewBox="0 0 120 180">
+                <rect x="57" y="140" width="6" height="40" fill="#8B4513"/>
+                <rect x="55" y="135" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="60" cy="100" rx="35" ry="30" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="50" cy="85" rx="28" ry="25" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="70" cy="90" rx="25" ry="22" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="60" cy="70" rx="20" ry="18" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="45" cy="110" rx="22" ry="20" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="75" cy="105" rx="18" ry="16" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="30" cy="95" r="2" fill="#FF69B4"/>
+                <circle cx="90" cy="100" r="2" fill="#FF1493"/>
+            </svg>
+            <!-- Additional Trees 21-40 -->
+            <svg class="tree-svg" style="left: 224%; width: 115px; height: 175px;" viewBox="0 0 115 175">
+                <rect x="54" y="135" width="6" height="40" fill="#8B4513"/>
+                <rect x="52" y="130" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="57" cy="95" rx="32" ry="28" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="47" cy="80" rx="25" ry="23" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="67" cy="85" rx="22" ry="20" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="57" cy="65" rx="18" ry="16" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="42" cy="105" rx="20" ry="18" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="72" cy="100" rx="16" ry="14" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="28" cy="90" r="2" fill="#FF69B4"/>
+                <circle cx="86" cy="95" r="2" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 236%; width: 110px; height: 170px;" viewBox="0 0 110 170">
+                <rect x="52" y="130" width="6" height="40" fill="#8B4513"/>
+                <rect x="50" y="125" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="55" cy="90" rx="30" ry="26" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="45" cy="75" rx="23" ry="21" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="65" cy="80" rx="20" ry="18" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="55" cy="60" rx="16" ry="14" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="40" cy="100" rx="18" ry="16" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="70" cy="95" rx="14" ry="12" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="26" cy="85" r="2" fill="#FF69B4"/>
+                <circle cx="84" cy="90" r="2" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 248%; width: 125px; height: 185px;" viewBox="0 0 125 185">
+                <rect x="59" y="145" width="6" height="40" fill="#8B4513"/>
+                <rect x="57" y="140" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="62" cy="105" rx="38" ry="32" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="52" cy="90" rx="30" ry="27" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="72" cy="95" rx="27" ry="24" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="62" cy="75" rx="22" ry="20" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="47" cy="115" rx="24" ry="22" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="77" cy="110" rx="20" ry="18" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="32" cy="100" r="2" fill="#FF69B4"/>
+                <circle cx="92" cy="105" r="2" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 260%; width: 118px; height: 178px;" viewBox="0 0 118 178">
+                <rect x="56" y="138" width="6" height="40" fill="#8B4513"/>
+                <rect x="54" y="133" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="59" cy="98" rx="34" ry="29" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="49" cy="83" rx="27" ry="24" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="69" cy="88" rx="24" ry="21" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="59" cy="68" rx="19" ry="17" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="44" cy="108" rx="21" ry="19" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="74" cy="103" rx="17" ry="15" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="29" cy="93" r="2" fill="#FF69B4"/>
+                <circle cx="89" cy="98" r="2" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 272%; width: 112px; height: 172px;" viewBox="0 0 112 172">
+                <rect x="53" y="132" width="6" height="40" fill="#8B4513"/>
+                <rect x="51" y="127" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="56" cy="92" rx="31" ry="27" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="46" cy="77" rx="24" ry="22" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="66" cy="82" rx="21" ry="19" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="56" cy="62" rx="17" ry="15" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="41" cy="102" rx="19" ry="17" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="71" cy="97" rx="15" ry="13" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="26" cy="87" r="2" fill="#FF69B4"/>
+                <circle cx="86" cy="92" r="2" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 284%; width: 120px; height: 180px;" viewBox="0 0 120 180">
+                <rect x="57" y="140" width="6" height="40" fill="#8B4513"/>
+                <rect x="55" y="135" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="60" cy="100" rx="35" ry="30" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="50" cy="85" rx="28" ry="25" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="70" cy="90" rx="25" ry="22" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="60" cy="70" rx="20" ry="18" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="45" cy="110" rx="22" ry="20" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="75" cy="105" rx="18" ry="16" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="30" cy="95" r="2" fill="#FF69B4"/>
+                <circle cx="90" cy="100" r="2" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 296%; width: 115px; height: 175px;" viewBox="0 0 115 175">
+                <rect x="54" y="135" width="6" height="40" fill="#8B4513"/>
+                <rect x="52" y="130" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="57" cy="95" rx="32" ry="28" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="47" cy="80" rx="25" ry="23" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="67" cy="85" rx="22" ry="20" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="57" cy="65" rx="18" ry="16" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="42" cy="105" rx="20" ry="18" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="72" cy="100" rx="16" ry="14" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="28" cy="90" r="2" fill="#FF69B4"/>
+                <circle cx="86" cy="95" r="2" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 308%; width: 110px; height: 170px;" viewBox="0 0 110 170">
+                <rect x="52" y="130" width="6" height="40" fill="#8B4513"/>
+                <rect x="50" y="125" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="55" cy="90" rx="30" ry="26" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="45" cy="75" rx="23" ry="21" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="65" cy="80" rx="20" ry="18" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="55" cy="60" rx="16" ry="14" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="40" cy="100" rx="18" ry="16" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="70" cy="95" rx="14" ry="12" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="26" cy="85" r="2" fill="#FF69B4"/>
+                <circle cx="84" cy="90" r="2" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 320%; width: 125px; height: 185px;" viewBox="0 0 125 185">
+                <rect x="59" y="145" width="6" height="40" fill="#8B4513"/>
+                <rect x="57" y="140" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="62" cy="105" rx="38" ry="32" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="52" cy="90" rx="30" ry="27" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="72" cy="95" rx="27" ry="24" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="62" cy="75" rx="22" ry="20" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="47" cy="115" rx="24" ry="22" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="77" cy="110" rx="20" ry="18" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="32" cy="100" r="2" fill="#FF69B4"/>
+                <circle cx="92" cy="105" r="2" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 332%; width: 118px; height: 178px;" viewBox="0 0 118 178">
+                <rect x="56" y="138" width="6" height="40" fill="#8B4513"/>
+                <rect x="54" y="133" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="59" cy="98" rx="34" ry="29" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="49" cy="83" rx="27" ry="24" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="69" cy="88" rx="24" ry="21" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="59" cy="68" rx="19" ry="17" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="44" cy="108" rx="21" ry="19" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="74" cy="103" rx="17" ry="15" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="29" cy="93" r="2" fill="#FF69B4"/>
+                <circle cx="89" cy="98" r="2" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 344%; width: 112px; height: 172px;" viewBox="0 0 112 172">
+                <rect x="53" y="132" width="6" height="40" fill="#8B4513"/>
+                <rect x="51" y="127" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="56" cy="92" rx="31" ry="27" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="46" cy="77" rx="24" ry="22" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="66" cy="82" rx="21" ry="19" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="56" cy="62" rx="17" ry="15" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="41" cy="102" rx="19" ry="17" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="71" cy="97" rx="15" ry="13" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="26" cy="87" r="2" fill="#FF69B4"/>
+                <circle cx="86" cy="92" r="2" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 356%; width: 120px; height: 180px;" viewBox="0 0 120 180">
+                <rect x="57" y="140" width="6" height="40" fill="#8B4513"/>
+                <rect x="55" y="135" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="60" cy="100" rx="35" ry="30" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="50" cy="85" rx="28" ry="25" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="70" cy="90" rx="25" ry="22" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="60" cy="70" rx="20" ry="18" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="45" cy="110" rx="22" ry="20" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="75" cy="105" rx="18" ry="16" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="30" cy="95" r="2" fill="#FF69B4"/>
+                <circle cx="90" cy="100" r="2" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 368%; width: 115px; height: 175px;" viewBox="0 0 115 175">
+                <rect x="54" y="135" width="6" height="40" fill="#8B4513"/>
+                <rect x="52" y="130" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="57" cy="95" rx="32" ry="28" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="47" cy="80" rx="25" ry="23" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="67" cy="85" rx="22" ry="20" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="57" cy="65" rx="18" ry="16" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="42" cy="105" rx="20" ry="18" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="72" cy="100" rx="16" ry="14" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="28" cy="90" r="2" fill="#FF69B4"/>
+                <circle cx="86" cy="95" r="2" fill="#FF1493"/>
+            </svg>
+            <svg class="tree-svg" style="left: 380%; width: 110px; height: 170px;" viewBox="0 0 110 170">
+                <rect x="52" y="130" width="6" height="40" fill="#8B4513"/>
+                <rect x="50" y="125" width="10" height="8" fill="#A0522D"/>
+                <ellipse cx="55" cy="90" rx="30" ry="26" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="45" cy="75" rx="23" ry="21" fill="#FFC0CB" opacity="0.8"/>
+                <ellipse cx="65" cy="80" rx="20" ry="18" fill="#FFCCCB" opacity="0.8"/>
+                <ellipse cx="55" cy="60" rx="16" ry="14" fill="#FFB6C1" opacity="0.9"/>
+                <ellipse cx="40" cy="100" rx="18" ry="16" fill="#FFC0CB" opacity="0.7"/>
+                <ellipse cx="70" cy="95" rx="14" ry="12" fill="#FFCCCB" opacity="0.8"/>
+                <circle cx="26" cy="85" r="2" fill="#FF69B4"/>
+                <circle cx="84" cy="90" r="2" fill="#FF1493"/>
+            </svg>
+        </div>
+        
+        <!-- Road -->
+        <div class="road"></div>
+    </div>
+
+    <div class="content">
+        <!-- Empty content for scrolling -->
+    </div>
+
+    <script>
+        let ticking = false;
+        
+        function updateScene() {
+            const scrolled = window.pageYOffset;
+            const maxScroll = document.body.scrollHeight - window.innerHeight;
+            const scrollProgress = Math.min(scrolled / maxScroll, 1);
+            
+            // 5 stages of sky transition with softer gradients
+            const skyColors = [
+                'linear-gradient(to bottom, #FFE4B5 0%, #FFEAA7 50%, #DDA0DD 100%)', // Dawn
+                'linear-gradient(to bottom, #87CEEB 0%, #B0E0E6 50%, #E0F6FF 100%)', // Morning
+                'linear-gradient(to bottom, #87CEEB 0%, #98D8E8 30%, #B0E0E6 100%)', // Midday
+                'linear-gradient(to bottom, #FFE4B5 0%, #FFEAA7 40%, #DDA0DD 100%)', // Evening
+                'linear-gradient(to bottom, #2F1B69 0%, #40407A 40%, #6C5CE7 100%)' // Night/Sunset
+            ];
+            
+            // Calculate which stage we're in
+            const stageProgress = scrollProgress * 4; // 0 to 4
+            const currentStage = Math.floor(stageProgress);
+            const nextStage = Math.min(currentStage + 1, skyColors.length - 1);
+            
+            // Update sky
+            const sky = document.querySelector('.sky');
+            sky.style.background = skyColors[currentStage];
+            
+            // Update sun position and color - parabolic arc
+            const sun = document.querySelector('.sun');
+            const sunX = 5 + (scrollProgress * 85); // Move across sky from left to right
+            // Create a proper parabolic arc: starts high, peaks in middle, ends low
+            const sunY = 60 - (4 * scrollProgress * (1 - scrollProgress) * 100); // Parabolic motion
+            sun.style.left = `${sunX}%`;
+            sun.style.top = `${sunY}%`;
+            
+            // Change sun color throughout day
+            if (scrollProgress < 0.2) {
+                sun.style.background = 'radial-gradient(circle, #FFD700 0%, #FFA500 100%)';
+                sun.style.boxShadow = '0 0 50px rgba(255, 215, 0, 0.8)';
+            } else if (scrollProgress < 0.4) {
+                sun.style.background = 'radial-gradient(circle, #FFD700 0%, #FF8C00 100%)';
+                sun.style.boxShadow = '0 0 60px rgba(255, 215, 0, 0.9)';
+            } else if (scrollProgress < 0.6) {
+                sun.style.background = 'radial-gradient(circle, #FFD700 0%, #FF8C00 100%)';
+                sun.style.boxShadow = '0 0 70px rgba(255, 140, 0, 1)';
+            } else if (scrollProgress < 0.8) {
+                sun.style.background = 'radial-gradient(circle, #FF6347 0%, #FF4500 100%)';
+                sun.style.boxShadow = '0 0 80px rgba(255, 99, 71, 0.8)';
+            } else {
+                sun.style.background = 'radial-gradient(circle, #FF1493 0%, #8B008B 100%)';
+                sun.style.boxShadow = '0 0 90px rgba(255, 20, 147, 0.6)';
+            }
+            
+            // Parallax movement - different speeds for depth
+            const speeds = {
+                'mountains-back': 0.15,
+                'mountains-front': 0.4,
+                'trees': 0.7
+            };
+            
+            document.querySelectorAll('.parallax-layer').forEach(layer => {
+                const className = layer.classList[1];
+                const speed = speeds[className] || 0.5;
+                const xPos = -(scrolled * speed * 0.3);
+                layer.style.transform = `translateX(${xPos}px)`;
+            });
+            
+            // Road movement - consistent throughout all stages
+            const road = document.querySelector('.road');
+            const roadSpeed = scrolled * 0.8;
+            road.style.transform = `translateX(-${roadSpeed}px)`;
+            
+            ticking = false;
+        }
+        
+        function requestTick() {
+            if (!ticking) {
+                requestAnimationFrame(updateScene);
+                ticking = true;
+            }
+        }
+        
+        window.addEventListener('scroll', requestTick);
+        
+        // Initialize scene
+        updateScene();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'978c4268f407252e',t:'MTc1NjgwODI2NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

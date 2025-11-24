@@ -1,0 +1,129 @@
+[
+    {
+  "title": "The Trial",
+  "author": "Kafka, Franz",
+  "rating": "4",
+  "cover": "/images/books/thetrial.jpg",
+  "recommended": false
+},
+{
+  "title": "Crime and Punishment",
+  "author": "Dostoevsky, Fyodor",
+  "rating": "5",
+  "cover": "/images/books/crimeandpunishment.jpg",
+  "recommended": true
+},
+{
+  "title": "Romeo and Juliet",
+  "author": "Shakespeare, William",
+  "rating": "5",
+  "cover": "/images/books/romeoandjuliet.jpg",
+  "recommended": false
+},
+{
+  "title": "Metamorphosis",
+  "author": "Kafka, Franz",
+  "rating": "4",
+  "cover": "/images/books/metamorphosis.jpg",
+  "recommended": true
+},
+{
+  "title": "As Good As Dead",
+  "author": "Jackson, Holly",
+  "rating": "5",
+  "cover": "/images/books/asgoodasdead.jpg",
+  "recommended": false
+},
+{
+  "title": "The Mindf*ck Series",
+  "author": "Abby, S.T.",
+  "rating": "5",
+  "cover": "/images/books/mindfuckseries.jpg",
+  "recommended": true
+},
+{
+  "title": "The Catcher in the Rye",
+  "author": "Salinger, J.D.",
+  "rating": "4",
+  "cover": "/images/books/catcherintherye.jpg",
+  "recommended": false
+},
+
+  {
+    "title": "The Death of Ivan Ilyich",
+    "author": "Tolstoy, Leo",
+    "rating": "4",
+    "cover": "/images/books/thedeathofivan.jpg",
+    "recommended": false
+  },
+  {
+    "title": "The Silent Patient",
+    "author": "Michaelides, Alex",
+    "rating": "4",
+    "cover": "/images/books/thesilentpatient.jpg",
+    "recommended": false
+  },
+  {
+    "title": "Beautiful World, Where Are You",
+    "author": "Rooney, Sally",
+    "rating": "5",
+    "cover": "/images/books/beautifulworld.jpg",
+    "recommended": true
+  },
+  {
+    "title": "Men Without Women",
+    "author": "Murakami, Haruki",
+    "rating": "4",
+    "cover": "/images/books/menwithoutwomen.jpg",
+    "recommended": false
+  },
+  {
+    "title": "Heartstopper: Volume Four (Heartstopper, #4)",
+    "author": "Oseman, Alice",
+    "rating": "5",
+    "cover": "/images/books/heartstopperv4.jpg",
+    "recommended": false
+  },
+  {
+    "title": "White Nights",
+    "author": "Dostoevsky, Fyodor",
+    "rating": "4",
+    "cover": "/images/books/whitenights.jpg",
+    "recommended": false
+  },
+  {
+    "title": "Days at the Morisaki Bookshop",
+    "author": "Yagisawa, Satoshi",
+    "rating": "5",
+    "cover": "/images/books/daysatthemorisaki.jpg",
+    "recommended": false
+  },
+  {
+    "title": "A Man Called Ove",
+    "author": "Backman, Fredrik",
+    "rating": "4",
+    "cover": "/images/books/amancalledove.jpg",
+    "recommended": false
+  },
+  {
+    "title": "A Good Girl's Guide to Murder",
+    "author": "Jackson, Holly",
+    "rating": "4",
+    "cover": "/images/books/goodgirlsguidetomurder.jpg",
+    "recommended": false
+  },
+  {
+    "title": "Good Girl, Bad Blood",
+    "author": "Jackson, Holly",
+    "rating": "4",
+    "cover": "/images/books/goodgirlbadblood.jpg",
+    "recommended": false
+  },
+  {
+    "title": "Acts of God",
+    "author": "Gill, Kanan",
+    "rating": "5",
+    "cover": "/images/books/actsofgod.jpg",
+    "recommended": false
+  }
+]

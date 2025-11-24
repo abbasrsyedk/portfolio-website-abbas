@@ -1,0 +1,27 @@
+[
+  {
+    "title": "Travel",
+    "desc": "No matter how slow you ride, you're still ahead of those who never left home.",
+    "link": "/hobbies/travel"
+  },
+  {
+    "title": "Gaming",
+    "desc": "",
+    "link": "/hobbies/gaming"
+  },
+  {
+    "title": "Music",
+    "desc": "",
+    "link": "/hobbies/music"
+  },
+  {
+    "title": "Reading",
+    "desc": "",
+    "link": "/hobbies/reading"
+  },
+  {
+    "title": "Photography",
+    "desc": "",
+    "link": "/hobbies/photography"
+  }
+]

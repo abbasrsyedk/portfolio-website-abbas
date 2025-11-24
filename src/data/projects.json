@@ -1,0 +1,37 @@
+[
+  {
+    "title": "Dashboards Project",
+    "description": "Built system dashboards and views for teams to replace personal dashboards, enabling centralized insights and consistency.",
+    "technologies": ["Dynamics 365", "Power Platform"]
+  },
+  {
+    "title": "CSW Application Master Search",
+    "description": "Developed a master search system for Ford Customer Service agents to search across multiple entities efficiently.",
+    "technologies": ["Dynamics 365", "Customer Service Workspace"]
+  },
+  {
+    "title": "Morley Integration Project",
+    "description": "Created the Morley entity with forms and views for capturing vehicle payment details. Enabled approval workflows.",
+    "technologies": ["Dynamics 365", "Entity Forms"]
+  },
+  {
+    "title": "Ford of Mexico Localization",
+    "description": "Implemented Spanish translations for CSW custom and OOB components ensuring full usability in Spanish.",
+    "technologies": ["Dynamics 365", "Localization"]
+  },
+  {
+    "title": "Azure Synapse Integration & ETL",
+    "description": "Designed infra and pipelines for ETL processes using Synapse, ADF, and Data Lake. Automated data flow into Azure SQL.",
+    "technologies": ["Azure Synapse", "Azure Data Factory", "Azure Data Lake", "SQL"]
+  },
+  {
+    "title": "Incident Support – CSW",
+    "description": "Provided analysis, fixes, testing, and validation for incidents raised by agents in CSW application.",
+    "technologies": ["Dynamics 365", "Support"]
+  },
+  {
+    "title": "Power Automate Flows",
+    "description": "Created flows to reduce agent workload, e.g., auto-delete records matching criteria.",
+    "technologies": ["Power Automate"]
+  }
+]
