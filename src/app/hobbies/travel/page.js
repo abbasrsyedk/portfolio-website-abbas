@@ -5,6 +5,8 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { FaInstagram } from "react-icons/fa";
 import Header from "@/components/Header"; 
+import { ArrowDownToLine, Layout, Zap, Globe, Cpu, Code2, Database, Server } from "lucide-react";
+
 
 /* ===== CountUp helper ===== */
 function CountUp({ end, duration = 2, delay = 0 }) {
@@ -131,8 +133,8 @@ export default function TravelPage() {
       {/* 3. HEADER */}
       <Header textEnter={textEnter} textLeave={textLeave} />
 
-      {/* ===== LEFT FLOATING SIDEBAR ===== */}
-      <div className="hidden md:flex fixed left-10 top-1/2 -translate-x-1/2 flex flex-col gap-8 z-40">
+      {/* ===== LEFT FLOATING SIDEBAR (FIX APPLIED HERE) ===== */}
+      <div className="hidden md:flex fixed left-10 top-1/2 -translate-y-1/2 flex flex-col gap-8 z-40">
         <button 
             onClick={() => scrollTo("gear")} 
             onMouseEnter={textEnter} onMouseLeave={textLeave}
@@ -198,12 +200,12 @@ export default function TravelPage() {
                 <Image src="/images/others/RiderImage.jpeg" alt="Rider" width={800} height={800} quality={100} className="object-cover w-full h-full" />
               </div>
 
-              <a href="https://www.instagram.com/abbasolutelynot/" target="_blank" rel="noopener noreferrer" 
+              <a href="https://www.instagram.com/abs.rsk/" target="_blank" rel="noopener noreferrer" 
                  onMouseEnter={textEnter} onMouseLeave={textLeave}
                  className="mt-12 flex items-center gap-2 text-lg font-medium text-pink-400 hover:text-pink-300 transition-colors"
               >
                 <FaInstagram className="text-xl" />
-                <span>@abbasolutelynot</span>
+                <span>@abs.rsk</span>
               </a>
             </motion.div>
 
@@ -290,8 +292,7 @@ export default function TravelPage() {
         </section>
       </div>
 
-      {/* ===================== BIKE SECTION (Fixed Spacing) ===================== */}
-      {/* FIX: Changed min-h-screen to py-20 on mobile to remove the huge gap */}
+      {/* ===================== BIKE SECTION ===================== */}
       <section id="bike" ref={sectionRefs.bike} className="py-20 md:min-h-screen flex flex-col items-center justify-center px-6 md:py-12">
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }} className="w-full max-w-4xl">
             <div className="w-full overflow-hidden rounded-xl shadow-lg mb-8 h-[300px] md:h-[450px] relative border border-white/10">
@@ -321,8 +322,7 @@ export default function TravelPage() {
         </motion.div>
       </section>
 
-      {/* ===================== MAP SECTION (Fixed Spacing) ===================== */}
-      {/* FIX: Changed min-h-screen to py-20 on mobile */}
+      {/* ===================== MAP SECTION ===================== */}
       <section id="map" ref={sectionRefs.map} className="py-20 md:min-h-screen flex flex-col items-center justify-center px-6 md:py-12 relative z-10">
         <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} className="text-3xl md:text-4xl font-bold text-white mb-10 text-center">
           Places I’ve Been

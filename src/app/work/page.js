@@ -76,14 +76,17 @@ export default function WorkPage() {
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.3 }}
                 className="pt-2"
             >
-                <button 
+                {/* FIX: Replaced button with <a> tag and added href and download attributes */}
+                <a 
+                  href="/resume.pdf"
+                  download="Abbas_RSK_Resume.pdf" // This suggests the file name to the user
                   onMouseEnter={textEnter} 
                   onMouseLeave={textLeave}
                   className="group flex items-center gap-2 px-6 py-3 md:px-8 md:py-4 bg-white/5 border border-white/20 text-white font-bold rounded-full text-sm md:text-base hover:bg-white hover:text-black transition-all duration-300 shadow-[0_0_20px_-5px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.4)]"
                 >
                     <ArrowDownToLine size={18} className="group-hover:-translate-y-1 transition-transform" />
                     Download Resume
-                </button>
+                </a>
             </motion.div>
         </div>
 
