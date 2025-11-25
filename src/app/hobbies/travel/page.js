@@ -5,8 +5,6 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { FaInstagram } from "react-icons/fa";
 import Header from "@/components/Header"; 
-import { ArrowDownToLine, Layout, Zap, Globe, Cpu, Code2, Database, Server } from "lucide-react";
-
 
 /* ===== CountUp helper ===== */
 function CountUp({ end, duration = 2, delay = 0 }) {
@@ -107,7 +105,7 @@ export default function TravelPage() {
     window.scrollTo({ top: Math.max(0, Math.round(targetY)), behavior: "smooth" });
   };
 
-  const hoverGlow = "hover:[text-shadow:0_0_10px_currentColor] transition-all";
+  const hoverGlow = "hover:[text-shadow:0_0_10px_currentColor] transition-all duration-300";
 
   return (
     <main 
@@ -133,7 +131,7 @@ export default function TravelPage() {
       {/* 3. HEADER */}
       <Header textEnter={textEnter} textLeave={textLeave} />
 
-      {/* ===== LEFT FLOATING SIDEBAR (FIX APPLIED HERE) ===== */}
+      {/* ===== LEFT FLOATING SIDEBAR ===== */}
       <div className="hidden md:flex fixed left-10 top-1/2 -translate-y-1/2 flex flex-col gap-8 z-40">
         <button 
             onClick={() => scrollTo("gear")} 
@@ -169,24 +167,31 @@ export default function TravelPage() {
             <div className="flex flex-col gap-16 text-right md:pr-6 text-lg md:text-xl relative z-10">
               <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1 }}>
                 <p className="text-neutral-500 text-sm font-mono uppercase tracking-widest mb-1">Helmet</p>
-                <h3 className="font-bold text-blue-400 text-2xl">
-                  <a href="#" onMouseEnter={textEnter} onMouseLeave={textLeave} className={hoverGlow}>NHK K5R</a> <span className="text-white/20">|</span>
-                  <a href="#" onMouseEnter={textEnter} onMouseLeave={textLeave} className={hoverGlow}> SMK Typhoon</a>
+                {/* FIXED: Restored SMK Typhoon and kept layout balanced */}
+                <h3 className="font-bold text-blue-400 text-2xl flex justify-end gap-2">
+                  <a href="https://nhkhelmet.com/k5r/" target="_blank" onMouseEnter={textEnter} onMouseLeave={textLeave} className={hoverGlow}>NHK K5R</a> 
+                  <span className="text-white/20">|</span>
+                  <a href="https://smkhelmets.com/helmet/full-face-helmets/typhoon/typhoon-solid/" target="_blank" onMouseEnter={textEnter} onMouseLeave={textLeave} className={hoverGlow}>SMK Typhoon</a>
                 </h3>
               </motion.div>
 
               <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }}>
                 <p className="text-neutral-500 text-sm font-mono uppercase tracking-widest mb-1">Shoes</p>
                 <h3 className="font-bold text-green-400 text-2xl">
-                  <a href="#" onMouseEnter={textEnter} onMouseLeave={textLeave} className={hoverGlow}>Clan SNKR-SE</a>
+                  <a href="https://clanshoes.com/" target="_blank" onMouseEnter={textEnter} onMouseLeave={textLeave} className={hoverGlow}>Clan Stealth</a>
                 </h3>
               </motion.div>
 
               <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.6 }}>
                 <p className="text-neutral-500 text-sm font-mono uppercase tracking-widest mb-1">Luggage</p>
-                <h3 className="font-bold text-yellow-400 text-2xl">
-                  <a href="#" onMouseEnter={textEnter} onMouseLeave={textLeave} className={hoverGlow}>ViaTerra Claw</a>
-                </h3>
+                {/* FIXED: Forced single line using flex or smaller font if needed, but here just cleaner markup */}
+                <div className="flex flex-col items-end">
+                   <h3 className="font-bold text-yellow-400 text-xl flex items-center gap-2 justify-end">
+                     <a href="https://viaterragear.com/products/claw-tailbag" target="_blank" onMouseEnter={textEnter} onMouseLeave={textLeave} className={hoverGlow}>ViaTerra Claw</a>
+                     <span className="text-white/20">|</span>
+                     <a href="https://guardiangears.in/products/jaws-magnetic-28l-tank-bag-with-rain-cover" target="_blank" onMouseEnter={textEnter} onMouseLeave={textLeave} className={hoverGlow}>Jaws Tank Bag</a>
+                   </h3>
+                </div>
               </motion.div>
             </div>
 
@@ -196,7 +201,7 @@ export default function TravelPage() {
                 Life in motion
               </h1>
 
-              <div className="w-80 h-80 rounded-full overflow-hidden border-4 border-white/10 shadow-[0_0_60px_rgba(59,130,246,0.2)] relative z-20">
+              <div className="w-80 h-80 rounded-full overflow-hidden border-4 border-blue-500 shadow-[0_0_60px_rgba(59,130,246,0.2)] relative z-20">
                 <Image src="/images/others/RiderImage.jpeg" alt="Rider" width={800} height={800} quality={100} className="object-cover w-full h-full" />
               </div>
 
@@ -214,21 +219,21 @@ export default function TravelPage() {
               <motion.div initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1 }}>
                 <p className="text-neutral-500 text-sm font-mono uppercase tracking-widest mb-1">Jacket</p>
                 <h3 className="font-bold text-purple-400 text-2xl">
-                  <a href="#" onMouseEnter={textEnter} onMouseLeave={textLeave} className={hoverGlow}>Riding Jacket</a>
+                  <a href="https://store.royalenfield.com/en/streetwind-v2-jacket-black" target="_blank" onMouseEnter={textEnter} onMouseLeave={textLeave} className={hoverGlow}>STREETWIND V2</a>
                 </h3>
               </motion.div>
 
               <motion.div initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }}>
                 <p className="text-neutral-500 text-sm font-mono uppercase tracking-widest mb-1">Riding Pants</p>
                 <h3 className="font-bold text-orange-400 text-2xl">
-                  <a href="#" onMouseEnter={textEnter} onMouseLeave={textLeave} className={hoverGlow}>Rynox Air GT</a>
+                  <a href="https://rynoxgear.com/products/rynox-air-gt-riding-pant" target="_blank" onMouseEnter={textEnter} onMouseLeave={textLeave} className={hoverGlow}>Rynox Air GT</a>
                 </h3>
               </motion.div>
 
               <motion.div initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.6 }}>
                 <p className="text-neutral-500 text-sm font-mono uppercase tracking-widest mb-1">Gloves</p>
                 <h3 className="font-bold text-pink-400 text-2xl">
-                  <a href="#" onMouseEnter={textEnter} onMouseLeave={textLeave} className={hoverGlow}>Riding Gloves</a>
+                  <a href="https://store.royalenfield.com/en/touring-collection/gloves" target="_blank" onMouseEnter={textEnter} onMouseLeave={textLeave} className={hoverGlow}>Windstorm</a>
                 </h3>
               </motion.div>
             </div>
@@ -255,37 +260,44 @@ export default function TravelPage() {
                 height: "60vw",
                 maxWidth: 240,
                 maxHeight: 240,
-                border: "4px solid rgba(255,255,255,0.1)",
+                border: "4px solid rgba(59,130,246,1)",
                 boxShadow: "0 0 30px rgba(59,130,246,0.3)",
               }}
             >
               <Image src="/images/others/RiderImage.jpeg" alt="Rider" width={800} height={800} quality={90} className="object-cover w-full h-full" />
             </div>
 
-            <a href="https://www.instagram.com/abbasolutelynot/" target="_blank" rel="noopener noreferrer" className="mt-1 inline-flex items-center gap-2 text-base font-medium text-pink-400">
+            <a href="https://www.instagram.com/abs.rsk/" target="_blank" rel="noopener noreferrer" className="mt-1 inline-flex items-center gap-2 text-base font-medium text-pink-400">
               <FaInstagram className="text-base text-pink-400" />
-              <span>@abbasolutelynot</span>
+              <span>@abs.rsk</span>
             </a>
           </div>
 
           <div className="w-full max-w-md mx-auto">
             <div className="grid grid-cols-2 gap-x-6 gap-y-3">
               <div className="text-left space-y-2">
+                {/* HELMET: Only NHK K5R on mobile */}
                 <p className="text-gray-400 text-xs">Helmet</p>
-                <div className="block text-blue-400 font-semibold text-lg">NHK K5R</div>
+                <a href="https://nhkhelmet.com/k5r/" target="_blank" className="block text-blue-400 font-semibold text-lg hover:underline">NHK K5R</a>
+                
+                {/* SHOES: Clan Stealth */}
                 <p className="mt-2 text-gray-400 text-xs">Shoes</p>
-                <div className="block text-green-400 font-semibold text-lg">Clan SNKR-SE</div>
+                <a href="https://clanshoes.com/" target="_blank" className="block text-green-400 font-semibold text-lg hover:underline">Clan Stealth</a>
+
+                {/* LUGGAGE: Only ViaTerra Claw on mobile */}
                 <p className="mt-2 text-gray-400 text-xs">Luggage</p>
-                <div className="block text-yellow-400 font-semibold text-lg">ViaTerra Claw</div>
+                <a href="https://viaterragear.com/products/claw-tailbag" target="_blank" className="block text-yellow-400 font-semibold text-lg hover:underline">ViaTerra Claw</a>
               </div>
 
               <div className="text-right space-y-2">
                 <p className="text-gray-400 text-xs">Jacket</p>
-                <div className="block text-purple-400 font-semibold text-lg">Riding Jacket</div>
+                <a href="https://store.royalenfield.com/en/streetwind-v2-jacket-black" target="_blank" className="block text-purple-400 font-semibold text-lg hover:underline">STREETWIND V2</a>
+
                 <p className="mt-2 text-gray-400 text-xs">Riding Pants</p>
-                <div className="block text-orange-400 font-semibold text-lg">Rynox Air GT</div>
+                <a href="https://rynoxgear.com/products/rynox-air-gt-riding-pant" target="_blank" className="block text-orange-400 font-semibold text-lg hover:underline">Rynox Air GT</a>
+
                 <p className="mt-2 text-gray-400 text-xs">Gloves</p>
-                <div className="block text-pink-400 font-semibold text-lg">Riding Gloves</div>
+                <a href="https://store.royalenfield.com/en/touring-collection/gloves" target="_blank" className="block text-pink-400 font-semibold text-lg hover:underline">Windstorm</a>
               </div>
             </div>
           </div>
@@ -303,11 +315,11 @@ export default function TravelPage() {
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 <div className="text-center">
-                    <h3 className="text-2xl font-bold text-blue-400"><CountUp end={36000} /> km</h3>
+                    <h3 className="text-2xl font-bold text-blue-400"><CountUp end={40000} /> km</h3>
                     <p className="text-gray-400 text-sm">Odometer</p>
                 </div>
                 <div className="text-center">
-                    <h3 className="text-2xl font-bold text-green-400"><CountUp end={9} /></h3>
+                    <h3 className="text-2xl font-bold text-green-400"><CountUp end={10} /></h3>
                     <p className="text-gray-400 text-sm">Bike Road Trips</p>
                 </div>
                 <div className="text-center">
@@ -315,8 +327,8 @@ export default function TravelPage() {
                     <p className="text-gray-400 text-sm">Longest Ride</p>
                 </div>
                 <div className="text-center">
-                    <h3 className="text-2xl font-bold text-pink-400"><CountUp end={1652} /></h3>
-                    <p className="text-gray-400 text-sm">Since</p>
+                    <h3 className="text-2xl font-bold text-pink-400"><CountUp end={2} /></h3>
+                    <p className="text-gray-400 text-sm">Years of Riding</p>
                 </div>
             </div>
         </motion.div>
