@@ -71,9 +71,9 @@ const SECTIONS = [
 
 export default function Home() {
   const [hoveredSection, setHoveredSection] = useState(SECTIONS[0]);
-  const [showBanner, setShowBanner] = useState(true); // NEW: Banner State
+  const [showBanner, setShowBanner] = useState(true);
   
-  // --- MOUSE TRACKING ---
+  // --- MOUSE TRACKING (Only for 3D Tilt Card) ---
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   
@@ -88,10 +88,6 @@ export default function Home() {
     y.set(clientY);
   }
 
-  const [cursorVariant, setCursorVariant] = useState("default");
-  const textEnter = () => setCursorVariant("text");
-  const textLeave = () => setCursorVariant("default");
-
   return (
     <main 
       onMouseMove={handleMouseMove}
@@ -99,7 +95,7 @@ export default function Home() {
     >
       
       {/* ========================================
-          NEW: DEVELOPMENT BANNER
+          DEVELOPMENT BANNER
           ======================================== */}
       <AnimatePresence>
         {showBanner && (
@@ -112,12 +108,10 @@ export default function Home() {
           >
             <div className="flex items-center gap-3 text-amber-400/90 text-[10px] md:text-xs font-mono uppercase tracking-widest">
               <AlertTriangle size={14} className="animate-pulse" />
-              <span>Website still under Development. in the meantime feel free to explore!</span>
+              <span>Website still under Development. In the meantime feel free to explore!</span>
             </div>
             <button 
               onClick={() => setShowBanner(false)}
-              onMouseEnter={textEnter}
-              onMouseLeave={textLeave}
               className="absolute right-4 md:right-8 text-amber-400/40 hover:text-amber-400 transition-colors p-1"
             >
               <X size={16} />
@@ -144,25 +138,20 @@ export default function Home() {
            style={{ backgroundImage: `url("https://grainy-gradients.vercel.app/noise.svg")` }}>
       </div>
 
-      {/* CUSTOM CURSOR */}
-      <motion.div 
-        className="fixed top-0 left-0 w-6 h-6 bg-white rounded-full pointer-events-none z-[100] mix-blend-difference hidden lg:block"
-        style={{ x: mouseXSpring, y: mouseYSpring, translateX: "-50%", translateY: "-50%" }}
-        variants={{ default: { scale: 1 }, text: { scale: 3.5 } }}
-        animate={cursorVariant}
-        transition={{ type: "spring", stiffness: 500, damping: 28 }}
-      />
+      {/* NOTE: The local <motion.div> cursor was DELETED here. 
+          The Global Cursor in layout.tsx now handles it.
+      */}
 
       {/* ========================================
           DESKTOP LAYOUT
           ======================================== */}
-      <div className="hidden lg:flex min-h-screen relative z-10 pt-10"> {/* Added pt-10 to account for banner */}
+      <div className="hidden lg:flex min-h-screen relative z-10 pt-10">
         
         {/* HEADER */}
         <header className="fixed top-12 left-1/2 -translate-x-1/2 z-50">
-           <div className="flex items-center gap-4 px-6 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-full shadow-2xl group">
-              <Link href="/" onMouseEnter={textEnter} onMouseLeave={textLeave}>
-                 <span className="font-extrabold text-xs tracking-widest text-white hover:text-white/80 transition-colors">
+           <div className="flex items-center gap-4 px-6 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-full shadow-2xl group cursor-none">
+              <Link href="/">
+                 <span className="font-extrabold text-xs tracking-widest text-white hover:text-white/80 transition-colors cursor-none">
                     ABBAS R S K
                  </span>
               </Link>
@@ -236,9 +225,7 @@ export default function Home() {
                 <div className="relative z-10 mt-8">
                   <Link 
                       href={hoveredSection.link}
-                      onMouseEnter={textEnter}
-                      onMouseLeave={textLeave}
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black font-bold rounded-full hover:scale-105 transition-transform"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black font-bold rounded-full hover:scale-105 transition-transform cursor-none"
                   >
                       Explore {hoveredSection.label} <ArrowUpRight size={18} />
                   </Link>
@@ -262,7 +249,6 @@ export default function Home() {
                         className="flex items-baseline gap-6 cursor-pointer flex-1"
                         onClick={() => setHoveredSection(section)}
                         onMouseEnter={() => setHoveredSection(section)}
-                        onMouseLeave={textLeave}
                     >
                         <span className="font-mono text-sm text-neutral-600">0{index + 1}</span>
                         <span className={`text-6xl font-bold tracking-tighter transition-all duration-300 ${
@@ -277,9 +263,7 @@ export default function Home() {
                     {/* Arrow Area */}
                     <Link 
                         href={section.link}
-                        onMouseEnter={textEnter}
-                        onMouseLeave={textLeave}
-                        className="p-4"
+                        className="p-4 cursor-none"
                     >
                         <div className={`p-3 rounded-full transition-all duration-300 ${
                            hoveredSection.id === section.id ? "bg-white text-black scale-110" : "text-neutral-800"
@@ -296,9 +280,9 @@ export default function Home() {
         {/* SOCIAL LINKS */}
         <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
            <div className="flex items-center gap-2 px-4 py-2 bg-white/5 backdrop-blur-md border border-white/10 rounded-full shadow-2xl">
-              <a href="https://github.com/abbasrsyedk" target="_blank" onMouseEnter={textEnter} onMouseLeave={textLeave} className="p-2 hover:bg-white/10 rounded-full transition-colors text-white/70 hover:text-white"><Github size={18}/></a>
-              <a href="https://www.linkedin.com/in/rskabbas/" target="_blank" onMouseEnter={textEnter} onMouseLeave={textLeave} className="p-2 hover:bg-white/10 rounded-full transition-colors text-white/70 hover:text-white"><Linkedin size={18}/></a>
-              <a href="mailto:rskabbas@outlook.com" onMouseEnter={textEnter} onMouseLeave={textLeave} className="p-2 hover:bg-white/10 rounded-full transition-colors text-white/70 hover:text-white"><Mail size={18}/></a>
+              <a href="https://github.com/abbasrsyedk" target="_blank" className="p-2 hover:bg-white/10 rounded-full transition-colors text-white/70 hover:text-white cursor-none"><Github size={18}/></a>
+              <a href="https://www.linkedin.com/in/rskabbas/" target="_blank" className="p-2 hover:bg-white/10 rounded-full transition-colors text-white/70 hover:text-white cursor-none"><Linkedin size={18}/></a>
+              <a href="mailto:rskabbas@outlook.com" className="p-2 hover:bg-white/10 rounded-full transition-colors text-white/70 hover:text-white cursor-none"><Mail size={18}/></a>
            </div>
         </div>
       </div>
@@ -307,7 +291,7 @@ export default function Home() {
       {/* ========================================
           MOBILE LAYOUT
           ======================================== */}
-      <div className="lg:hidden min-h-screen p-6 pb-12 flex flex-col relative z-10 pt-20"> {/* Added pt-20 to clear banner */}
+      <div className="lg:hidden min-h-screen p-6 pb-12 flex flex-col relative z-10 pt-20">
          
          <header className="flex justify-between items-start mb-8 pt-4">
             <div>

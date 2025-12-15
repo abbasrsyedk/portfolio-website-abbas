@@ -1,31 +1,21 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { motion, useMotionTemplate, useMotionValue, useSpring } from "framer-motion";
+import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 import CountUp from "react-countup";
-import { Globe, Gamepad2, Book, ArrowUpRight } from "lucide-react";
+import { Globe, Gamepad2, Book } from "lucide-react";
 import Header from "@/components/Header"; 
 
 export default function HobbiesPage() {
-  // Mouse tracking for spotlight effect
+  // Mouse tracking is kept ONLY for the Spotlight effect on cards
   let mouseX = useMotionValue(0);
   let mouseY = useMotionValue(0);
-
-  // Cursor Physics (Matches Work/Projects Page)
-  const mouseXSpring = useSpring(mouseX, { stiffness: 1000, damping: 50 });
-  const mouseYSpring = useSpring(mouseY, { stiffness: 1000, damping: 50 });
 
   function handleMouseMove({ currentTarget, clientX, clientY }) {
     let { left, top } = currentTarget.getBoundingClientRect();
     mouseX.set(clientX - left);
     mouseY.set(clientY - top);
   }
-
-  // Cursor Variants
-  const [cursorVariant, setCursorVariant] = useState("default");
-  const textEnter = () => setCursorVariant("text");
-  const textLeave = () => setCursorVariant("default");
 
   return (
     <main 
@@ -36,19 +26,9 @@ export default function HobbiesPage() {
       {/* BACKGROUND NOISE */}
       <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: `url("https://grainy-gradients.vercel.app/noise.svg")` }}></div>
       
-      {/* CUSTOM CURSOR */}
-      <motion.div 
-        className="fixed top-0 left-0 w-6 h-6 bg-white rounded-full pointer-events-none z-[100] mix-blend-difference hidden md:block"
-        // Use clientX/Y for global cursor, but here we reuse the local refs for simplicity if container covers screen
-        // Better practice for global cursor is using a window event listener, but this works if Main covers 100vh
-        style={{ left: mouseX, top: mouseY, translateX: "-50%", translateY: "-50%" }} 
-        variants={{ default: { scale: 1 }, text: { scale: 3.5 } }}
-        animate={cursorVariant}
-        transition={{ type: "spring", stiffness: 500, damping: 28 }}
-      />
+      {/* REMOVED: Local Cursor Component */}
 
-      {/* HEADER (Now Interactive) */}
-      <Header textEnter={textEnter} textLeave={textLeave} />
+      <Header />
 
       {/* CONTENT CONTAINER */}
       <section className="w-full max-w-6xl mx-auto px-4 md:px-10 flex flex-col gap-4 md:gap-10">
@@ -69,8 +49,6 @@ export default function HobbiesPage() {
             {/* TRAVEL CARD (HERO) */}
             <Link 
                 href="/hobbies/travel"
-                onMouseEnter={textEnter} 
-                onMouseLeave={textLeave}
                 className="relative group/card lg:col-span-2 lg:row-span-2 flex flex-col items-center justify-center text-center p-6 md:p-8 rounded-3xl border border-white/10 bg-gradient-to-br from-blue-900/20 to-transparent hover:border-blue-500/30 transition-all duration-500 overflow-hidden"
             >
                 <Spotlight mouseX={mouseX} mouseY={mouseY} />
@@ -108,8 +86,6 @@ export default function HobbiesPage() {
                 {/* GAMING CARD */}
                 <Link 
                     href="/hobbies/gaming"
-                    onMouseEnter={textEnter} 
-                    onMouseLeave={textLeave}
                     className="relative group/card flex flex-col items-center justify-center p-4 rounded-3xl border border-white/10 bg-gradient-to-br from-orange-900/20 to-transparent hover:border-orange-500/30 transition-all duration-500 overflow-hidden"
                 >
                     <Spotlight mouseX={mouseX} mouseY={mouseY} />
@@ -122,8 +98,6 @@ export default function HobbiesPage() {
                 {/* READING CARD */}
                 <Link 
                     href="/hobbies/reading"
-                    onMouseEnter={textEnter} 
-                    onMouseLeave={textLeave}
                     className="relative group/card flex flex-col items-center justify-center p-4 rounded-3xl border border-white/10 bg-gradient-to-br from-emerald-900/20 to-transparent hover:border-emerald-500/30 transition-all duration-500 overflow-hidden"
                 >
                     <Spotlight mouseX={mouseX} mouseY={mouseY} />

@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Header from "@/components/Header"; 
 import { 
   Code2, Database, Layout, Server, Zap, Globe, 
-  BarChart3, Search, Settings, ChevronRight 
+  BarChart3, Search, Settings
 } from "lucide-react";
 
 // ==============================================================
@@ -112,24 +112,11 @@ export default function ProjectsPage() {
     ? ALL_PROJECTS 
     : ALL_PROJECTS.filter(p => p.category === activeFilter);
 
-  // Mouse Tracking
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const mouseXSpring = useSpring(x, { stiffness: 1000, damping: 50 });
-  const mouseYSpring = useSpring(y, { stiffness: 1000, damping: 50 });
-
-  function handleMouseMove({ clientX, clientY }) {
-    x.set(clientX);
-    y.set(clientY);
-  }
-
-  const [cursorVariant, setCursorVariant] = useState("default");
-  const textEnter = () => setCursorVariant("text");
-  const textLeave = () => setCursorVariant("default");
+  // REMOVED: All local cursor motion values (x, y, springs) and handlers
 
   return (
     <main 
-      onMouseMove={handleMouseMove}
+      // REMOVED: onMouseMove={handleMouseMove}
       className="min-h-screen bg-[#050505] text-white selection:bg-blue-500 selection:text-white relative overflow-x-hidden cursor-none pt-28 pb-20"
     >
       
@@ -140,16 +127,10 @@ export default function ProjectsPage() {
       </div>
       <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: `url("https://grainy-gradients.vercel.app/noise.svg")` }}></div>
 
-      {/* CURSOR */}
-      <motion.div 
-        className="fixed top-0 left-0 w-6 h-6 bg-white rounded-full pointer-events-none z-[100] mix-blend-difference hidden md:block"
-        style={{ x: mouseXSpring, y: mouseYSpring, translateX: "-50%", translateY: "-50%" }}
-        variants={{ default: { scale: 1 }, text: { scale: 3.5 } }}
-        animate={cursorVariant}
-        transition={{ type: "spring", stiffness: 500, damping: 28 }}
-      />
+      {/* REMOVED: Local <motion.div> Cursor */}
 
-      <Header textEnter={textEnter} textLeave={textLeave} />
+      {/* REMOVED: textEnter/Leave props passed to Header */}
+      <Header />
 
       {/* HEADLINE */}
       <div className="text-center px-6 mb-10">
@@ -161,7 +142,6 @@ export default function ProjectsPage() {
         
         <motion.h1 
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
-            // FIX: Added Gradient Text to make it stand out
             className="text-5xl md:text-7xl font-bold mt-6 mb-4 tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-neutral-500"
         >
             Key Initiatives
@@ -185,8 +165,7 @@ export default function ProjectsPage() {
                 <button
                     key={filter.id}
                     onClick={() => setActiveFilter(filter.id)}
-                    onMouseEnter={textEnter} 
-                    onMouseLeave={textLeave}
+                    // REMOVED: onMouseEnter/Leave (Global cursor handles buttons automatically)
                     className={`px-5 py-2 rounded-full text-xs md:text-sm font-bold transition-all duration-300 border whitespace-nowrap backdrop-blur-md ${
                         activeFilter === filter.id 
                         ? "bg-white text-black border-white shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)]" 
@@ -215,7 +194,7 @@ export default function ProjectsPage() {
   );
 }
 
-// IMPROVED COMPONENT: Color-Coded Project Card
+// Color-Coded Project Card
 function ProjectCard({ project }) {
     // Define distinct themes for each category
     const colors = {
@@ -251,7 +230,6 @@ function ProjectCard({ project }) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.3 }}
-            // FIX: Added bg-gradient-to-br to give the whole card a subtle tint based on category
             className={`group relative p-6 md:p-8 rounded-3xl border bg-[#0a0a0a] bg-gradient-to-br ${theme.bg} hover:bg-[#111] transition-all duration-300 flex flex-col gap-4 ${theme.border} ${theme.glow} hover:shadow-2xl`}
         >
             {/* Header: Icon + Title */}

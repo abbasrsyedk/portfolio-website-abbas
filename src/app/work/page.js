@@ -1,30 +1,17 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
 import Header from "@/components/Header"; 
 import { ArrowDownToLine, Layout, Zap, Globe, Cpu, Code2, Database, Server } from "lucide-react";
 
 export default function WorkPage() {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const mouseXSpring = useSpring(x, { stiffness: 1000, damping: 50 });
-  const mouseYSpring = useSpring(y, { stiffness: 1000, damping: 50 });
-
-  function handleMouseMove({ clientX, clientY }) {
-    x.set(clientX);
-    y.set(clientY);
-  }
-
-  const [cursorVariant, setCursorVariant] = useState("default");
-  const textEnter = () => setCursorVariant("text");
-  const textLeave = () => setCursorVariant("default");
+  // REMOVED: All local cursor state and tracking logic (x, y, springs, handleMouseMove)
+  // The Global Cursor in layout.js now handles everything automatically.
 
   return (
     <main 
-      onMouseMove={handleMouseMove}
-      // FIX: Changed pb-40 to pb-12. This removes the huge gap at the bottom.
+      // REMOVED: onMouseMove={handleMouseMove}
       className="min-h-screen bg-[#050505] text-white selection:bg-blue-500 selection:text-white relative overflow-x-hidden cursor-none pt-20 pb-12 md:pt-0 md:pb-0"
     >
       
@@ -35,16 +22,10 @@ export default function WorkPage() {
       </div>
       <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: `url("https://grainy-gradients.vercel.app/noise.svg")` }}></div>
 
-      {/* CURSOR */}
-      <motion.div 
-        className="fixed top-0 left-0 w-6 h-6 bg-white rounded-full pointer-events-none z-[100] mix-blend-difference hidden md:block"
-        style={{ x: mouseXSpring, y: mouseYSpring, translateX: "-50%", translateY: "-50%" }}
-        variants={{ default: { scale: 1 }, text: { scale: 3.5 } }}
-        animate={cursorVariant}
-        transition={{ type: "spring", stiffness: 500, damping: 28 }}
-      />
+      {/* REMOVED: The local <motion.div> cursor element */}
 
-      <Header textEnter={textEnter} textLeave={textLeave} />
+      {/* REMOVED: textEnter/textLeave props (Global cursor handles hover auto-detection) */}
+      <Header />
 
       {/* HERO SECTION */}
       <section className="relative flex flex-col-reverse md:flex-row items-center justify-center gap-6 md:gap-16 px-6 md:px-20 max-w-7xl mx-auto pb-8 md:pb-20 pt-8 md:pt-40">
@@ -76,12 +57,10 @@ export default function WorkPage() {
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.3 }}
                 className="pt-2"
             >
-                {/* FIX: Replaced button with <a> tag and added href and download attributes */}
                 <a 
                   href="/resume.pdf"
-                  download="Abbas_RSK_Resume.pdf" // This suggests the file name to the user
-                  onMouseEnter={textEnter} 
-                  onMouseLeave={textLeave}
+                  download="Abbas_RSK_Resume.pdf"
+                  // REMOVED: onMouseEnter/Leave (Global cursor handles <a> tags automatically)
                   className="group flex items-center gap-2 px-6 py-3 md:px-8 md:py-4 bg-white/5 border border-white/20 text-white font-bold rounded-full text-sm md:text-base hover:bg-white hover:text-black transition-all duration-300 shadow-[0_0_20px_-5px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.4)]"
                 >
                     <ArrowDownToLine size={18} className="group-hover:-translate-y-1 transition-transform" />
@@ -141,7 +120,6 @@ export default function WorkPage() {
       </section>
 
       {/* SKILLS SECTION */}
-      {/* FIX: Removed mb-20. Now it sits flush with the bottom of the page. */}
       <section className="py-8 md:py-20 px-6 md:px-20 max-w-6xl mx-auto relative z-10">
          <h2 className="text-3xl md:text-4xl font-bold mb-8 md:mb-12 text-center md:text-left">Technical Arsenal</h2>
          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
@@ -158,7 +136,7 @@ export default function WorkPage() {
   );
 }
 
-// Components (ExperienceCard and SkillCard) remain exactly the same as before
+// Components
 function ExperienceCard({ role, company, date, desc }) {
     return (
         <motion.div 

@@ -1,11 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Gamepad2, Headphones, Mic2, Monitor, Laptop, Keyboard, Mouse,
-  Gauge, Target, Percent, ChevronDown, ExternalLink, Dices, RefreshCw, UserPlus
+  Gauge, Target, Percent, ChevronDown, ExternalLink, Dices, UserPlus
 } from "lucide-react";
 import Header from "@/components/Header";
 
@@ -38,24 +37,12 @@ const otherGames = [
 ];
 
 export default function GamingPage() {
-  // --- CURSOR LOGIC ---
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const mouseXSpring = useSpring(x, { stiffness: 1000, damping: 50 });
-  const mouseYSpring = useSpring(y, { stiffness: 1000, damping: 50 });
-
-  function handleMouseMove({ clientX, clientY }) {
-    x.set(clientX);
-    y.set(clientY);
-  }
-
-  const [cursorVariant, setCursorVariant] = useState("default");
-  const textEnter = () => setCursorVariant("text");
-  const textLeave = () => setCursorVariant("default");
+  // REMOVED: All local cursor code (useMotionValue, onMouseMove, springs, etc.)
+  // The Global Cursor in layout.js handles everything now.
 
   return (
     <main 
-      onMouseMove={handleMouseMove}
+      // Removed onMouseMove
       className="bg-[#050505] text-white selection:bg-rose-500 selection:text-white relative cursor-none"
     >
       
@@ -65,20 +52,13 @@ export default function GamingPage() {
          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent"></div>
       </div>
       
-      {/* CURSOR */}
-      <motion.div 
-        className="fixed top-0 left-0 w-6 h-6 bg-white rounded-full pointer-events-none z-[100] mix-blend-difference hidden md:block"
-        style={{ x: mouseXSpring, y: mouseYSpring, translateX: "-50%", translateY: "-50%" }}
-        variants={{ default: { scale: 1 }, text: { scale: 3.5 } }}
-        animate={cursorVariant}
-        transition={{ type: "spring", stiffness: 500, damping: 28 }}
-      />
+      {/* REMOVED: Local <motion.div> Cursor */}
 
-      <Header textEnter={textEnter} textLeave={textLeave} />
+      <Header />
 
       {/* ==========================================
           PAGE 1: HERO
-         ========================================== */}
+          ========================================== */}
       <section className="min-h-screen w-full relative flex flex-col items-center pt-24 md:pt-32 pb-10 md:pb-20">
         
         <div className="w-full max-w-5xl px-4 md:px-6 flex flex-col h-full gap-6 md:gap-8">
@@ -95,7 +75,7 @@ export default function GamingPage() {
 
           {/* Image Area */}
           <div className="w-full flex-1 flex items-start justify-center">
-             <HeroImageWithCallouts textEnter={textEnter} textLeave={textLeave} />
+             <HeroImageWithCallouts />
           </div>
 
           {/* Scroll Hint */}
@@ -111,7 +91,7 @@ export default function GamingPage() {
 
       {/* ==========================================
           PAGE 2: STATS & GAMES
-         ========================================== */}
+          ========================================== */}
       {/* FIX: Reduced bottom padding to pb-5 (Mobile) and md:pb-10 (Desktop) */}
       <section className="pt-10 pb-5 md:pt-20 md:pb-10 px-4 md:px-6 relative z-10 flex flex-col items-center">
         <div className="w-full max-w-5xl flex flex-col gap-6">
@@ -140,8 +120,6 @@ export default function GamingPage() {
                         <a 
                             href="https://tracker.gg/valorant/profile/riot/MasalaSoda%23DHFC/overview" 
                             target="_blank" 
-                            onMouseEnter={textEnter} 
-                            onMouseLeave={textLeave}
                             className="px-4 py-1.5 rounded-full bg-rose-600 hover:bg-rose-500 text-xs font-bold transition-all shadow-[0_0_20px_rgba(244,63,94,0.4)] hover:scale-105"
                         >
                             Tracker.gg
@@ -211,7 +189,7 @@ export default function GamingPage() {
 }
 
 /* ---------- HERO COMPONENT ---------- */
-function HeroImageWithCallouts({ textEnter, textLeave }) {
+function HeroImageWithCallouts() {
   return (
     <div className="relative w-full h-full flex items-start justify-center">
       
@@ -245,14 +223,14 @@ function HeroImageWithCallouts({ textEnter, textLeave }) {
           priority
         />
         {GEAR_ITEMS.map((it, i) => (
-          <Callout key={i} {...it} i={i} textEnter={textEnter} textLeave={textLeave} />
+          <Callout key={i} {...it} i={i} />
         ))}
       </motion.div>
     </div>
   );
 }
 
-function Callout({ label, href, icon: Icon, x, y, side = "right", i, textEnter, textLeave }) {
+function Callout({ label, href, icon: Icon, x, y, side = "right", i }) {
   const reach = 100; 
   const pad = 10; const nub = 6; const gap = 8;
   const lineLen = reach - pad - nub - gap;
@@ -268,7 +246,6 @@ function Callout({ label, href, icon: Icon, x, y, side = "right", i, textEnter, 
 
       <a
         href={href} target="_blank" rel="noopener noreferrer"
-        onMouseEnter={textEnter} onMouseLeave={textLeave}
         className="absolute -translate-y-1/2 whitespace-nowrap rounded-full border border-white/10 bg-black/90 px-3 py-1.5 text-[10px] font-medium shadow-xl backdrop-blur-md flex items-center gap-2 hover:border-rose-500 hover:text-rose-400 hover:scale-105 transition-all duration-200"
         style={{ left: side === "right" ? `${pad + lineLen + nub}px` : undefined, right: side === "left" ? `${pad + lineLen + nub}px` : undefined, top: "50%", transform: "translateY(-50%)" }}
       >
