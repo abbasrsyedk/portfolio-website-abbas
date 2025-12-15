@@ -42,7 +42,8 @@ function CountUp({ end, duration = 2, delay = 0 }) {
 }
 
 export default function TravelPage() {
-  // REMOVED: All local cursor code to prevent double-cursor glitch.
+  // REMOVED: All local cursor code (useMotionValue, onMouseMove, etc.) 
+  // to fix the "odd behavior". The Global Cursor now handles everything perfectly.
 
   // --- SCROLL LOGIC ---
   const sectionRefs = {
@@ -65,6 +66,7 @@ export default function TravelPage() {
           }
         });
       },
+      // Lower threshold helps catch tall sections earlier
       { threshold: [0.3, 0.6] }
     );
 
@@ -97,7 +99,7 @@ export default function TravelPage() {
 
   return (
     <main 
-      // FIX: Removed 'relative' class. This releases the fixed sidebar to stick to the screen, not the div.
+      // Removed onMouseMove & 'relative' class
       className="w-full overflow-x-hidden bg-[#050505] min-h-screen text-white cursor-none"
     >
       
@@ -110,8 +112,7 @@ export default function TravelPage() {
       {/* 3. HEADER */}
       <Header />
 
-      {/* ===== LEFT FLOATING SIDEBAR (FIXED) ===== */}
-      {/* FIX: Z-Index 100 ensures it stays above noise and sections */}
+      {/* ===== LEFT FLOATING SIDEBAR (FIXED VISIBILITY) ===== */}
       <div className="hidden md:flex fixed left-10 top-1/2 -translate-y-1/2 flex flex-col gap-8 z-[100]">
         <button 
             onClick={() => scrollTo("gear")} 
@@ -135,10 +136,9 @@ export default function TravelPage() {
         </button>
       </div>
 
-      {/* ===================== DESKTOP HERO (GEAR) ===================== */}
+      {/* ===================== DESKTOP HERO ===================== */}
       <div className="hidden md:block">
-        {/* FIX: Removed 'relative' from section wrapper to avoid stacking issues */}
-        <section id="gear" ref={sectionRefs.gear} className="min-h-screen flex items-center justify-center px-6 pt-20">
+        <section id="gear" ref={sectionRefs.gear} className="min-h-screen flex items-center justify-center px-6 relative pt-20">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-center max-w-6xl w-full relative z-10">
             
             {/* Left gear */}
@@ -216,22 +216,66 @@ export default function TravelPage() {
         </section>
       </div>
 
-      {/* ===================== MOBILE HERO ===================== */}
+      {/* ===================== MOBILE HERO (RESTORED) ===================== */}
       <div className="block md:hidden pt-24">
-        <section id="gear-mobile" ref={sectionRefs.gearMobile} className="flex flex-col justify-between items-center px-6 py-4 gap-8">
+        <section
+          id="gear-mobile"
+          ref={sectionRefs.gearMobile}
+          className="flex flex-col justify-between items-center px-6 py-4 gap-8"
+        >
           <div className="w-full flex justify-center">
             <h1 className="text-2xl font-semibold text-white">Life in motion</h1>
           </div>
+
           <div className="flex flex-col items-center gap-3">
-            <div className="rounded-full overflow-hidden" style={{ width: "60vw", height: "60vw", maxWidth: 240, maxHeight: 240, border: "4px solid rgba(59,130,246,1)", boxShadow: "0 0 30px rgba(59,130,246,0.3)" }}>
+            <div
+              className="rounded-full overflow-hidden"
+              style={{
+                width: "60vw",
+                height: "60vw",
+                maxWidth: 240,
+                maxHeight: 240,
+                border: "4px solid rgba(59,130,246,1)",
+                boxShadow: "0 0 30px rgba(59,130,246,0.3)",
+              }}
+            >
               <Image src="/images/others/RiderImage.jpeg" alt="Rider" width={800} height={800} quality={90} className="object-cover w-full h-full" />
             </div>
+
             <a href="https://www.instagram.com/abs.rsk/" target="_blank" rel="noopener noreferrer" className="mt-1 inline-flex items-center gap-2 text-base font-medium text-pink-400">
               <FaInstagram className="text-base text-pink-400" />
               <span>@abs.rsk</span>
             </a>
           </div>
-          {/* Mobile Text Content Omitted for brevity, assumed same as before */}
+
+          <div className="w-full max-w-md mx-auto">
+            <div className="grid grid-cols-2 gap-x-6 gap-y-3">
+              <div className="text-left space-y-2">
+                {/* HELMET */}
+                <p className="text-gray-400 text-xs">Helmet</p>
+                <a href="https://nhkhelmet.com/k5r/" target="_blank" className="block text-blue-400 font-semibold text-lg hover:underline">NHK K5R</a>
+                
+                {/* SHOES */}
+                <p className="mt-2 text-gray-400 text-xs">Shoes</p>
+                <a href="https://clanshoes.com/" target="_blank" className="block text-green-400 font-semibold text-lg hover:underline">Clan Stealth</a>
+
+                {/* LUGGAGE */}
+                <p className="mt-2 text-gray-400 text-xs">Luggage</p>
+                <a href="https://viaterragear.com/products/claw-tailbag" target="_blank" className="block text-yellow-400 font-semibold text-lg hover:underline">ViaTerra Claw</a>
+              </div>
+
+              <div className="text-right space-y-2">
+                <p className="text-gray-400 text-xs">Jacket</p>
+                <a href="https://store.royalenfield.com/en/streetwind-v2-jacket-black" target="_blank" className="block text-purple-400 font-semibold text-lg hover:underline">STREETWIND V2</a>
+
+                <p className="mt-2 text-gray-400 text-xs">Riding Pants</p>
+                <a href="https://rynoxgear.com/products/rynox-air-gt-riding-pant" target="_blank" className="block text-orange-400 font-semibold text-lg hover:underline">Rynox Air GT</a>
+
+                <p className="mt-2 text-gray-400 text-xs">Gloves</p>
+                <a href="https://store.royalenfield.com/en/touring-collection/gloves" target="_blank" className="block text-pink-400 font-semibold text-lg hover:underline">Windstorm</a>
+              </div>
+            </div>
+          </div>
         </section>
       </div>
 
