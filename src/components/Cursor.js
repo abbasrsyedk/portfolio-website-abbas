@@ -1,17 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
 
 export default function Cursor() {
   const [cursorVariant, setCursorVariant] = useState("default");
+  const shouldReduceMotion = useReducedMotion();
   
   // 1. Mouse Values (Raw inputs)
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
   // 2. Physics (Exact copy of your original smooth settings)
-  const springConfig = { damping: 25, stiffness: 700 };
+  const springConfig = shouldReduceMotion
+    ? { damping: 1000, stiffness: 1000 }
+    : { damping: 25, stiffness: 700 };
   const cursorX = useSpring(mouseX, springConfig);
   const cursorY = useSpring(mouseY, springConfig);
 
@@ -46,16 +49,21 @@ export default function Cursor() {
   }, []);
 
   // 5. Variants (Switched back to SCALE instead of width/height for performance)
-  const variants = {
-    default: { 
-      scale: 1,
-      backgroundColor: "#ffffff",
-    },
-    text: { 
-      scale: 3.5, // Grow 3.5x size
-      backgroundColor: "#ffffff",
-    }
-  };
+  const variants = shouldReduceMotion
+    ? {
+        default: { scale: 1, backgroundColor: "#ffffff" },
+        text: { scale: 1, backgroundColor: "#ffffff" },
+      }
+    : {
+        default: {
+          scale: 1,
+          backgroundColor: "#ffffff",
+        },
+        text: {
+          scale: 3.5, // Grow 3.5x size
+          backgroundColor: "#ffffff",
+        },
+      };
 
   return (
     <motion.div

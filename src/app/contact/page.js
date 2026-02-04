@@ -1,15 +1,15 @@
 "use client";
 
 import { useState, useRef } from "react"; // <-- IMPORT useRef
-import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Mail, Linkedin, Github, FileText, User, Code2, Heart, Download } from "lucide-react";
 import Header from "@/components/Header"; 
 
 // --- Configuration Data (No change needed here) ---
 const AUDIENCE_OPTIONS = [
-  { id: "recruiter", label: "I'm a Recruiter 💼", Icon: FileText, color: "text-blue-400", accent: "ring-blue-500", border: "border-blue-500" },
-  { id: "developer", label: "I'm a Fellow Developer 🧑‍💻", Icon: Code2, color: "text-emerald-400", accent: "ring-emerald-500", border: "border-emerald-500" },
-  { id: "friend", label: "I Want to be Friends 👋", Icon: Heart, color: "text-amber-400", accent: "ring-amber-500", border: "border-amber-500" },
+  { id: "recruiter", label: "I'm a Recruiter", Icon: FileText, color: "text-blue-400", accent: "ring-blue-500", border: "border-blue-500" },
+  { id: "developer", label: "I'm a Fellow Developer", Icon: Code2, color: "text-emerald-400", accent: "ring-emerald-500", border: "border-emerald-500" },
+  { id: "friend", label: "I Want to be Friends", Icon: Heart, color: "text-amber-400", accent: "ring-amber-500", border: "border-amber-500" },
 ];
 
 const CONTACT_CONTENT = {
@@ -65,21 +65,23 @@ export default function Contact() {
   
   const [activeAudience, setActiveAudience] = useState(null); 
   const contentRef = useRef(null); // <-- 2. CREATE REF
+  const shouldReduceMotion = useReducedMotion();
   
   // --- UI/CURSOR STATE ---
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const mouseXSpring = useSpring(x, { stiffness: 1000, damping: 50 });
   const mouseYSpring = useSpring(y, { stiffness: 1000, damping: 50 });
+  const backgroundGlow = useTransform(
+    [mouseXSpring, mouseYSpring],
+    ([xValue, yValue]) => `radial-gradient(600px circle at ${xValue}px ${yValue}px, rgba(255,255,255,0.15), transparent 80%)`
+  );
 
   function handleMouseMove({ clientX, clientY }) {
+    if (shouldReduceMotion) return;
     x.set(clientX);
     y.set(clientY);
   }
-
-  const [cursorVariant, setCursorVariant] = useState("default");
-  const textEnter = () => setCursorVariant("text");
-  const textLeave = () => setCursorVariant("default");
   // -----------------------
 
   // Function to scroll the content box into view
@@ -88,7 +90,7 @@ export default function Contact() {
       // Check if we are on a small screen (md is Tailwind's default 768px breakpoint)
       if (window.innerWidth < 768) {
         contentRef.current.scrollIntoView({
-          behavior: 'smooth',
+          behavior: shouldReduceMotion ? 'auto' : 'smooth',
           block: 'start', // Scroll to the top edge of the element
         });
       }
@@ -102,28 +104,23 @@ export default function Contact() {
 
   return (
     <main
-      onMouseMove={handleMouseMove}
-      className="min-h-screen bg-[#050505] text-white selection:bg-white selection:text-black font-sans relative overflow-x-hidden cursor-none"
+      onMouseMove={shouldReduceMotion ? undefined : handleMouseMove}
+      className="min-h-screen bg-[#050505] text-white selection:bg-white selection:text-black font-sans relative overflow-x-hidden lg:cursor-none"
     >
       
       {/* HEADER COMPONENT */}
-      <Header textEnter={textEnter} textLeave={textLeave} />
+      <Header />
 
       {/* BACKGROUNDS */}
       <div className="fixed inset-0 z-0 pointer-events-none">
          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-         <motion.div className="absolute inset-0 z-0 opacity-20" style={{ background: useTransform([mouseXSpring, mouseYSpring], ([x, y]) => `radial-gradient(600px circle at ${x}px ${y}px, rgba(255,255,255,0.15), transparent 80%)`) }} />
+         {!shouldReduceMotion && (
+           <motion.div className="absolute inset-0 z-0 opacity-20" style={{ background: backgroundGlow }} />
+         )}
       </div>
-      <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: `url("https://grainy-gradients.vercel.app/noise.svg")` }}></div>
+      <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: `url("/images/noise.svg")` }}></div>
       
-      {/* CURSOR */}
-      <motion.div 
-        className="fixed top-0 left-0 w-6 h-6 bg-white rounded-full pointer-events-none z-[100] mix-blend-difference hidden md:block" 
-        style={{ x: mouseXSpring, y: mouseYSpring, translateX: "-50%", translateY: "-50%" }}
-        variants={{ default: { scale: 1 }, text: { scale: 3.5 } }}
-        animate={cursorVariant}
-        transition={{ type: "spring", stiffness: 500, damping: 28 }}
-      />
+      {/* Local cursor removed in favor of the global cursor */}
 
 
       {/* CONTACT CONTENT SECTION - Central container */}
@@ -134,10 +131,8 @@ export default function Contact() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="text-4xl sm:text-5xl font-extrabold mb-4 text-white tracking-tight border-b-2 border-white/10 pb-4"
-          onMouseEnter={textEnter} 
-          onMouseLeave={textLeave}
         >
-          Let’s Connect 🤝
+          Let's Connect
         </motion.h1>
         <p className="text-gray-400 mb-10 text-lg">
           Select the option below that best describes you to find the most relevant contact method.
@@ -153,13 +148,12 @@ export default function Contact() {
               transition={{ delay: 0.1 * index, duration: 0.5 }}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
+              type="button"
               onClick={() => {
                 setActiveAudience(option.id === activeAudience ? null : option.id);
                 // 4. SCROLL TO CONTENT ON CLICK
                 setTimeout(scrollToContent, 100); 
               }}
-              onMouseEnter={textEnter} 
-              onMouseLeave={textLeave}
               // Active state styling: Dynamic border color and strong ring
               className={`flex flex-col items-center p-6 md:p-8 rounded-2xl border-2 transition-all duration-300 transform 
                           bg-white/5 shadow-xl hover:bg-white/10 ${option.color} 
@@ -189,7 +183,7 @@ export default function Contact() {
                         className="grid grid-cols-1 sm:grid-cols-2 gap-6"
                     >
                         {CONTACT_CONTENT[activeAudience].map((item, index) => (
-                            <ContentLinkCard key={index} {...item} onMouseEnter={textEnter} onMouseLeave={textLeave} />
+                            <ContentLinkCard key={index} {...item} />
                         ))}
                     </motion.div>
                 ) : (

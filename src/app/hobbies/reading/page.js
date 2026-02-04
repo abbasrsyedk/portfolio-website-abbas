@@ -1,28 +1,13 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import Image from "next/image";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
 import { Star, BookOpen, ArrowUpRight } from "lucide-react";
 import Header from "@/components/Header";
 import books from "@/data/books.json"; 
 
 export default function ReadingPage() {
-  // --- MOUSE TRACKING ---
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const mouseXSpring = useSpring(x, { stiffness: 1000, damping: 50 });
-  const mouseYSpring = useSpring(y, { stiffness: 1000, damping: 50 });
-
-  function handleMouseMove({ clientX, clientY }) {
-    x.set(clientX);
-    y.set(clientY);
-  }
-
-  const [cursorVariant, setCursorVariant] = useState("default");
-  const textEnter = () => setCursorVariant("text");
-  const textLeave = () => setCursorVariant("default");
-
   // --- DATA PROCESSING ---
   const { recommendedBooks, otherBooks } = useMemo(() => {
     const processed = books
@@ -37,8 +22,7 @@ export default function ReadingPage() {
 
   return (
     <main 
-      onMouseMove={handleMouseMove}
-      className="min-h-screen bg-[#050505] text-white selection:bg-emerald-500 selection:text-white relative overflow-x-hidden cursor-none pt-24 pb-20 md:pt-32"
+      className="min-h-screen bg-[#050505] text-white selection:bg-emerald-500 selection:text-white relative overflow-x-hidden lg:cursor-none pt-24 pb-20 md:pt-32"
     >
       
       {/* BACKGROUND */}
@@ -46,18 +30,9 @@ export default function ReadingPage() {
          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent"></div>
       </div>
-      <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: `url("https://grainy-gradients.vercel.app/noise.svg")` }}></div>
+      <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: `url("/images/noise.svg")` }}></div>
 
-      {/* CURSOR */}
-      <motion.div 
-        className="fixed top-0 left-0 w-6 h-6 bg-white rounded-full pointer-events-none z-[100] mix-blend-difference hidden md:block"
-        style={{ x: mouseXSpring, y: mouseYSpring, translateX: "-50%", translateY: "-50%" }}
-        variants={{ default: { scale: 1 }, text: { scale: 3.5 } }}
-        animate={cursorVariant}
-        transition={{ type: "spring", stiffness: 500, damping: 28 }}
-      />
-
-      <Header textEnter={textEnter} textLeave={textLeave} />
+      <Header />
 
       {/* HERO SECTION */}
       <section className="relative px-6 md:px-20 max-w-7xl mx-auto mb-12 flex flex-col items-center text-center">
@@ -84,8 +59,6 @@ export default function ReadingPage() {
                 href="https://www.goodreads.com/user/show/170422645-abbas-rsk"
                 target="_blank"
                 rel="noopener noreferrer"
-                onMouseEnter={textEnter}
-                onMouseLeave={textLeave}
                 className="group flex items-center gap-2 px-6 py-3 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-emerald-500/50 transition-all"
             >
                 <span className="font-bold text-sm text-white group-hover:text-emerald-400 transition-colors">View Goodreads Profile</span>
@@ -103,7 +76,7 @@ export default function ReadingPage() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 md:gap-8">
             {recommendedBooks.map((book, i) => (
-                <BookCard key={i} book={book} textEnter={textEnter} textLeave={textLeave} featured />
+                <BookCard key={i} book={book} featured />
             ))}
         </div>
       </section>
@@ -118,7 +91,7 @@ export default function ReadingPage() {
 
         <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-6 gap-4 md:gap-6">
             {otherBooks.map((book, i) => (
-                <BookCard key={i} book={book} textEnter={textEnter} textLeave={textLeave} />
+                <BookCard key={i} book={book} />
             ))}
         </div>
       </section>
@@ -128,14 +101,12 @@ export default function ReadingPage() {
 }
 
 // --- COMPONENT: Book Card (Unchanged) ---
-function BookCard({ book, textEnter, textLeave, featured }) {
+function BookCard({ book, featured }) {
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            onMouseEnter={textEnter}
-            onMouseLeave={textLeave}
             className="group relative flex flex-col gap-3"
         >
             {/* Cover Image Container */}

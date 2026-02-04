@@ -25,7 +25,7 @@ export default function Navbar() {
           Abbas
         </span>
         <span className="inline-block transform group-hover:translate-x-1 transition-transform duration-300">
-          🏍
+          &gt;
         </span>
       </Link>
 

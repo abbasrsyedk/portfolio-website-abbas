@@ -1,6 +1,7 @@
 "use client";
 
 // import Layout from "@/components/Layout";
+import Image from "next/image";
 import books from "@/data/books.json";
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
@@ -12,7 +13,7 @@ export default function BookPage() {
   if (!bookData) {
     return (
         <div className="max-w-4xl mx-auto px-6 py-12 text-center">
-          <h1 className="text-3xl font-bold">Book not found 🚫</h1>
+          <h1 className="text-3xl font-bold">Book not found</h1>
         </div>
 
     );
@@ -25,11 +26,15 @@ export default function BookPage() {
   return (
       <section className="max-w-4xl mx-auto px-6 py-12">
         {coverUrl && (
-          <img
-            src={coverUrl}
-            alt={bookData.title}
-            className="w-full h-96 object-cover rounded-lg mb-6"
-          />
+          <div className="relative w-full h-96 rounded-lg mb-6 overflow-hidden">
+            <Image
+              src={coverUrl}
+              alt={bookData.title}
+              fill
+              sizes="100vw"
+              className="object-cover"
+            />
+          </div>
         )}
         <motion.h1
           initial={{ opacity: 0, y: -20 }}

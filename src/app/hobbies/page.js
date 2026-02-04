@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
+import { motion, useMotionTemplate, useMotionValue, useReducedMotion } from "framer-motion";
 import CountUp from "react-countup";
 import { Globe, Gamepad2, Book } from "lucide-react";
 import Header from "@/components/Header"; 
@@ -10,8 +10,10 @@ export default function HobbiesPage() {
   // Mouse tracking is kept ONLY for the Spotlight effect on cards
   let mouseX = useMotionValue(0);
   let mouseY = useMotionValue(0);
+  const shouldReduceMotion = useReducedMotion();
 
   function handleMouseMove({ currentTarget, clientX, clientY }) {
+    if (shouldReduceMotion) return;
     let { left, top } = currentTarget.getBoundingClientRect();
     mouseX.set(clientX - left);
     mouseY.set(clientY - top);
@@ -19,12 +21,12 @@ export default function HobbiesPage() {
 
   return (
     <main 
-      className="min-h-screen bg-[#050505] text-white selection:bg-blue-500 selection:text-white relative flex flex-col pt-24 pb-4 md:pt-40 md:pb-12 cursor-none"
-      onMouseMove={handleMouseMove}
+      className="min-h-screen bg-[#050505] text-white selection:bg-blue-500 selection:text-white relative flex flex-col pt-24 pb-4 md:pt-40 md:pb-12 lg:cursor-none"
+      onMouseMove={shouldReduceMotion ? undefined : handleMouseMove}
     >
       
       {/* BACKGROUND NOISE */}
-      <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: `url("https://grainy-gradients.vercel.app/noise.svg")` }}></div>
+      <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: `url("/images/noise.svg")` }}></div>
       
       {/* REMOVED: Local Cursor Component */}
 
@@ -51,7 +53,7 @@ export default function HobbiesPage() {
                 href="/hobbies/travel"
                 className="relative group/card lg:col-span-2 lg:row-span-2 flex flex-col items-center justify-center text-center p-6 md:p-8 rounded-3xl border border-white/10 bg-gradient-to-br from-blue-900/20 to-transparent hover:border-blue-500/30 transition-all duration-500 overflow-hidden"
             >
-                <Spotlight mouseX={mouseX} mouseY={mouseY} />
+                <Spotlight mouseX={mouseX} mouseY={mouseY} reducedMotion={shouldReduceMotion} />
                 
                 <div className="relative z-10 flex flex-col items-center justify-center h-full w-full">
                     <div className="flex items-center gap-2 text-blue-400 mb-4">
@@ -64,12 +66,12 @@ export default function HobbiesPage() {
                         <span className="text-3xl md:text-7xl font-bold text-white tracking-tighter w-[110px] md:w-auto text-right tabular-nums">
                             <CountUp end={36000} duration={2.5} separator="," />
                         </span>
-                        <span className="text-base md:text-4xl font-bold text-blue-400 text-left whitespace-nowrap">kms ridden 🏍️</span>
+                        <span className="text-base md:text-4xl font-bold text-blue-400 text-left whitespace-nowrap">kms ridden</span>
                     </div>
 
                     {/* DESCRIPTION */}
                     <p className="text-neutral-400 text-sm md:text-base italic mb-6 md:mb-10 leading-relaxed">
-                        on a Royal Enfield Hunter 350 — <br className="md:hidden" /> a love-hate relationship
+                        on a Royal Enfield Hunter 350 - <br className="md:hidden" /> a love-hate relationship
                     </p>
 
                     <div className="w-full border-t border-white/10 pt-4 md:pt-6">
@@ -88,7 +90,7 @@ export default function HobbiesPage() {
                     href="/hobbies/gaming"
                     className="relative group/card flex flex-col items-center justify-center p-4 rounded-3xl border border-white/10 bg-gradient-to-br from-orange-900/20 to-transparent hover:border-orange-500/30 transition-all duration-500 overflow-hidden"
                 >
-                    <Spotlight mouseX={mouseX} mouseY={mouseY} />
+                    <Spotlight mouseX={mouseX} mouseY={mouseY} reducedMotion={shouldReduceMotion} />
                     <div className="relative z-10 flex flex-col md:flex-row items-center gap-2 md:gap-3 text-orange-400 text-center">
                         <Gamepad2 size={24} className="md:w-7 md:h-7" />
                         <span className="text-sm md:text-2xl font-bold">Gaming</span>
@@ -100,7 +102,7 @@ export default function HobbiesPage() {
                     href="/hobbies/reading"
                     className="relative group/card flex flex-col items-center justify-center p-4 rounded-3xl border border-white/10 bg-gradient-to-br from-emerald-900/20 to-transparent hover:border-emerald-500/30 transition-all duration-500 overflow-hidden"
                 >
-                    <Spotlight mouseX={mouseX} mouseY={mouseY} />
+                    <Spotlight mouseX={mouseX} mouseY={mouseY} reducedMotion={shouldReduceMotion} />
                     <div className="relative z-10 flex flex-col md:flex-row items-center gap-2 md:gap-3 text-emerald-400 text-center">
                         <Book size={24} className="md:w-7 md:h-7" />
                         <span className="text-sm md:text-2xl font-bold">Reading</span>
@@ -114,18 +116,20 @@ export default function HobbiesPage() {
   );
 }
 
-function Spotlight({ mouseX, mouseY }) {
+function Spotlight({ mouseX, mouseY, reducedMotion }) {
+    const spotlightBackground = useMotionTemplate`
+        radial-gradient(
+        500px circle at ${mouseX}px ${mouseY}px,
+        rgba(255,255,255,0.06),
+        transparent 80%
+        )
+    `;
+    if (reducedMotion) return null;
     return (
         <motion.div
             className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-300 group-hover/card:opacity-100"
             style={{
-                background: useMotionTemplate`
-                    radial-gradient(
-                    500px circle at ${mouseX}px ${mouseY}px,
-                    rgba(255,255,255,0.06),
-                    transparent 80%
-                    )
-                `,
+                background: spotlightBackground,
             }}
         />
     )

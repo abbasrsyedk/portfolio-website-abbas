@@ -43,7 +43,7 @@ export default function GamingPage() {
   return (
     <main 
       // Removed onMouseMove
-      className="bg-[#050505] text-white selection:bg-rose-500 selection:text-white relative cursor-none"
+      className="bg-[#050505] text-white selection:bg-rose-500 selection:text-white relative lg:cursor-none"
     >
       
       {/* BACKGROUND */}
@@ -119,7 +119,7 @@ export default function GamingPage() {
                         </div>
                         <a 
                             href="https://tracker.gg/valorant/profile/riot/MasalaSoda%23DHFC/overview" 
-                            target="_blank" 
+                            target="_blank" rel="noopener noreferrer" 
                             className="px-4 py-1.5 rounded-full bg-rose-600 hover:bg-rose-500 text-xs font-bold transition-all shadow-[0_0_20px_rgba(244,63,94,0.4)] hover:scale-105"
                         >
                             Tracker.gg
@@ -201,7 +201,7 @@ function HeroImageWithCallouts() {
         </div>
         <div className="grid grid-cols-1 gap-2">
             {GEAR_ITEMS.map((item, i) => (
-                <a key={i} href={item.href} target="_blank" className="flex items-center gap-3 p-2.5 rounded-lg bg-white/5 border border-white/10 active:bg-white/10">
+                <a key={i} href={item.href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-2.5 rounded-lg bg-white/5 border border-white/10 active:bg-white/10">
                     <item.icon size={14} className="text-rose-400 shrink-0" />
                     <span className="text-xs font-bold text-white flex-1 truncate">{item.label}</span>
                     <ExternalLink size={12} className="text-neutral-600" />

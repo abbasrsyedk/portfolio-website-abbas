@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { FaInstagram } from "react-icons/fa";
 import Header from "@/components/Header"; 
@@ -10,32 +10,37 @@ import Header from "@/components/Header";
 function CountUp({ end, duration = 2, delay = 0 }) {
   const ref = useRef(null);
   const [count, setCount] = useState(0);
+  const intervalRef = useRef(null);
+  const timeoutRef = useRef(null);
+  const hasStartedRef = useRef(false);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          let start = 0;
-          const increment = end / (duration * 60);
-          const startTimeout = setTimeout(() => {
-            const handle = setInterval(() => {
-              start += increment;
-              if (start >= end) {
-                start = end;
-                clearInterval(handle);
-              }
-              setCount(Math.floor(start));
-            }, 16);
-          }, delay * 1000);
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries[0].isIntersecting || hasStartedRef.current) return;
+      hasStartedRef.current = true;
+      observer.unobserve(entries[0].target);
 
-          return () => clearTimeout(startTimeout);
-        }
-      },
-      { threshold: 0.5 }
-    );
+      let start = 0;
+      const increment = end / (duration * 60);
+      timeoutRef.current = setTimeout(() => {
+        intervalRef.current = setInterval(() => {
+          start += increment;
+          if (start >= end) {
+            start = end;
+            clearInterval(intervalRef.current);
+            intervalRef.current = null;
+          }
+          setCount(Math.floor(start));
+        }, 16);
+      }, delay * 1000);
+    }, { threshold: 0.5 });
 
     if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
   }, [end, duration, delay]);
 
   return <span ref={ref}>{count.toLocaleString()}</span>;
@@ -44,6 +49,7 @@ function CountUp({ end, duration = 2, delay = 0 }) {
 export default function TravelPage() {
   // REMOVED: All local cursor code (useMotionValue, onMouseMove, etc.) 
   // to fix the "odd behavior". The Global Cursor now handles everything perfectly.
+  const shouldReduceMotion = useReducedMotion();
 
   // --- SCROLL LOGIC ---
   const sectionRefs = {
@@ -92,7 +98,7 @@ export default function TravelPage() {
     const elCenterY = elRect.top + window.scrollY + elRect.height / 2;
     const targetY = elCenterY - window.innerHeight / 2 - headerPad / 4;
 
-    window.scrollTo({ top: Math.max(0, Math.round(targetY)), behavior: "smooth" });
+    window.scrollTo({ top: Math.max(0, Math.round(targetY)), behavior: shouldReduceMotion ? "auto" : "smooth" });
   };
 
   const hoverGlow = "hover:[text-shadow:0_0_10px_currentColor] transition-all duration-300";
@@ -100,14 +106,14 @@ export default function TravelPage() {
   return (
     <main 
       // Removed onMouseMove & 'relative' class
-      className="w-full overflow-x-hidden bg-[#050505] min-h-screen text-white cursor-none"
+      className="w-full overflow-x-hidden bg-[#050505] min-h-screen text-white lg:cursor-none"
     >
       
       {/* 1. GLOBAL BACKGROUND */}
       <div className="fixed inset-0 z-0 pointer-events-none">
          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
       </div>
-      <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: `url("https://grainy-gradients.vercel.app/noise.svg")` }}></div>
+      <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: `url("/images/noise.svg")` }}></div>
 
       {/* 3. HEADER */}
       <Header />
@@ -116,6 +122,8 @@ export default function TravelPage() {
       <div className="hidden md:flex fixed left-10 top-1/2 -translate-y-1/2 flex flex-col gap-8 z-[100]">
         <button 
             onClick={() => scrollTo("gear")} 
+            type="button"
+            aria-label="Scroll to gear"
             className={`p-3 rounded-full transition-all border ${active === "gear" ? "bg-blue-600 border-blue-500 shadow-[0_0_20px_rgba(37,99,235,0.5)] scale-110" : "bg-white/5 border-white/10 hover:bg-white/20"}`}
         >
           <Image src="/icons/helmet.png" alt="helmet" width={42} height={42} />
@@ -123,6 +131,8 @@ export default function TravelPage() {
 
         <button 
             onClick={() => scrollTo("bike")} 
+            type="button"
+            aria-label="Scroll to bike"
             className={`p-3 rounded-full transition-all border ${active === "bike" ? "bg-blue-600 border-blue-500 shadow-[0_0_20px_rgba(37,99,235,0.5)] scale-110" : "bg-white/5 border-white/10 hover:bg-white/20"}`}
         >
           <Image src="/icons/motorcycle.png" alt="bike" width={42} height={42} />
@@ -130,6 +140,8 @@ export default function TravelPage() {
 
         <button 
             onClick={() => scrollTo("map")} 
+            type="button"
+            aria-label="Scroll to map"
             className={`p-3 rounded-full transition-all border ${active === "map" ? "bg-blue-600 border-blue-500 shadow-[0_0_20px_rgba(37,99,235,0.5)] scale-110" : "bg-white/5 border-white/10 hover:bg-white/20"}`}
         >
           <Image src="/icons/maps.png" alt="map" width={42} height={42} />
@@ -146,16 +158,16 @@ export default function TravelPage() {
               <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1 }}>
                 <p className="text-neutral-500 text-sm font-mono uppercase tracking-widest mb-1">Helmet</p>
                 <h3 className="font-bold text-blue-400 text-2xl flex justify-end gap-2">
-                  <a href="https://nhkhelmet.com/k5r/" target="_blank" className={hoverGlow}>NHK K5R</a> 
+                  <a href="https://nhkhelmet.com/k5r/" target="_blank" rel="noopener noreferrer" className={hoverGlow}>NHK K5R</a> 
                   <span className="text-white/20">|</span>
-                  <a href="https://smkhelmets.com/helmet/full-face-helmets/typhoon/typhoon-solid/" target="_blank" className={hoverGlow}>SMK Typhoon</a>
+                  <a href="https://smkhelmets.com/helmet/full-face-helmets/typhoon/typhoon-solid/" target="_blank" rel="noopener noreferrer" className={hoverGlow}>SMK Typhoon</a>
                 </h3>
               </motion.div>
 
               <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }}>
                 <p className="text-neutral-500 text-sm font-mono uppercase tracking-widest mb-1">Shoes</p>
                 <h3 className="font-bold text-green-400 text-2xl">
-                  <a href="https://clanshoes.com/" target="_blank" className={hoverGlow}>Clan Stealth</a>
+                  <a href="https://clanshoes.com/" target="_blank" rel="noopener noreferrer" className={hoverGlow}>Clan Stealth</a>
                 </h3>
               </motion.div>
 
@@ -163,9 +175,9 @@ export default function TravelPage() {
                 <p className="text-neutral-500 text-sm font-mono uppercase tracking-widest mb-1">Luggage</p>
                 <div className="flex flex-col items-end">
                    <h3 className="font-bold text-yellow-400 text-xl flex items-center gap-2 justify-end">
-                     <a href="https://viaterragear.com/products/claw-tailbag" target="_blank" className={hoverGlow}>ViaTerra Claw</a>
+                     <a href="https://viaterragear.com/products/claw-tailbag" target="_blank" rel="noopener noreferrer" className={hoverGlow}>ViaTerra Claw</a>
                      <span className="text-white/20">|</span>
-                     <a href="https://guardiangears.in/products/jaws-magnetic-28l-tank-bag-with-rain-cover" target="_blank" className={hoverGlow}>Jaws Tank Bag</a>
+                     <a href="https://guardiangears.in/products/jaws-magnetic-28l-tank-bag-with-rain-cover" target="_blank" rel="noopener noreferrer" className={hoverGlow}>Jaws Tank Bag</a>
                    </h3>
                 </div>
               </motion.div>
@@ -194,21 +206,21 @@ export default function TravelPage() {
               <motion.div initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1 }}>
                 <p className="text-neutral-500 text-sm font-mono uppercase tracking-widest mb-1">Jacket</p>
                 <h3 className="font-bold text-purple-400 text-2xl">
-                  <a href="https://store.royalenfield.com/en/streetwind-v2-jacket-black" target="_blank" className={hoverGlow}>STREETWIND V2</a>
+                  <a href="https://store.royalenfield.com/en/streetwind-v2-jacket-black" target="_blank" rel="noopener noreferrer" className={hoverGlow}>STREETWIND V2</a>
                 </h3>
               </motion.div>
 
               <motion.div initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }}>
                 <p className="text-neutral-500 text-sm font-mono uppercase tracking-widest mb-1">Riding Pants</p>
                 <h3 className="font-bold text-orange-400 text-2xl">
-                  <a href="https://rynoxgear.com/products/rynox-air-gt-riding-pant" target="_blank" className={hoverGlow}>Rynox Air GT</a>
+                  <a href="https://rynoxgear.com/products/rynox-air-gt-riding-pant" target="_blank" rel="noopener noreferrer" className={hoverGlow}>Rynox Air GT</a>
                 </h3>
               </motion.div>
 
               <motion.div initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.6 }}>
                 <p className="text-neutral-500 text-sm font-mono uppercase tracking-widest mb-1">Gloves</p>
                 <h3 className="font-bold text-pink-400 text-2xl">
-                  <a href="https://store.royalenfield.com/en/touring-collection/gloves" target="_blank" className={hoverGlow}>Windstorm</a>
+                  <a href="https://store.royalenfield.com/en/touring-collection/gloves" target="_blank" rel="noopener noreferrer" className={hoverGlow}>Windstorm</a>
                 </h3>
               </motion.div>
             </div>
@@ -253,26 +265,26 @@ export default function TravelPage() {
               <div className="text-left space-y-2">
                 {/* HELMET */}
                 <p className="text-gray-400 text-xs">Helmet</p>
-                <a href="https://nhkhelmet.com/k5r/" target="_blank" className="block text-blue-400 font-semibold text-lg hover:underline">NHK K5R</a>
+                <a href="https://nhkhelmet.com/k5r/" target="_blank" rel="noopener noreferrer" className="block text-blue-400 font-semibold text-lg hover:underline">NHK K5R</a>
                 
                 {/* SHOES */}
                 <p className="mt-2 text-gray-400 text-xs">Shoes</p>
-                <a href="https://clanshoes.com/" target="_blank" className="block text-green-400 font-semibold text-lg hover:underline">Clan Stealth</a>
+                <a href="https://clanshoes.com/" target="_blank" rel="noopener noreferrer" className="block text-green-400 font-semibold text-lg hover:underline">Clan Stealth</a>
 
                 {/* LUGGAGE */}
                 <p className="mt-2 text-gray-400 text-xs">Luggage</p>
-                <a href="https://viaterragear.com/products/claw-tailbag" target="_blank" className="block text-yellow-400 font-semibold text-lg hover:underline">ViaTerra Claw</a>
+                <a href="https://viaterragear.com/products/claw-tailbag" target="_blank" rel="noopener noreferrer" className="block text-yellow-400 font-semibold text-lg hover:underline">ViaTerra Claw</a>
               </div>
 
               <div className="text-right space-y-2">
                 <p className="text-gray-400 text-xs">Jacket</p>
-                <a href="https://store.royalenfield.com/en/streetwind-v2-jacket-black" target="_blank" className="block text-purple-400 font-semibold text-lg hover:underline">STREETWIND V2</a>
+                <a href="https://store.royalenfield.com/en/streetwind-v2-jacket-black" target="_blank" rel="noopener noreferrer" className="block text-purple-400 font-semibold text-lg hover:underline">STREETWIND V2</a>
 
                 <p className="mt-2 text-gray-400 text-xs">Riding Pants</p>
-                <a href="https://rynoxgear.com/products/rynox-air-gt-riding-pant" target="_blank" className="block text-orange-400 font-semibold text-lg hover:underline">Rynox Air GT</a>
+                <a href="https://rynoxgear.com/products/rynox-air-gt-riding-pant" target="_blank" rel="noopener noreferrer" className="block text-orange-400 font-semibold text-lg hover:underline">Rynox Air GT</a>
 
                 <p className="mt-2 text-gray-400 text-xs">Gloves</p>
-                <a href="https://store.royalenfield.com/en/touring-collection/gloves" target="_blank" className="block text-pink-400 font-semibold text-lg hover:underline">Windstorm</a>
+                <a href="https://store.royalenfield.com/en/touring-collection/gloves" target="_blank" rel="noopener noreferrer" className="block text-pink-400 font-semibold text-lg hover:underline">Windstorm</a>
               </div>
             </div>
           </div>
@@ -312,7 +324,7 @@ export default function TravelPage() {
       {/* ===================== MAP SECTION ===================== */}
       <section id="map" ref={sectionRefs.map} className="py-20 md:min-h-screen flex flex-col items-center justify-center px-6 md:py-12 relative z-10">
         <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} className="text-3xl md:text-4xl font-bold text-white mb-10 text-center">
-          Places I’ve Been
+          Places I've Been
         </motion.h2>
 
         <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 1 }} className="relative w-full max-w-xl rounded-2xl overflow-hidden shadow-2xl mb-12 border border-white/10">
@@ -321,11 +333,11 @@ export default function TravelPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
             <div className="bg-white/5 border border-white/10 p-6 rounded-xl text-center">
-                <h3 className="text-xl font-semibold text-green-400 mb-2">Mysore → Ooty</h3>
+                <h3 className="text-xl font-semibold text-green-400 mb-2">Mysore {"->"} Ooty</h3>
                 <p className="text-gray-300 text-sm">via Bandipur Tiger Reserve</p>
             </div>
             <div className="bg-white/5 border border-white/10 p-6 rounded-xl text-center">
-                <h3 className="text-xl font-semibold text-emerald-400 mb-2">Ooty → Wayanad</h3>
+                <h3 className="text-xl font-semibold text-emerald-400 mb-2">Ooty {"->"} Wayanad</h3>
                 <p className="text-gray-300 text-sm">The Ghat Sections</p>
             </div>
         </div>

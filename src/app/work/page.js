@@ -3,7 +3,91 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Header from "@/components/Header"; 
-import { ArrowDownToLine, Layout, Zap, Globe, Cpu, Code2, Database, Server } from "lucide-react";
+import { ArrowDownToLine, Award, Briefcase, Code2, Cpu, Database, GraduationCap, Layout, Server, Wrench, Zap } from "lucide-react";
+
+const HIGHLIGHTS = [
+  {
+    value: "95+",
+    label: "Dashboards and Views",
+    detail: "Built in Dynamics 365 for CSW agents to improve data visibility.",
+    accent: "text-blue-400",
+  },
+  {
+    value: "5+",
+    label: "ETL Pipelines",
+    detail: "ADF pipelines cut processing time by 50% across 100K+ records.",
+    accent: "text-cyan-400",
+  },
+  {
+    value: "95%",
+    label: "Issues Resolved",
+    detail: "Led Microsoft Wave UI testing (2023-2024) before rollout.",
+    accent: "text-emerald-400",
+  },
+  {
+    value: "Global",
+    label: "CSW Entry Point",
+    detail: "Master Search with Power Automate and custom connectors.",
+    accent: "text-violet-400",
+  },
+];
+
+const EXPERIENCE = [
+  {
+    role: "Software Analyst",
+    company: "Ford Motor Company",
+    date: "Jul 2022 - Present",
+    bullets: [
+      "Led design and delivery of Master Search, the core entry point for Customer Service Workspace (CSW) globally, integrated with Power Automate flows and custom connectors.",
+      "Automated agent workflows for Europe and North America using Power Automate Cloud Flows, reducing manual effort for Customer Care teams.",
+      "Built 95+ custom dashboards and views in Dynamics 365 to improve CSW data visibility and decision speed.",
+      "Launched the CSW app for Ford Mexico in Spanish, working with RESX translations and Easy Translator tooling.",
+      "Developed 5+ ETL pipelines in Azure Data Factory, cutting processing time by 50% and maintaining 100% accuracy across 100K+ records.",
+      "Owned Microsoft Wave UI and functionality testing (2023-2024), resolving 95% of issues pre-deployment with cross-functional teams.",
+      "Delivered biweekly releases with PMs, QA, and engineering to meet evolving business needs.",
+    ],
+  },
+  {
+    role: "Intern (Junior Engineer)",
+    company: "Ford Motor Company",
+    date: "Feb 2022 - Jun 2022",
+    bullets: [
+      "Implemented Azure Synapse Link with ADF pipelines for real-time analytics integration.",
+      "Reduced data export costs by 50% through Azure Synapse optimization.",
+      "Migrated schema and data using Configuration Migration Tool to improve deployment efficiency.",
+      "Supported Microsoft 365 CRM solution deployments, including workflows, plugins, and web applications.",
+    ],
+  },
+];
+
+const SKILL_GROUPS = [
+  {
+    title: "Platforms",
+    icon: <Layout size={16} />,
+    items: ["Dynamics 365 CE/CRM", "Power Apps (Canvas)", "Power Automate", "Power Pages", "Dataverse"],
+  },
+  {
+    title: "Data and Integration",
+    icon: <Database size={16} />,
+    items: ["Azure Data Factory", "Azure Synapse", "SQL", "Python", "Power BI"],
+  },
+  {
+    title: "Development",
+    icon: <Code2 size={16} />,
+    items: ["C#", "JavaScript", "Custom API", "Custom Workflows", "Plugin Development"],
+  },
+  {
+    title: "Tools",
+    icon: <Wrench size={16} />,
+    items: ["XRM Toolbox", "Ribbon Workbench", "Plugin Registration Tool", "SSMS", "Postman", "Jira", "GitHub", "Configuration Migration Tool", "Copilot Studio"],
+  },
+];
+
+const CERTIFICATIONS = [
+  { name: "AZ-900: Microsoft Azure Fundamentals", icon: <Award size={16} /> },
+  { name: "MB-910: Dynamics 365 Fundamentals (CRM)", icon: <Award size={16} /> },
+  { name: "PL-900T00: Power Platform Fundamentals", icon: <Award size={16} /> },
+];
 
 export default function WorkPage() {
   // REMOVED: All local cursor state and tracking logic (x, y, springs, handleMouseMove)
@@ -12,7 +96,7 @@ export default function WorkPage() {
   return (
     <main 
       // REMOVED: onMouseMove={handleMouseMove}
-      className="min-h-screen bg-[#050505] text-white selection:bg-blue-500 selection:text-white relative overflow-x-hidden cursor-none pt-20 pb-12 md:pt-0 md:pb-0"
+      className="min-h-screen bg-[#050505] text-white selection:bg-blue-500 selection:text-white relative overflow-x-hidden lg:cursor-none pt-20 pb-12 md:pt-0 md:pb-0"
     >
       
       {/* BACKGROUND */}
@@ -20,7 +104,7 @@ export default function WorkPage() {
          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent"></div>
       </div>
-      <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: `url("https://grainy-gradients.vercel.app/noise.svg")` }}></div>
+      <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: `url("/images/noise.svg")` }}></div>
 
       {/* REMOVED: The local <motion.div> cursor element */}
 
@@ -49,13 +133,13 @@ export default function WorkPage() {
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.2 }}
                 className="text-base md:text-xl text-neutral-400 max-w-md leading-relaxed"
             >
-                Building enterprise-grade solutions with clarity. <br className="hidden md:block"/>
-                <span className="text-white">3+ Years</span> of experience in Dynamics 365, Azure, and Full Stack.
+                Software Analyst focused on Dynamics 365, Power Platform, and Azure data integration. <br className="hidden md:block"/>
+                <span className="text-white">3+ Years</span> delivering enterprise CSW solutions, automation, and analytics at Ford.
             </motion.p>
             
             <motion.div 
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.3 }}
-                className="pt-2"
+                className="pt-2 flex flex-wrap gap-3 justify-center md:justify-start"
             >
                 <a 
                   href="/resume.pdf"
@@ -65,6 +149,15 @@ export default function WorkPage() {
                 >
                     <ArrowDownToLine size={18} className="group-hover:-translate-y-1 transition-transform" />
                     Download Resume
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/rskabbas/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-2 px-6 py-3 md:px-8 md:py-4 bg-white/5 border border-white/10 text-white/90 font-semibold rounded-full text-sm md:text-base hover:bg-white/10 transition-all duration-300"
+                >
+                  <Briefcase size={18} className="text-blue-400" />
+                  View LinkedIn
                 </a>
             </motion.div>
         </div>
@@ -87,6 +180,19 @@ export default function WorkPage() {
         </motion.div>
       </section>
 
+      {/* HIGHLIGHTS */}
+      <section className="px-6 md:px-20 max-w-7xl mx-auto pb-10 md:pb-16 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {HIGHLIGHTS.map((item) => (
+            <div key={item.label} className="rounded-2xl border border-white/10 bg-white/5 p-5 hover:bg-white/10 transition-colors">
+              <div className={`text-2xl font-bold ${item.accent}`}>{item.value}</div>
+              <div className="text-sm font-semibold text-white mt-1">{item.label}</div>
+              <p className="text-xs text-neutral-400 mt-2 leading-relaxed">{item.detail}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* EXPERIENCE SECTION */}
       <section className="py-8 md:py-20 px-6 md:px-20 max-w-6xl mx-auto relative z-10">
         <div className="flex items-end gap-4 mb-8 md:mb-16">
@@ -95,41 +201,78 @@ export default function WorkPage() {
         </div>
 
         <div className="space-y-6 md:space-y-12">
-            <ExperienceCard 
-                role="Software Analyst"
-                company="Ford Motor Company"
-                date="Jul 2022 – Present"
-                desc={[
-                    "Automated workflows with Power Automate Cloud Flows.",
-                    "Built Customer Service Workspace App for Ford of Mexico.",
-                    "Designed 95+ dashboards/views in Dynamics 365.",
-                    "Developed ETL pipelines with Azure Data Factory (50% faster)."
-                ]}
-            />
-             <ExperienceCard 
-                role="Intern (Junior Engineer)"
-                company="Ford Motor Company"
-                date="Feb 2022 – Jun 2022"
-                desc={[
-                    "Reduced export costs by 50% via Azure Synapse optimization.",
-                    "Migrated schema & data using Config Migration Tool.",
-                    "Contributed to CRM solution deployments."
-                ]}
-            />
+            {EXPERIENCE.map((item) => (
+              <ExperienceCard
+                key={`${item.role}-${item.date}`}
+                role={item.role}
+                company={item.company}
+                date={item.date}
+                desc={item.bullets}
+              />
+            ))}
         </div>
       </section>
 
       {/* SKILLS SECTION */}
       <section className="py-8 md:py-20 px-6 md:px-20 max-w-6xl mx-auto relative z-10">
-         <h2 className="text-3xl md:text-4xl font-bold mb-8 md:mb-12 text-center md:text-left">Technical Arsenal</h2>
-         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+         <h2 className="text-3xl md:text-4xl font-bold mb-6 md:mb-10 text-center md:text-left">Core Skills</h2>
+         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 mb-8">
             <SkillCard icon={<Layout />} name="Dynamics 365" color="text-blue-400" border="group-hover:border-blue-500/50" shadow="group-hover:shadow-blue-500/20" />
             <SkillCard icon={<Zap />} name="Power Automate" color="text-yellow-400" border="group-hover:border-yellow-500/50" shadow="group-hover:shadow-yellow-500/20" />
-            <SkillCard icon={<Code2 />} name="JavaScript" color="text-violet-400" border="group-hover:border-violet-500/50" shadow="group-hover:shadow-violet-500/20" />
-            <SkillCard icon={<Database />} name="Azure DF" color="text-cyan-400" border="group-hover:border-cyan-500/50" shadow="group-hover:shadow-cyan-500/20" />
             <SkillCard icon={<Cpu />} name="Power Apps" color="text-pink-400" border="group-hover:border-pink-500/50" shadow="group-hover:shadow-pink-500/20" />
-            <SkillCard icon={<Server />} name="SQL / Python" color="text-emerald-400" border="group-hover:border-emerald-500/50" shadow="group-hover:shadow-emerald-500/20" />
+            <SkillCard icon={<Database />} name="Azure Data Factory" color="text-cyan-400" border="group-hover:border-cyan-500/50" shadow="group-hover:shadow-cyan-500/20" />
+            <SkillCard icon={<Server />} name="Azure Synapse" color="text-emerald-400" border="group-hover:border-emerald-500/50" shadow="group-hover:shadow-emerald-500/20" />
+            <SkillCard icon={<Code2 />} name="C# / JavaScript" color="text-violet-400" border="group-hover:border-violet-500/50" shadow="group-hover:shadow-violet-500/20" />
          </div>
+
+         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+           {SKILL_GROUPS.map((group) => (
+             <div key={group.title} className="rounded-2xl border border-white/10 bg-white/5 p-6">
+               <div className="flex items-center gap-2 text-white mb-4">
+                 <span className="text-blue-400">{group.icon}</span>
+                 <h3 className="text-sm font-bold tracking-wider uppercase">{group.title}</h3>
+               </div>
+               <div className="flex flex-wrap gap-2">
+                 {group.items.map((item) => (
+                   <span key={item} className="text-xs text-neutral-200 bg-black/30 border border-white/10 px-2.5 py-1 rounded-full">
+                     {item}
+                   </span>
+                 ))}
+               </div>
+             </div>
+           ))}
+         </div>
+      </section>
+
+      {/* CERTIFICATIONS AND EDUCATION */}
+      <section className="py-8 md:py-16 px-6 md:px-20 max-w-6xl mx-auto relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <Award size={18} className="text-amber-400" />
+              <h3 className="text-sm font-bold tracking-wider uppercase">Certifications</h3>
+            </div>
+            <ul className="space-y-3">
+              {CERTIFICATIONS.map((cert) => (
+                <li key={cert.name} className="flex items-start gap-2 text-sm text-neutral-200">
+                  <span className="text-amber-400">{cert.icon}</span>
+                  <span>{cert.name}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <GraduationCap size={18} className="text-emerald-400" />
+              <h3 className="text-sm font-bold tracking-wider uppercase">Education</h3>
+            </div>
+            <div className="text-sm text-neutral-200">
+              <div className="font-semibold text-white">Bachelor of Technology in Electronics and Communication Engineering</div>
+              <div className="text-neutral-400 mt-1">Vellore Institute of Technology, Amaravati - GPA 8.5</div>
+            </div>
+          </div>
+        </div>
       </section>
 
     </main>
@@ -157,7 +300,7 @@ function ExperienceCard({ role, company, date, desc }) {
             <ul className="space-y-3">
                 {desc.map((item, i) => (
                     <li key={i} className="flex gap-3 text-neutral-300 text-sm md:text-base leading-relaxed">
-                        <span className="text-blue-500 mt-1">▹</span>
+                        <span className="text-blue-500 mt-1">-</span>
                         {item}
                     </li>
                 ))}

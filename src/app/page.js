@@ -13,7 +13,7 @@ import {
   AlertTriangle, 
   X 
 } from "lucide-react";
-import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, AnimatePresence, useReducedMotion } from "framer-motion";
 
 // ==============================================
 // DATA CONFIGURATION
@@ -72,6 +72,7 @@ const SECTIONS = [
 export default function Home() {
   const [hoveredSection, setHoveredSection] = useState(SECTIONS[0]);
   const [showBanner, setShowBanner] = useState(true);
+  const shouldReduceMotion = useReducedMotion();
   
   // --- MOUSE TRACKING (Only for 3D Tilt Card) ---
   const x = useMotionValue(0);
@@ -82,16 +83,25 @@ export default function Home() {
 
   const rotateX = useTransform(mouseYSpring, [0, typeof window !== 'undefined' ? window.innerHeight : 900], [5, -5]);
   const rotateY = useTransform(mouseXSpring, [0, typeof window !== 'undefined' ? window.innerWidth : 1400], [-5, 5]);
+  const backgroundGlow = useTransform(
+    [mouseXSpring, mouseYSpring],
+    ([xValue, yValue]) => `radial-gradient(600px circle at ${xValue}px ${yValue}px, rgba(255,255,255,0.15), transparent 80%)`
+  );
 
   function handleMouseMove({ clientX, clientY }) {
+    if (shouldReduceMotion) return;
     x.set(clientX);
     y.set(clientY);
   }
 
+  const tiltStyle = shouldReduceMotion
+    ? { transformStyle: "preserve-3d" }
+    : { rotateX, rotateY, transformStyle: "preserve-3d" };
+
   return (
     <main 
-      onMouseMove={handleMouseMove}
-      className="min-h-screen bg-[#050505] text-white selection:bg-white selection:text-black font-sans relative overflow-x-hidden cursor-none"
+      onMouseMove={shouldReduceMotion ? undefined : handleMouseMove}
+      className="min-h-screen bg-[#050505] text-white selection:bg-white selection:text-black font-sans relative overflow-x-hidden lg:cursor-none"
     >
       
       {/* ========================================
@@ -112,6 +122,8 @@ export default function Home() {
             </div>
             <button 
               onClick={() => setShowBanner(false)}
+              type="button"
+              aria-label="Dismiss development banner"
               className="absolute right-4 md:right-8 text-amber-400/40 hover:text-amber-400 transition-colors p-1"
             >
               <X size={16} />
@@ -123,19 +135,18 @@ export default function Home() {
       {/* BACKGROUND LAYERS */}
       <div className="fixed inset-0 z-0 pointer-events-none">
          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-         <motion.div 
-            className="absolute inset-0 z-0 opacity-20"
-            style={{
-                background: useTransform(
-                    [mouseXSpring, mouseYSpring],
-                    ([x, y]) => `radial-gradient(600px circle at ${x}px ${y}px, rgba(255,255,255,0.15), transparent 80%)`
-                )
-            }}
-         />
+         {!shouldReduceMotion && (
+           <motion.div 
+              className="absolute inset-0 z-0 opacity-20"
+              style={{
+                  background: backgroundGlow
+              }}
+           />
+         )}
       </div>
 
       <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03] mix-blend-overlay"
-           style={{ backgroundImage: `url("https://grainy-gradients.vercel.app/noise.svg")` }}>
+           style={{ backgroundImage: `url("/images/noise.svg")` }}>
       </div>
 
       {/* NOTE: The local <motion.div> cursor was DELETED here. 
@@ -149,9 +160,9 @@ export default function Home() {
         
         {/* HEADER */}
         <header className="fixed top-12 left-1/2 -translate-x-1/2 z-50">
-           <div className="flex items-center gap-4 px-6 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-full shadow-2xl group cursor-none">
+           <div className="flex items-center gap-4 px-6 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-full shadow-2xl group">
               <Link href="/">
-                 <span className="font-extrabold text-xs tracking-widest text-white hover:text-white/80 transition-colors cursor-none">
+                 <span className="font-extrabold text-xs tracking-widest text-white hover:text-white/80 transition-colors">
                     ABBAS R S K
                  </span>
               </Link>
@@ -178,7 +189,7 @@ export default function Home() {
         {/* LEFT SIDE: 3D TILT CARD */}
         <section className="w-1/2 flex items-center justify-center p-16 perspective-1000">
           <motion.div 
-            style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+            style={tiltStyle}
             className="relative w-full max-w-lg aspect-square"
           >
              <div className="h-full w-full rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl p-10 flex flex-col justify-between overflow-hidden relative shadow-2xl">
@@ -225,7 +236,7 @@ export default function Home() {
                 <div className="relative z-10 mt-8">
                   <Link 
                       href={hoveredSection.link}
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black font-bold rounded-full hover:scale-105 transition-transform cursor-none"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black font-bold rounded-full hover:scale-105 transition-transform"
                   >
                       Explore {hoveredSection.label} <ArrowUpRight size={18} />
                   </Link>
@@ -245,10 +256,13 @@ export default function Home() {
                 <div className="flex items-center justify-between py-10 relative z-10 group-hover:pl-4 transition-all duration-300">
                     
                     {/* Text Area */}
-                    <div 
-                        className="flex items-baseline gap-6 cursor-pointer flex-1"
+                    <button 
+                        type="button"
+                        className="flex items-baseline gap-6 cursor-pointer flex-1 text-left bg-transparent"
                         onClick={() => setHoveredSection(section)}
                         onMouseEnter={() => setHoveredSection(section)}
+                        onFocus={() => setHoveredSection(section)}
+                        aria-label={`Preview ${section.label}`}
                     >
                         <span className="font-mono text-sm text-neutral-600">0{index + 1}</span>
                         <span className={`text-6xl font-bold tracking-tighter transition-all duration-300 ${
@@ -258,12 +272,13 @@ export default function Home() {
                         }`}>
                             {section.label}
                         </span>
-                    </div>
+                    </button>
                     
                     {/* Arrow Area */}
                     <Link 
                         href={section.link}
-                        className="p-4 cursor-none"
+                        className="p-4"
+                        aria-label={`Open ${section.label}`}
                     >
                         <div className={`p-3 rounded-full transition-all duration-300 ${
                            hoveredSection.id === section.id ? "bg-white text-black scale-110" : "text-neutral-800"
@@ -280,9 +295,9 @@ export default function Home() {
         {/* SOCIAL LINKS */}
         <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
            <div className="flex items-center gap-2 px-4 py-2 bg-white/5 backdrop-blur-md border border-white/10 rounded-full shadow-2xl">
-              <a href="https://github.com/abbasrsyedk" target="_blank" className="p-2 hover:bg-white/10 rounded-full transition-colors text-white/70 hover:text-white cursor-none"><Github size={18}/></a>
-              <a href="https://www.linkedin.com/in/rskabbas/" target="_blank" className="p-2 hover:bg-white/10 rounded-full transition-colors text-white/70 hover:text-white cursor-none"><Linkedin size={18}/></a>
-              <a href="mailto:rskabbas@outlook.com" className="p-2 hover:bg-white/10 rounded-full transition-colors text-white/70 hover:text-white cursor-none"><Mail size={18}/></a>
+              <a href="https://github.com/abbasrsyedk" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="p-2 hover:bg-white/10 rounded-full transition-colors text-white/70 hover:text-white"><Github size={18}/></a>
+              <a href="https://www.linkedin.com/in/rskabbas/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="p-2 hover:bg-white/10 rounded-full transition-colors text-white/70 hover:text-white"><Linkedin size={18}/></a>
+              <a href="mailto:rskabbas@outlook.com" aria-label="Email" className="p-2 hover:bg-white/10 rounded-full transition-colors text-white/70 hover:text-white"><Mail size={18}/></a>
            </div>
         </div>
       </div>
@@ -299,8 +314,8 @@ export default function Home() {
             </div>
             
             <div className="flex items-center gap-3">
-               <a href="https://github.com/abbasrsyedk" target="_blank" className="p-2 bg-white/5 rounded-full text-white/70 border border-white/5"><Github size={18}/></a>
-               <a href="mailto:rskabbas@outlook.com" className="p-2 bg-white/5 rounded-full text-white/70 border border-white/5"><Mail size={18}/></a>
+               <a href="https://github.com/abbasrsyedk" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="p-2 bg-white/5 rounded-full text-white/70 border border-white/5"><Github size={18}/></a>
+               <a href="mailto:rskabbas@outlook.com" aria-label="Email" className="p-2 bg-white/5 rounded-full text-white/70 border border-white/5"><Mail size={18}/></a>
             </div>
          </header>
 
@@ -357,7 +372,7 @@ export default function Home() {
          </div>
 
          <div className="mt-10 flex justify-center text-xs text-neutral-600">
-            © {new Date().getFullYear()} Abbas. Based in India.
+            &copy; {new Date().getFullYear()} Abbas. Based in India.
          </div>
       </div>
 

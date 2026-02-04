@@ -16,7 +16,7 @@
 
 //   const { scrollYProgress } = useScroll();
 
-//   // ✅ Fade out + move up as soon as scroll starts
+//   // [ok] Fade out + move up as soon as scroll starts
 //   const heroOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
 //   const heroY = useTransform(scrollYProgress, [0, 0.25], [0, -100]);
 
@@ -34,7 +34,7 @@
 //         )}
 //       </div>
 
-//       {/* ✅ Name without Bike icon */}
+//       {/* [ok] Name without Bike icon */}
 //       <h1 className="text-5xl md:text-7xl font-bold mb-4">Abbas R S K</h1>
 
 //       {/* Subtitle */}
@@ -45,7 +45,7 @@
 
 //       {/* Scroll hint */}
 //       <p className="mt-6 text-sm md:text-base text-gray-600 dark:text-gray-400 animate-bounce">
-//         ↓ Scroll to explore my portfolio
+//         -> Scroll to explore my portfolio
 //       </p>
 //     </motion.section>
 //   );

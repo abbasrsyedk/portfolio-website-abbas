@@ -57,7 +57,7 @@ export default function Header({ hoveredSection, textEnter, textLeave, hideOnMob
           {!isHome && (
               <nav className="flex items-center gap-6 pl-4 border-l border-white/10">
                   {NAV_ITEMS.map((item) => (
-                      <Link key={item.path} href={item.path} className="relative group" onMouseEnter={textEnter} onMouseLeave={textLeave}>
+                      <Link key={item.path} href={item.path} aria-current={pathname === item.path ? "page" : undefined} className="relative group" onMouseEnter={textEnter} onMouseLeave={textLeave}>
                           <span className={`text-xs font-bold tracking-wider transition-colors ${pathname === item.path ? item.color : "text-white/50 hover:text-white"}`}>
                               {item.label}
                           </span>
@@ -76,34 +76,35 @@ export default function Header({ hoveredSection, textEnter, textLeave, hideOnMob
       </header>
 
 
-      {/* MOBILE HEADER (Top Bar) - INCREASED SIZE */}
+      {/* MOBILE HEADER (Bottom Bar) */}
       {!hideOnMobile && (
-        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 block md:hidden w-auto max-w-[95vw]">
-            {/* Increased padding px-6 py-4 for a bigger touch target */}
-            <div className="flex items-center justify-between px-6 py-4 bg-[#0a0a0a]/90 backdrop-blur-2xl border border-white/10 rounded-full shadow-2xl">
-            
-            <Link href="/" className={`p-1 rounded-full transition-colors ${pathname === "/" ? "bg-white/10 text-white" : "text-white/50"}`}>
-                <Home size={22} />
-            </Link>
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 block md:hidden w-[95vw] max-w-md">
+            <nav className="flex items-center justify-between gap-1 px-3 pt-3 rounded-2xl bg-[#0a0a0a]/90 backdrop-blur-2xl border border-white/10 shadow-2xl" style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom))" }}>
+              <Link href="/" aria-label="Home" aria-current={pathname === "/" ? "page" : undefined} className="flex flex-col items-center gap-1 text-[10px] text-white/70">
+                <div className={`p-2 rounded-full transition-colors ${pathname === "/" ? "bg-white/10 text-white" : "text-white/50"}`}>
+                  <Home size={20} />
+                </div>
+                <span>Home</span>
+              </Link>
 
-            <div className="w-px h-6 bg-white/10 mx-3"></div>
-
-            <div className="flex gap-3">
-                {NAV_ITEMS.map((item) => {
-                    const isActive = pathname.startsWith(item.path);
-                    return (
-                        <Link key={item.path} href={item.path} className="relative">
-                            <div className={`p-1 rounded-full transition-all duration-300 ${isActive ? "bg-white/10 text-white" : "text-white/50"}`}>
-                                {item.icon}
-                            </div>
-                            {isActive && (
-                                <div className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${item.color.replace('text-', 'bg-')}`} />
-                            )}
-                        </Link>
-                    )
-                })}
-            </div>
-            </div>
+              {NAV_ITEMS.map((item) => {
+                const isActive = pathname.startsWith(item.path);
+                return (
+                  <Link
+                    key={item.path}
+                    href={item.path}
+                    aria-label={item.label}
+                    aria-current={isActive ? "page" : undefined}
+                    className="flex flex-col items-center gap-1 text-[10px] text-white/70"
+                  >
+                    <div className={`p-2 rounded-full transition-all duration-300 ${isActive ? "bg-white/10 text-white" : "text-white/50"}`}>
+                      {item.icon}
+                    </div>
+                    <span className={isActive ? "text-white" : "text-white/50"}>{item.label}</span>
+                  </Link>
+                );
+              })}
+            </nav>
         </div>
       )}
     </>

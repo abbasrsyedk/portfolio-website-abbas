@@ -11,6 +11,7 @@ const nextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "cdn.cloudflare.steamstatic.com" },
       { protocol: "https", hostname: "i.scdn.co" }, // Spotify
+      { protocol: "https", hostname: "covers.openlibrary.org" },
     ],
   },
   transpilePackages: ["framer-motion"],

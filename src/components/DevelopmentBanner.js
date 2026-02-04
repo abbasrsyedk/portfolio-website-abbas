@@ -17,7 +17,7 @@ export default function DevelopmentBanner() {
       <div className="flex items-center justify-center max-w-7xl mx-auto px-4">
         <Wrench className="w-4 h-4 mr-2 text-yellow-400 animate-spin-slow hidden sm:block" />
         <p className="text-xs md:text-sm font-semibold text-center tracking-wide text-neutral-200">
-          **Code in Progress!** We're still hammering out the final features. Expect minor bugs or fresh paint. 🚧
+          **Code in Progress!** We're still hammering out the final features. Expect minor bugs or fresh paint.
         </p>
         <Zap className="w-4 h-4 ml-2 text-emerald-400 hidden sm:block" />
       </div>
