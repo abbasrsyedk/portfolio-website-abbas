@@ -13,10 +13,22 @@ const NAV_ITEMS = [
   { path: "/contact", label: "Contact", icon: <Mail size={22} />, color: "text-emerald-400", border: "border-emerald-500/30", shadow: "shadow-emerald-500/20" },
 ];
 
+const MOBILE_PAGE_TITLES = [
+  { match: (path) => path === "/", label: "Home" },
+  { match: (path) => path.startsWith("/work"), label: "Work" },
+  { match: (path) => path.startsWith("/projects"), label: "Projects" },
+  { match: (path) => path.startsWith("/contact"), label: "Contact" },
+  { match: (path) => path.startsWith("/hobbies/travel"), label: "Travel" },
+  { match: (path) => path.startsWith("/hobbies/gaming"), label: "Gaming" },
+  { match: (path) => path.startsWith("/hobbies/reading"), label: "Reading" },
+  { match: (path) => path.startsWith("/hobbies"), label: "Hobbies" },
+];
+
 export default function Header({ hoveredSection, textEnter, textLeave, hideOnMobile = false }) {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const activePage = NAV_ITEMS.find((item) => pathname.startsWith(item.path));
+  const mobileTitle = MOBILE_PAGE_TITLES.find((entry) => entry.match(pathname))?.label || "Portfolio";
   
   const borderColor = isHome ? hoveredSection?.borderColor : activePage?.border || "border-white/10";
   const shadowColor = isHome ? hoveredSection?.shadowColor : activePage?.shadow || "shadow-white/5";
@@ -76,36 +88,49 @@ export default function Header({ hoveredSection, textEnter, textLeave, hideOnMob
       </header>
 
 
-      {/* MOBILE HEADER (Bottom Bar) */}
+      {/* MOBILE HEADER (Top Bar + Bottom Nav) */}
       {!hideOnMobile && (
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 block md:hidden w-[95vw] max-w-md">
-            <nav className="flex items-center justify-between gap-1 px-3 pt-3 rounded-2xl bg-[#0a0a0a]/90 backdrop-blur-2xl border border-white/10 shadow-2xl" style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom))" }}>
-              <Link href="/" aria-label="Home" aria-current={pathname === "/" ? "page" : undefined} className="flex flex-col items-center gap-1 text-[10px] text-white/70">
-                <div className={`p-2 rounded-full transition-colors ${pathname === "/" ? "bg-white/10 text-white" : "text-white/50"}`}>
-                  <Home size={20} />
-                </div>
-                <span>Home</span>
+        <>
+          <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 block md:hidden w-[95vw] max-w-md">
+            <div className="flex items-center justify-between px-4 py-2 rounded-2xl bg-[#0a0a0a]/90 backdrop-blur-2xl border border-white/10 shadow-2xl">
+              <Link href="/" className="text-[10px] font-extrabold tracking-[0.3em] text-white/80 hover:text-white transition-colors">
+                ABBAS R S K
               </Link>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-white/60">
+                {mobileTitle}
+              </span>
+            </div>
+          </header>
 
-              {NAV_ITEMS.map((item) => {
-                const isActive = pathname.startsWith(item.path);
-                return (
-                  <Link
-                    key={item.path}
-                    href={item.path}
-                    aria-label={item.label}
-                    aria-current={isActive ? "page" : undefined}
-                    className="flex flex-col items-center gap-1 text-[10px] text-white/70"
-                  >
-                    <div className={`p-2 rounded-full transition-all duration-300 ${isActive ? "bg-white/10 text-white" : "text-white/50"}`}>
-                      {item.icon}
-                    </div>
-                    <span className={isActive ? "text-white" : "text-white/50"}>{item.label}</span>
-                  </Link>
-                );
-              })}
-            </nav>
-        </div>
+          <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 block md:hidden w-[95vw] max-w-md">
+              <nav className="flex items-center justify-between gap-1 px-3 pt-3 rounded-2xl bg-[#0a0a0a]/90 backdrop-blur-2xl border border-white/10 shadow-2xl" style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom))" }}>
+                <Link href="/" aria-label="Home" aria-current={pathname === "/" ? "page" : undefined} className="flex flex-col items-center gap-1 text-[10px] text-white/70">
+                  <div className={`p-2 rounded-full transition-colors ${pathname === "/" ? "bg-white/10 text-white" : "text-white/50"}`}>
+                    <Home size={20} />
+                  </div>
+                  <span>Home</span>
+                </Link>
+
+                {NAV_ITEMS.map((item) => {
+                  const isActive = pathname.startsWith(item.path);
+                  return (
+                    <Link
+                      key={item.path}
+                      href={item.path}
+                      aria-label={item.label}
+                      aria-current={isActive ? "page" : undefined}
+                      className="flex flex-col items-center gap-1 text-[10px] text-white/70"
+                    >
+                      <div className={`p-2 rounded-full transition-all duration-300 ${isActive ? "bg-white/10 text-white" : "text-white/50"}`}>
+                        {item.icon}
+                      </div>
+                      <span className={isActive ? "text-white" : "text-white/50"}>{item.label}</span>
+                    </Link>
+                  );
+                })}
+              </nav>
+          </div>
+        </>
       )}
     </>
   );
