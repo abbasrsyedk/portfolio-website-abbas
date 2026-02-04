@@ -229,7 +229,7 @@ export default function TravelPage() {
       </div>
 
       {/* ===================== MOBILE HERO (RESTORED) ===================== */}
-      <div className="block md:hidden pt-24">
+      <div className="block md:hidden pt-20">
         <section
           id="gear-mobile"
           ref={sectionRefs.gearMobile}

@@ -124,7 +124,7 @@ export default function Contact() {
 
 
       {/* CONTACT CONTENT SECTION - Central container */}
-      <section className="max-w-4xl mx-auto px-6 py-24 md:py-40 relative z-10 text-white"> 
+      <section className="max-w-4xl mx-auto px-6 pt-20 pb-24 md:py-40 relative z-10 text-white"> 
         
         <motion.h1
           initial={{ opacity: 0, y: -20 }}

@@ -164,7 +164,7 @@ export default function ProjectsPage() {
   return (
     <main 
       // REMOVED: onMouseMove={handleMouseMove}
-      className="min-h-screen bg-[#050505] text-white selection:bg-blue-500 selection:text-white relative overflow-x-hidden lg:cursor-none pt-28 pb-20"
+      className="min-h-screen bg-[#050505] text-white selection:bg-blue-500 selection:text-white relative overflow-x-hidden lg:cursor-none pt-20 pb-20 md:pt-28"
     >
       
       {/* BACKGROUND */}

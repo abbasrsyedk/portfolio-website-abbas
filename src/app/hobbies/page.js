@@ -21,7 +21,7 @@ export default function HobbiesPage() {
 
   return (
     <main 
-      className="min-h-screen bg-[#050505] text-white selection:bg-blue-500 selection:text-white relative flex flex-col pt-24 pb-4 md:pt-40 md:pb-12 lg:cursor-none"
+      className="min-h-screen bg-[#050505] text-white selection:bg-blue-500 selection:text-white relative flex flex-col pt-20 pb-4 md:pt-40 md:pb-12 lg:cursor-none"
       onMouseMove={shouldReduceMotion ? undefined : handleMouseMove}
     >
       

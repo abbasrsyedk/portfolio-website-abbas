@@ -91,12 +91,12 @@ export default function Header({ hoveredSection, textEnter, textLeave, hideOnMob
       {/* MOBILE HEADER (Top Bar + Bottom Nav) */}
       {!hideOnMobile && (
         <>
-          <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 block md:hidden w-[95vw] max-w-md">
-            <div className="flex items-center justify-between px-4 py-2 rounded-2xl bg-[#0a0a0a]/90 backdrop-blur-2xl border border-white/10 shadow-2xl">
-              <Link href="/" className="text-[10px] font-extrabold tracking-[0.3em] text-white/80 hover:text-white transition-colors">
+          <header className="fixed top-3 left-1/2 -translate-x-1/2 z-50 block md:hidden w-[95vw] max-w-lg">
+            <div className="flex items-center justify-between px-5 py-3 min-h-[48px] rounded-2xl bg-[#0a0a0a]/95 backdrop-blur-2xl border border-white/20 shadow-2xl">
+              <Link href="/" className="text-xs font-extrabold tracking-[0.32em] text-white/85 hover:text-white transition-colors">
                 ABBAS R S K
               </Link>
-              <span className="text-[10px] font-mono uppercase tracking-widest text-white/60">
+              <span className="text-xs font-mono uppercase tracking-[0.25em] text-white/70">
                 {mobileTitle}
               </span>
             </div>

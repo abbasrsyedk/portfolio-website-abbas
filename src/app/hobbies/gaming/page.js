@@ -59,7 +59,7 @@ export default function GamingPage() {
       {/* ==========================================
           PAGE 1: HERO
           ========================================== */}
-      <section className="min-h-screen w-full relative flex flex-col items-center pt-24 md:pt-32 pb-10 md:pb-20">
+      <section className="min-h-screen w-full relative flex flex-col items-center pt-20 md:pt-32 pb-10 md:pb-20">
         
         <div className="w-full max-w-5xl px-4 md:px-6 flex flex-col h-full gap-6 md:gap-8">
           
