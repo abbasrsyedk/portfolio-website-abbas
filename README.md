@@ -1,5 +1,9 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Changelog
+
+- 2026-02-04: Refined mobile navigation, aligned visual theme across pages, refreshed Work and Projects content (including Agent Announcements), improved accessibility and motion handling, and added local noise texture for consistent backgrounds.
+
 ## Getting Started
 
 First, run the development server:
