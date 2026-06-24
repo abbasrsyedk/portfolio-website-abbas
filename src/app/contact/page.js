@@ -14,7 +14,7 @@ const AUDIENCE_OPTIONS = [
 
 const CONTACT_CONTENT = {
   recruiter: [
-    { title: "Download Resume", detail: "PDF format, comprehensive history.", Icon: Download, href: "/resume.pdf", download: true, color: "text-blue-500", accent: "hover:bg-blue-600" },
+    { title: "Download Resume", detail: "PDF format, comprehensive history.", Icon: Download, href: "/Abbas_Resume_PowerPlatform_v3.pdf", download: true, color: "text-blue-500", accent: "hover:bg-blue-600" },
     { title: "LinkedIn Profile", detail: "Professional background and endorsements.", Icon: Linkedin, href: "https://www.linkedin.com/in/rskabbas/", isExternal: true, color: "text-blue-400", accent: "hover:bg-blue-500" },
   ],
   developer: [

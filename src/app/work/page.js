@@ -141,9 +141,9 @@ export default function WorkPage() {
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.3 }}
                 className="pt-2 flex flex-wrap gap-3 justify-center md:justify-start"
             >
-                <a 
-                  href="/resume.pdf"
-                  download="Abbas_RSK_Resume.pdf"
+                <a
+                  href="/Abbas_Resume_PowerPlatform_v3.pdf"
+                  download="Abbas_Resume_PowerPlatform_v3.pdf"
                   // REMOVED: onMouseEnter/Leave (Global cursor handles <a> tags automatically)
                   className="group flex items-center gap-2 px-6 py-3 md:px-8 md:py-4 bg-white/5 border border-white/20 text-white font-bold rounded-full text-sm md:text-base hover:bg-white hover:text-black transition-all duration-300 shadow-[0_0_20px_-5px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.4)]"
                 >

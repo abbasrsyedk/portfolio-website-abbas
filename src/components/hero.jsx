@@ -63,7 +63,7 @@ export default function Hero({ title = "Abbas R S K", subtitle, ctaLink = "/work
 
         <div className="mt-8 flex justify-center gap-4">
           <Link href={ctaLink} className="inline-block rounded-md px-6 py-3 bg-green-500 text-black font-semibold">View my work</Link>
-          <a href="/assets/Abbas-Resume.pdf" className="inline-block rounded-md px-6 py-3 border border-gray-600">Download resume</a>
+          <a href="/Abbas_Resume_PowerPlatform_v3.pdf" className="inline-block rounded-md px-6 py-3 border border-gray-600">Download resume</a>
         </div>
       </div>
     </section>
